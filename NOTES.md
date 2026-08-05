@@ -25,6 +25,8 @@ not reproduced here.
 - `assets/logos/`, `assets/people/`, `assets/figures/` — real logos, team headshots, and
   brain-imaging figures, all sourced from the lab's own sites or PubMed Central (open
   access), then resized/optimized locally.
+- `assets/logos/source/` — original design files (.ai/.svg/.afdesign) for the lab's logo
+  marks, kept for future re-editing. Not referenced by any page directly.
 - `prototypes/` — earlier design explorations (Option A/B/C), kept for reference only.
   Not linked from the live pages.
 - `.claude/launch.json` — lets Claude Code preview the site locally via a static server.
@@ -40,6 +42,13 @@ not reproduced here.
   there's no live refresh.
 - **Figures**: 8 real figures pulled from open-access PMC versions of lab papers,
   selected for visual range across 2012–2026, not citation count.
+- **Coin-face logo marks**: `rdrp-round.svg` is hand-built — the real Stanford seal
+  (cropped from the lab's own seal artwork) centered in a ring with "Reading & Dyslexia
+  Research Program" on a curved `textPath`, styled after the lab's round "Yeatman Lab"
+  logo (`assets/logos/source/YeatmaLab_Round.svg`). `bde-mark.png` is a resized crop of
+  `lab_logo_bookstack_Stanford_web_square.png`, one of the lab's existing bookstack
+  illustrations — swapped in because it reads better at coin scale than the previous
+  plain book+brain crop.
 - **Media**: mix of items from Jason's CV's outreach list and Stanford News / Stanford
   GSE / Stanford Medicine Children's Health coverage found via web search — not
   algorithmically complete, just what's been found and verified so far.
