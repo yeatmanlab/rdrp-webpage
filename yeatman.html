@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jason D. Yeatman, Ph.D. — Yeatman Lab, Stanford University</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&family=Source+Sans+3:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: { fontFamily: {
+    serif: ['"Source Serif 4"', 'serif'], sans: ['"Source Sans 3"', 'sans-serif'],
+  } } } };
+</script>
+<style>
+  :root { --accent:#8C1515; --accent-rgb:140,21,21; --accent-dark:#6d1010; }
+  html { scroll-behavior: smooth; }
+  body { font-family:'Source Sans 3',sans-serif; }
+  .accent-text{ color:var(--accent); }
+  .tint-8{ background-color:rgba(var(--accent-rgb),.08); }
+  .link-chip{ font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:var(--accent); border:1px solid rgba(var(--accent-rgb),.35); border-radius:9999px; padding:4px 12px; }
+  .link-chip:hover{ background-color:rgba(var(--accent-rgb),.08); }
+</style>
+</head>
+<body class="text-[#2E2D29] bg-white antialiased">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-[#DAD7CB]">
+    <div class="max-w-5xl mx-auto px-6 lg:px-10 py-3 flex items-center justify-between gap-6">
+      <span class="font-serif font-bold text-lg">Yeatman Lab</span>
+      <nav class="flex items-center gap-4 sm:gap-6 text-sm font-semibold text-[#4D4F53]">
+        <a href="rdrp.html" class="hover:text-[#2E2D29]">Reading &amp; Dyslexia ↗</a>
+        <a href="bde.html" class="hover:text-[#2E2D29]">Brain Development ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="max-w-5xl mx-auto px-6 lg:px-10 py-14 grid sm:grid-cols-[auto_1fr] gap-8 items-center">
+    <img src="assets/people/jason-yeatman.jpg" alt="Jason D. Yeatman" class="w-32 h-32 sm:w-40 sm:h-40 rounded-full object-cover shadow-md" />
+    <div>
+      <h1 class="font-serif font-bold text-3xl sm:text-4xl">Jason D. Yeatman, Ph.D.</h1>
+      <p class="text-[#4D4F53] mt-2 max-w-xl">Director, Yeatman Lab. Associate Professor of Developmental &amp; Behavioral Pediatrics (School of Medicine), Graduate School of Education, and Psychology, Stanford University.</p>
+      <div class="flex flex-wrap gap-2 mt-4">
+        <a href="https://profiles.stanford.edu/jason-yeatman" target="_blank" rel="noopener" class="link-chip">Stanford Profile ↗</a>
+        <a href="https://scholar.google.com/citations?user=ROfIDvQAAAAJ" target="_blank" rel="noopener" class="link-chip">Google Scholar ↗</a>
+        <a href="https://orcid.org/0000-0002-2686-1293" target="_blank" rel="noopener" class="link-chip">ORCID ↗</a>
+        <a href="mailto:jyeatman@stanford.edu" class="link-chip">Email</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission quotes -->
+  <section class="border-t border-b border-[#DAD7CB] bg-[#FAF9F6]">
+    <div class="max-w-3xl mx-auto px-6 lg:px-10 py-12 text-center">
+      <p class="font-serif text-2xl sm:text-3xl leading-snug">"My big interest has always been how experience shapes brain development."</p>
+      <p class="text-sm text-[#7F7776] mt-4">— <a href="https://news.stanford.edu/stories/2025/10/research-matters-jason-yeatman" target="_blank" rel="noopener" class="hover:text-[#2E2D29] underline underline-offset-2">Stanford Report, October 2025</a></p>
+    </div>
+  </section>
+
+  <!-- Bio -->
+  <section class="max-w-5xl mx-auto px-6 lg:px-10 py-14">
+    <h2 class="font-serif font-bold text-2xl">Background</h2>
+    <div class="grid sm:grid-cols-2 gap-8 mt-6 text-sm text-[#4D4F53]">
+      <div>
+        <h3 class="font-bold text-[#2E2D29] uppercase tracking-wide text-xs">Education</h3>
+        <ul class="mt-2 space-y-1">
+          <li>Ph.D., Psychology — Stanford University (2014). Dissertation: "Development of the Brain's Reading Circuitry."</li>
+          <li>B.A., Political Science, minor in Psychology — UC San Diego (2006).</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-bold text-[#2E2D29] uppercase tracking-wide text-xs">Appointments &amp; Affiliations</h3>
+        <ul class="mt-2 space-y-1">
+          <li>Associate Professor, Division of Developmental &amp; Behavioral Pediatrics, Stanford School of Medicine</li>
+          <li>Associate Professor, Graduate School of Education</li>
+          <li>Associate Professor, Department of Psychology</li>
+          <li>Member, Wu Tsai Neurosciences Institute · Bio-X · Wu Tsai Human Performance Alliance · Maternal &amp; Child Health Research Institute</li>
+        </ul>
+      </div>
+    </div>
+    <p class="text-sm text-[#4D4F53] mt-6 max-w-3xl">Before returning to Stanford as faculty, he was an Assistant Professor in the Department of Speech &amp; Hearing Sciences and the Institute for Learning &amp; Brain Sciences at the University of Washington (2015–2019), following his Ph.D. and a research scientist appointment at UW under Patricia Kuhl.</p>
+  </section>
+
+  <!-- Teaching & Mentorship Philosophy -->
+  <section class="border-t border-[#DAD7CB] bg-[#FAF9F6]">
+    <div class="max-w-3xl mx-auto px-6 lg:px-10 py-14">
+      <h2 class="font-serif font-bold text-2xl">Teaching &amp; Mentorship Philosophy</h2>
+      <blockquote class="mt-6 border-l-4 border-[var(--accent)] pl-5 italic text-[#4D4F53]">
+        "Great science starts with curiosity…. That drives the creativity, and the perseverance, and hopefully the rigor as well…. I think science is beautiful. What is more beautiful than discovering something that has never been known before?"
+        <footer class="mt-2 text-sm not-italic text-[#7F7776]">— Ben Barres, <cite>"On Beauty and Curiosity in Science,"</cite> 2017</footer>
+      </blockquote>
+      <p class="mt-6 text-[#4D4F53]">Inspiring curiosity and an appreciation for the beauty of science is the overarching goal of Jason's teaching and mentorship, in three ways:</p>
+      <div class="grid sm:grid-cols-3 gap-6 mt-6">
+        <div class="rounded-2xl bg-white p-6">
+          <h3 class="font-bold">Enthusiasm</h3>
+          <p class="text-sm text-[#4D4F53] mt-2">Letting his own excitement for the material bolster his lectures, and trying to inspire in every student and postdoc a curiosity and love for the scientific method.</p>
+        </div>
+        <div class="rounded-2xl bg-white p-6">
+          <h3 class="font-bold">Hands-On Experience</h3>
+          <p class="text-sm text-[#4D4F53] mt-2">Every course gives students the chance to design experiments, work with real data, and — in several courses — examine mechanisms of learning in their own brain at the MRI center.</p>
+        </div>
+        <div class="rounded-2xl bg-white p-6">
+          <h3 class="font-bold">Team Science</h3>
+          <p class="text-sm text-[#4D4F53] mt-2">Inspiring students and postdocs to work together, learn from each other, and treat their research as a collaborative journey rather than a solo pursuit.</p>
+        </div>
+      </div>
+      <p class="mt-8 text-[#4D4F53]">His course <em>Measuring Learning in the Brain</em> embodies this philosophy. In Spring 2021, after learning students were hungry for in-person experience, he moved the class outdoors — small groups worked on experiment design under an oak tree on campus, then ran their own studies as final projects at the Stanford MRI center, designing experiments to probe mechanisms of learning in their own brains. Many students described it as transformative.</p>
+      <p class="mt-4 text-sm text-[#7F7776]">Recognized with 5/5 course evaluations across his Stanford courses, and the Stanford Department of Pediatrics Postdoc Mentor Award (2021).</p>
+    </div>
+  </section>
+
+  <!-- Courses -->
+  <section class="max-w-5xl mx-auto px-6 lg:px-10 py-14">
+    <h2 class="font-serif font-bold text-2xl">Courses at Stanford</h2>
+    <div class="grid sm:grid-cols-2 gap-4 mt-6">
+      <div class="rounded-2xl tint-8 p-6">
+        <h3 class="font-bold">Measuring Learning in the Brain</h3>
+        <p class="text-xs text-[#7F7776] mt-1">EDUC 464 / NEPR 464 / PSYCH 279 / SYMSYS 195M</p>
+      </div>
+      <div class="rounded-2xl tint-8 p-6">
+        <h3 class="font-bold">Literacy Research From Lab to School</h3>
+        <p class="text-xs text-[#7F7776] mt-1">EDUC 444A</p>
+      </div>
+      <div class="rounded-2xl tint-8 p-6">
+        <h3 class="font-bold">Educational Neuroscience</h3>
+        <p class="text-xs text-[#7F7776] mt-1">EDUC 266</p>
+      </div>
+      <div class="rounded-2xl tint-8 p-6">
+        <h3 class="font-bold">Literacy Development and Instruction</h3>
+        <p class="text-xs text-[#7F7776] mt-1">EDUC 258</p>
+      </div>
+      <div class="rounded-2xl tint-8 p-6">
+        <h3 class="font-bold">Directed Reading in Education</h3>
+        <p class="text-xs text-[#7F7776] mt-1">EDUC 180</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-[#DAD7CB]">
+    <div class="max-w-5xl mx-auto px-6 lg:px-10 py-10 flex flex-wrap items-center justify-between gap-4 text-sm text-[#7F7776]">
+      <span>© 2026 Yeatman Lab, Stanford University.</span>
+      <div class="flex gap-4">
+        <a href="rdrp.html" class="hover:text-[#2E2D29]">Reading &amp; Dyslexia Research Program</a>
+        <a href="bde.html" class="hover:text-[#2E2D29]">Brain Development &amp; Education Lab</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

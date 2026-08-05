@@ -6,13 +6,16 @@ function renderTeam() {
   PEOPLE.forEach(function (p) {
     const card = document.createElement('div');
     card.className = 'text-center';
+    const nameHtml = p.profileUrl
+      ? '<a href="' + p.profileUrl + '" class="font-bold mt-3 text-sm block accent-text hover:underline">' + escapeHtml(p.name) + '</a>'
+      : '<h4 class="font-bold mt-3 text-sm">' + escapeHtml(p.name) + '</h4>';
     card.innerHTML =
       '<img src="' + p.photo + '" alt="' + escapeHtml(p.name) + '" ' +
       'class="w-20 h-20 rounded-full object-cover mx-auto shadow" loading="lazy" ' +
       'onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';" />' +
       '<div class="avatar-fallback w-20 h-20 rounded-full mx-auto items-center justify-center text-lg font-bold text-white" style="display:none">' +
       initials(p.name) + '</div>' +
-      '<h4 class="font-bold mt-3 text-sm">' + escapeHtml(p.name) + '</h4>' +
+      nameHtml +
       '<p class="text-xs text-[#7F7776] mt-1">' + escapeHtml(p.role) + '</p>';
     container.appendChild(card);
   });

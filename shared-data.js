@@ -45,7 +45,7 @@ const PEOPLE = [
     bio: "Studies the neural bases of reading and brain development in children using MRI." },
   { name: "Jewelia Yao", role: "PhD Student, Neuroscience", photo: "assets/people/jewelia-yao.jpg",
     bio: "Studies how education influences gray matter, white matter, and brain function during reading development." },
-  { name: "Jason D. Yeatman, Ph.D.", role: "Director", photo: "assets/people/jason-yeatman.jpg",
+  { name: "Jason D. Yeatman, Ph.D.", role: "Director", photo: "assets/people/jason-yeatman.jpg", profileUrl: "yeatman.html",
     bio: "Associate Professor, Graduate School of Education; Division of Developmental & Behavioral Pediatrics, School of Medicine; Department of Psychology." },
   { name: "Amy Yeung", role: "Web Developer", photo: "assets/people/amy-yeung.jpg",
     bio: "BAS in Computer and Cognitive Science; focused on making education accessible." },
@@ -200,6 +200,11 @@ const PUBLICATIONS = [
 // Selected press coverage of the lab's research (lab-level, not mapped to individual
 // papers — the CV lists these as general outreach, not tied to specific citations).
 const MEDIA = [
+  { title: "'Our goal is to build bridges between the lab and the classroom'", outlet: "Stanford Report", date: "October 31, 2025", url: "https://news.stanford.edu/stories/2025/10/research-matters-jason-yeatman" },
+  { title: "Revolutionizing dyslexia screening: Technology to empower teachers", outlet: "Stanford Graduate School of Education", date: "June 26, 2025", url: "https://ed.stanford.edu/news/revolutionizing-dyslexia-screening-technology-empower-teachers" },
+  { title: "Stanford team builds tool to keep young readers from falling through the cracks", outlet: "Stanford Report", date: "February 12, 2025", url: "https://news.stanford.edu/stories/2025/02/stanford-team-builds-tool-to-keep-young-readers-from-falling-through-the-cracks" },
+  { title: "Back to School: Jason Yeatman on How Children Learn to Read", outlet: "Stanford Medicine Children's Health", date: "November 4, 2022", url: "https://healthier.stanfordchildrens.org/en/back-to-school-jason-yeatman-on-how-children-learn-to-read/" },
+  { title: "New online tool developed by Stanford researchers helps schools spot struggling readers in a fraction of the usual time", outlet: "Stanford Graduate School of Education", date: "June 9, 2022", url: "https://ed.stanford.edu/news/new-online-tool-developed-stanford-researchers-helps-schools-spot-struggling-readers-fraction" },
   { title: "Stanford neuroscientists and education scholars work together on interventions to improve learning", outlet: "Stanford Transforming Learning Accelerator", date: "June 11, 2021", url: "https://transforminglearning.stanford.edu/news/stanford-neuroscientists-and-education-scholars-work-together-interventions-improve-learning" },
   { title: "COVID: Stanford Study Shows Pandemic Curtailed Students' Reading Ability", outlet: "Mercury News", date: "March 9, 2021", url: "https://www.mercurynews.com/2021/03/09/covid-stanford-study-shows-pandemic-curtailed-students-reading-ability/" },
   { title: "New skills build new brain architecture, research shows", outlet: "Wall Street Journal", date: "June 15, 2018", url: "https://www.wsj.com/articles/new-skills-build-new-brain-architecture-research-shows-1528993660" },
