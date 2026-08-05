@@ -76,6 +76,38 @@ function renderPublications() {
   });
 }
 
+function renderFigures() {
+  var track = document.getElementById('figure-track');
+  if (!track || typeof FIGURES === 'undefined') return;
+
+  FIGURES.forEach(function (f) {
+    var card = document.createElement('a');
+    card.href = f.url;
+    card.target = '_blank';
+    card.rel = 'noopener';
+    card.className = 'figure-card group snap-start shrink-0 w-[280px] relative rounded-2xl overflow-hidden shadow-md bg-[#F5F4F0]';
+    card.innerHTML =
+      '<img src="' + f.image + '" alt="' + escapeHtml(f.title) + '" class="w-full h-[280px] object-contain" loading="lazy" />' +
+      '<div class="figure-overlay hidden md:group-hover:flex absolute inset-0 bg-black/80 text-white p-5 flex-col justify-end">' +
+        '<p class="text-xs font-bold uppercase tracking-widest text-white/70">' + f.year + '</p>' +
+        '<h3 class="font-serif font-bold text-base mt-1 leading-snug">' + escapeHtml(f.title) + '</h3>' +
+        '<p class="text-xs text-white/85 mt-2 leading-snug">' + escapeHtml(f.description) + '</p>' +
+        '<span class="text-xs font-bold uppercase tracking-widest mt-3">Read the paper →</span>' +
+      '</div>' +
+      '<div class="md:hidden bg-white p-3">' +
+        '<p class="font-bold text-sm leading-snug">' + escapeHtml(f.title) + '</p>' +
+        '<p class="text-xs text-[#7F7776] mt-1">' + f.year + ' — tap to read the paper</p>' +
+      '</div>';
+    track.appendChild(card);
+  });
+
+  var prevBtn = document.getElementById('figure-prev');
+  var nextBtn = document.getElementById('figure-next');
+  var scrollAmount = function () { return track.querySelector('.figure-card').getBoundingClientRect().width + 16; };
+  if (prevBtn) prevBtn.addEventListener('click', function () { track.scrollBy({ left: -scrollAmount(), behavior: 'smooth' }); });
+  if (nextBtn) nextBtn.addEventListener('click', function () { track.scrollBy({ left: scrollAmount(), behavior: 'smooth' }); });
+}
+
 function renderMedia() {
   const container = document.getElementById('media-list');
   if (!container || typeof MEDIA === 'undefined') return;
@@ -106,5 +138,6 @@ function initSite(currentView, otherPageUrl) {
   renderTeam();
   renderPublications();
   renderMedia();
+  renderFigures();
   setupCoin(currentView, otherPageUrl);
 }

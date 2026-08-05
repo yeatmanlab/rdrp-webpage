@@ -209,3 +209,41 @@ const MEDIA = [
   { title: "What is the Role of the Visual System in Reading and Dyslexia?", outlet: "International Dyslexia Association Examiner", date: "March 2016", url: "https://dyslexiaida.org/what-is-the-role-of-the-visual-system-in-reading-and-dyslexia/" },
   { title: "Scientists Discover Secret Corridor In Brain, Lost For 100 Years", outlet: "NPR / KUOW — “The Record”", date: "2015", url: "http://kuow.org/post/scientists-discover-secret-corridor-brain-lost-100-years" },
 ];
+
+// A curated set of real figures from the lab's brain-imaging papers, for the BDE Lab
+// figure collage. Images are sourced from PubMed Central (open access). Selected for
+// visual range across the lab's 2012–2026 body of work, not by citation count.
+const FIGURES = [
+  { image: "assets/figures/tract-profiles.jpg", year: 2012,
+    title: "Tract Profiles of White Matter Properties",
+    description: "Four major white matter pathways, automatically traced and profiled from a single child's brain scan — the method (AFQ) this lab built to make tractography reproducible.",
+    url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3498174/" },
+  { image: "assets/figures/vwfa-anatomy.jpg", year: 2013,
+    title: "Anatomy of the Visual Word Form Area",
+    description: "The brain's \"reading region\" mapped on an inflated cortical surface, alongside the visual areas that feed into it.",
+    url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3432298/" },
+  { image: "assets/figures/vertical-occipital-fasciculus.jpg", year: 2014,
+    title: "The Vertical Occipital Fasciculus",
+    description: "A major white matter highway connecting the brain's dorsal and ventral visual systems — traced with modern tractography (left) and matched to a 19th-century anatomical drawing (right).",
+    url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4260539/" },
+  { image: "assets/figures/word-selective-cortex-review.jpg", year: 2021,
+    title: "Anatomy and Physiology of Word-Selective Visual Cortex",
+    description: "A century of studying how the brain recognizes written words, from early lesion drawings to modern tractography and fMRI.",
+    url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8639194/" },
+  { image: "assets/figures/myelination-infancy.jpg", year: 2022,
+    title: "White Matter Myelination During Early Infancy",
+    description: "The same white matter pathways traced in newborns, then again at 3 and 6 months — watching the brain's wiring mature in real time.",
+    url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8863985/" },
+  { image: "assets/figures/mr-fingerprinting.jpg", year: 2025,
+    title: "Fast, Reliable Measures of White Matter Development",
+    description: "A faster MRI technique (magnetic resonance fingerprinting) tracking white matter maturation in two children, each scanned twice to confirm the measurements are reliable.",
+    url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12319766/" },
+  { image: "assets/figures/sulcal-anatomy.jpg", year: 2026,
+    title: "Sulcal Anatomy of Ventral Temporal Cortex and Reading Development",
+    description: "How a specific fold in the brain's surface relates to reading skill, replicated across four independent samples of children.",
+    url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13081899/" },
+  { image: "assets/figures/vwfa-individual-variability.jpg", year: 2026,
+    title: "Visual Word Form Area: Individual and Task-Agnostic Consistency",
+    description: "The reading-selective region of the brain, mapped individually in six different people — consistent in location, unique in shape.",
+    url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12993163/" },
+];
