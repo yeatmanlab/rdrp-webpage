@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en" data-view="rdrp">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Yeatman Lab — Two Sides of One Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&family=Source+Sans+3:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          serif: ['"Source Serif 4"', 'serif'],
+          sans: ['"Source Sans 3"', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  :root { --accent:#8C1515; --accent-rgb:140,21,21; --accent-dark:#6d1010; }
+  html[data-view="bde"] { --accent:#007C92; --accent-rgb:0,124,146; --accent-dark:#00596a; }
+  html { scroll-behavior: smooth; }
+  body { font-family:'Source Sans 3',sans-serif; }
+  .accent-bg{ background-color:var(--accent); }
+  .accent-text{ color:var(--accent); }
+  .tint-8{ background-color:rgba(var(--accent-rgb),.08); }
+  .tint-14{ background-color:rgba(var(--accent-rgb),.14); }
+  .btn-primary{ background-color:var(--accent); }
+  .btn-primary:hover{ background-color:var(--accent-dark); }
+  ::selection{ background:rgba(var(--accent-rgb),.22); }
+
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+  .view-fade{ animation:fadeIn .45s ease both; }
+
+  /* Coin */
+  .coin-wrap{ perspective:900px; }
+  .coin{ width:112px; height:112px; position:relative; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+  .coin-inner{ width:100%; height:100%; position:relative; transition:transform .7s cubic-bezier(.4,0,.2,1); transform-style:preserve-3d; }
+  .coin.is-flipped .coin-inner{ transform:rotateY(180deg); }
+  .coin-face{ position:absolute; inset:0; border-radius:9999px; display:flex; align-items:center; justify-content:center;
+    font-family:'Source Serif 4',serif; font-weight:700; font-size:2.1rem; color:#fff; backface-visibility:hidden;
+    box-shadow:0 12px 28px rgba(0,0,0,.28), inset 0 0 0 4px rgba(255,255,255,.45); }
+  .coin-front{ background:#8C1515; }
+  .coin-back{ background:#007C92; transform:rotateY(180deg); }
+  .coin:hover .coin-inner{ transform:scale(1.05); }
+  .coin.is-flipped:hover .coin-inner{ transform:rotateY(180deg) scale(1.05); }
+
+  /* Hero split panels */
+  .side-panel{ transition:opacity .5s ease, transform .5s ease, filter .5s ease; }
+  .side-inactive{ opacity:.55; filter:saturate(.7); }
+  .side-inactive .side-headline{ transform:scale(.92); transform-origin:left center; }
+  @media (min-width:1024px){ .side-inactive .side-headline{ transform-origin:inherit; } }
+  html[data-view="rdrp"] .side-active-rdrp{ opacity:1; filter:none; }
+  html[data-view="bde"] .side-active-bde{ opacity:1; filter:none; }
+
+  #mini-pill{ transition:transform .3s cubic-bezier(.4,0,.2,1); }
+  [data-toggle-btn].is-active{ color:#fff; }
+  [data-toggle-btn]:not(.is-active){ color:#7F7776; }
+
+  .avatar{ font-weight:700; color:#fff; background-color:var(--accent); }
+</style>
+</head>
+<body class="text-[#2E2D29] bg-white antialiased">
+
+  <div class="fixed bottom-4 left-4 z-50 rounded-full bg-[#2E2D29] text-white text-xs px-3 py-1.5 shadow-lg">
+    Design prototype — Option B · Coin Flip
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-[#DAD7CB]">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-4 flex items-center justify-between gap-6">
+      <a href="#top" class="flex items-center gap-3 font-black text-lg tracking-tight">
+        <span class="w-8 h-8 rounded-full accent-bg inline-block" style="transition:background-color .3s"></span>
+        Yeatman Lab
+      </a>
+      <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold text-[#4D4F53]">
+        <a href="#research" class="hover:text-[#2E2D29]">Research</a>
+        <a href="#people" class="hover:text-[#2E2D29]">People</a>
+        <a href="#news" class="hover:text-[#2E2D29]">News</a>
+        <a href="#involved" class="hover:text-[#2E2D29]">Participate</a>
+        <a href="https://roar.stanford.edu" class="hover:text-[#2E2D29]">ROAR ↗</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <div class="relative flex items-center rounded-full bg-[#2E2D29] p-1 w-[152px]" role="group" aria-label="Choose a program view">
+          <span id="mini-pill" class="absolute inset-y-1 left-1 w-[calc(50%-4px)] rounded-full accent-bg" style="transition:background-color .3s, transform .3s"></span>
+          <button type="button" data-toggle-btn data-view-btn="rdrp" aria-pressed="true" class="relative z-10 flex-1 px-3 py-1.5 text-xs font-bold rounded-full whitespace-nowrap transition-colors text-center">RDRP</button>
+          <button type="button" data-toggle-btn data-view-btn="bde" aria-pressed="false" class="relative z-10 flex-1 px-3 py-1.5 text-xs font-bold rounded-full whitespace-nowrap transition-colors text-center">BDE Lab</button>
+        </div>
+        <a href="#involved" class="hidden md:inline-block btn-primary text-white text-sm font-bold rounded-full px-4 py-2 transition-colors">Join the Lab</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Split hero: two sides of one coin -->
+  <section id="top" class="relative overflow-hidden">
+    <div class="grid lg:grid-cols-2 min-h-[640px]">
+      <!-- RDRP side -->
+      <div class="side-panel side-active-rdrp side-inactive relative flex items-center justify-center px-8 sm:px-14 py-20"
+           style="background:linear-gradient(135deg,#8C1515 0%,#5c0f0f 100%);">
+        <div class="max-w-md text-white text-center lg:text-right lg:items-end lg:flex lg:flex-col">
+          <p class="text-xs font-bold uppercase tracking-widest text-white/70">Program 01</p>
+          <h2 class="side-headline font-black text-3xl sm:text-4xl mt-3 leading-tight">Reading &amp; Dyslexia<br/>Research Program</h2>
+          <p class="mt-4 text-white/85 leading-relaxed">
+            Understanding the factors that contribute to differences in how all children and adults learn to read.
+          </p>
+        </div>
+      </div>
+
+      <!-- BDE side -->
+      <div class="side-panel side-active-bde side-inactive relative flex items-center justify-center px-8 sm:px-14 py-20"
+           style="background:linear-gradient(135deg,#00596a 0%,#007C92 100%);">
+        <div class="max-w-md text-white text-center lg:text-left">
+          <p class="text-xs font-bold uppercase tracking-widest text-white/70">Program 02</p>
+          <h2 class="side-headline font-black text-3xl sm:text-4xl mt-3 leading-tight">Brain Development &amp;<br/>Education Lab</h2>
+          <p class="mt-4 text-white/85 leading-relaxed">
+            Using neuroscience as a tool for improving education, and education as a tool for understanding the brain.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coin toggle straddling the seam -->
+    <div class="coin-wrap absolute inset-0 flex items-center justify-center pointer-events-none">
+      <div class="flex flex-col items-center gap-3 pointer-events-auto">
+        <button id="coin" class="coin" aria-label="Flip to see the other side of the lab" aria-pressed="false">
+          <div class="coin-inner">
+            <div class="coin-face coin-front">R</div>
+            <div class="coin-face coin-back">B</div>
+          </div>
+        </button>
+        <span class="text-[11px] font-bold uppercase tracking-widest text-white bg-black/30 rounded-full px-3 py-1 backdrop-blur">
+          Tap to flip
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA row under hero -->
+  <section class="max-w-7xl mx-auto px-6 lg:px-10 py-10 flex flex-wrap items-center justify-center gap-4 text-center">
+    <a href="#involved" class="btn-primary text-white font-bold rounded-full px-7 py-3.5 text-sm transition-colors">Participate in Research</a>
+    <a href="#people" class="font-bold rounded-full px-7 py-3.5 text-sm border-2 border-[#2E2D29] hover:bg-[#2E2D29] hover:text-white transition-colors">Meet the Team</a>
+  </section>
+
+  <!-- One lab explainer -->
+  <section class="border-t border-b border-[#DAD7CB] bg-[#FAF9F6]">
+    <div class="max-w-5xl mx-auto px-6 lg:px-10 py-14 text-center">
+      <h2 class="font-black text-2xl sm:text-3xl">Same lab. Same director. Two names for two audiences.</h2>
+      <p class="mt-4 text-[#4D4F53] max-w-2xl mx-auto leading-relaxed">
+        Both programs are directed by Prof. Jason D. Yeatman and study the same core question — how children learn to read — from different angles. Flip the coin above, or jump straight to <a href="https://roar.stanford.edu" class="accent-text text-[var(--accent)] font-bold underline underline-offset-2">ROAR</a>, the assessment platform both sides helped build.
+      </p>
+    </div>
+  </section>
+
+  <!-- Research -->
+  <section id="research" class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
+    <div class="mb-10">
+      <div data-show="rdrp" class="view-fade">
+        <h2 class="font-black text-3xl">Current Research — RDRP</h2>
+        <p class="text-[#4D4F53] mt-2 max-w-2xl">An interdisciplinary approach spanning education, pediatrics, psychology, neuroscience, and engineering — studying readers of all kinds, at every age.</p>
+      </div>
+      <div data-show="bde" class="hidden">
+        <h2 class="font-black text-3xl">Research Focus — BDE Lab</h2>
+        <p class="text-[#4D4F53] mt-2 max-w-2xl">How the brain's reading circuitry develops in response to education, and how targeted interventions change the brains of children with dyslexia.</p>
+      </div>
+    </div>
+
+    <div data-show="rdrp" class="view-fade grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="rounded-3xl tint-8 p-8">
+        <h3 class="font-black text-lg">Eye Spy</h3>
+        <p class="text-sm text-[#4D4F53] mt-2">Investigating visual attention in reading.</p>
+      </div>
+      <div class="rounded-3xl tint-8 p-8">
+        <h3 class="font-black text-lg">Brain Pictures</h3>
+        <p class="text-sm text-[#4D4F53] mt-2">Brain Pictures with Stanford RDRP — mapping the reading brain across development.</p>
+      </div>
+      <div class="rounded-3xl tint-8 p-8">
+        <h3 class="font-black text-lg">ROAR</h3>
+        <p class="text-sm text-[#4D4F53] mt-2">Our flagship translational tool, used in classrooms nationwide.</p>
+      </div>
+    </div>
+    <div data-show="bde" class="hidden grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="rounded-3xl tint-8 p-8">
+        <h3 class="font-black text-lg">Reading Circuit Development</h3>
+        <p class="text-sm text-[#4D4F53] mt-2">How reading circuitry develops in response to education.</p>
+      </div>
+      <div class="rounded-3xl tint-8 p-8">
+        <h3 class="font-black text-lg">Neuroplasticity &amp; Intervention</h3>
+        <p class="text-sm text-[#4D4F53] mt-2">Measuring brain changes driven by targeted behavioral interventions.</p>
+      </div>
+      <div class="rounded-3xl tint-8 p-8">
+        <h3 class="font-black text-lg">Longitudinal Imaging</h3>
+        <p class="text-sm text-[#4D4F53] mt-2">Tracking brain maturation over time with the Wu Tsai Neuroscience Institute.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROAR spotlight -->
+  <section class="accent-bg text-white" style="transition:background-color .3s;">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16 grid lg:grid-cols-2 gap-10 items-center">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-widest text-white/70">Built on our research</p>
+        <h2 class="font-black text-3xl mt-3">ROAR — Rapid Online Assessment of Reading</h2>
+        <p class="mt-4 text-white/85 leading-relaxed">
+          A fully automated, open-access reading assessment platform — no test administrator required, with real-time score reports for teachers.
+        </p>
+        <a href="https://roar.stanford.edu" class="inline-block mt-6 bg-white text-[#2E2D29] font-bold rounded-full px-6 py-3 text-sm hover:bg-[#2E2D29] hover:text-white transition-colors">Explore ROAR ↗</a>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="rounded-2xl bg-white/10 p-6 text-center">
+          <div class="text-3xl font-black">20,000+</div>
+          <div class="text-xs text-white/70 mt-1">Students assessed</div>
+        </div>
+        <div class="rounded-2xl bg-white/10 p-6 text-center">
+          <div class="text-3xl font-black">20</div>
+          <div class="text-xs text-white/70 mt-1">States</div>
+        </div>
+        <div class="rounded-2xl bg-white/10 p-6 text-center">
+          <div class="text-3xl font-black">4</div>
+          <div class="text-xs text-white/70 mt-1">Validated modules</div>
+        </div>
+        <div class="rounded-2xl bg-white/10 p-6 text-center">
+          <div class="text-3xl font-black">5–10 min</div>
+          <div class="text-xs text-white/70 mt-1">Per screening</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- People -->
+  <section id="people" class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
+    <div class="flex items-end justify-between flex-wrap gap-4 mb-10">
+      <h2 class="font-black text-3xl">Meet the Lab</h2>
+      <a href="#" class="text-sm font-bold accent-text text-[var(--accent)] hover:underline">View full team →</a>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="text-center">
+        <div class="avatar w-20 h-20 rounded-full flex items-center justify-center text-xl mx-auto">JY</div>
+        <h3 class="font-bold mt-4">Jason D. Yeatman, Ph.D.</h3>
+        <p class="text-xs text-[#7F7776] mt-1">Director</p>
+      </div>
+      <div class="text-center">
+        <div class="avatar w-20 h-20 rounded-full flex items-center justify-center text-xl mx-auto">MY</div>
+        <h3 class="font-bold mt-4">Maya Yablonski</h3>
+        <p class="text-xs text-[#7F7776] mt-1">Postdoctoral Scholar</p>
+      </div>
+      <div class="text-center">
+        <div class="avatar w-20 h-20 rounded-full flex items-center justify-center text-xl mx-auto">CT</div>
+        <h3 class="font-bold mt-4">Carrie Townley-Flores, Ph.D.</h3>
+        <p class="text-xs text-[#7F7776] mt-1">Director of Research &amp; Partnerships</p>
+      </div>
+      <div class="text-center">
+        <div class="avatar w-20 h-20 rounded-full flex items-center justify-center text-xl mx-auto">KB</div>
+        <h3 class="font-bold mt-4">Kruttika Bhat</h3>
+        <p class="text-xs text-[#7F7776] mt-1">PhD Student</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- News -->
+  <section id="news" class="border-t border-[#DAD7CB] bg-[#FAF9F6]">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
+      <div class="flex items-end justify-between flex-wrap gap-4 mb-10">
+        <h2 class="font-black text-3xl">From the Lab</h2>
+        <a href="#" class="text-sm font-bold accent-text text-[var(--accent)] hover:underline">View all news →</a>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-6">
+        <a href="#" class="block rounded-3xl bg-white p-8 hover:shadow-md transition-shadow">
+          <p class="text-xs text-[#7F7776] uppercase tracking-wide font-bold">October 2023</p>
+          <h3 class="font-black text-lg mt-2">New paper: Executive Functions and Reading Development</h3>
+        </a>
+        <a href="#" class="block rounded-3xl bg-white p-8 hover:shadow-md transition-shadow">
+          <p class="text-xs text-[#7F7776] uppercase tracking-wide font-bold">August 2023</p>
+          <h3 class="font-black text-lg mt-2">Flux 2023 poster presentations</h3>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Get involved -->
+  <section id="involved" class="max-w-7xl mx-auto px-6 lg:px-10 py-16 grid md:grid-cols-2 gap-8">
+    <div class="rounded-3xl tint-8 p-8">
+      <h3 class="font-black text-2xl">Participate in Research</h3>
+      <p class="mt-3 text-[#4D4F53]">Families, schools, and adult readers help drive our work.</p>
+      <a href="#" class="inline-block mt-5 btn-primary text-white font-bold rounded-full px-6 py-3 text-sm transition-colors">Sign Up</a>
+    </div>
+    <div class="rounded-3xl bg-[#F5F4F0] p-8">
+      <h3 class="font-black text-2xl">Join the Lab</h3>
+      <p class="mt-3 text-[#4D4F53]">Openings for postdocs, students, and research staff across both programs.</p>
+      <a href="#" class="inline-block mt-5 font-bold rounded-full px-6 py-3 text-sm border-2 border-[#2E2D29] hover:bg-[#2E2D29] hover:text-white transition-colors">View Openings</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-[#DAD7CB]">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8 text-sm text-[#4D4F53]">
+      <div>
+        <div class="font-black text-lg text-[#2E2D29]">Yeatman Lab</div>
+        <p class="mt-3 text-[#7F7776]">Reading &amp; Dyslexia Research Program<br/>Brain Development &amp; Education Lab</p>
+      </div>
+      <div>
+        <div class="font-bold text-[#2E2D29] mb-3">Affiliations</div>
+        <ul class="space-y-2 text-[#7F7776]">
+          <li>Stanford Graduate School of Education</li>
+          <li>Division of Developmental &amp; Behavioral Pediatrics, School of Medicine</li>
+          <li>Wu Tsai Neuroscience Institute</li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-bold text-[#2E2D29] mb-3">Explore</div>
+        <ul class="space-y-2 text-[#7F7776]">
+          <li><a href="#research" class="hover:text-[#2E2D29]">Research</a></li>
+          <li><a href="#people" class="hover:text-[#2E2D29]">People</a></li>
+          <li><a href="https://roar.stanford.edu" class="hover:text-[#2E2D29]">ROAR ↗</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-bold text-[#2E2D29] mb-3">Connect</div>
+        <ul class="space-y-2 text-[#7F7776]">
+          <li><a href="mailto:roar-partnerships@stanford.edu" class="hover:text-[#2E2D29]">roar-partnerships@stanford.edu</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-[#DAD7CB] py-6 text-center text-xs text-[#7F7776]">
+      © 2026 Yeatman Lab, Stanford University — design prototype, not a live site.
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var KEY = 'yeatmanLabView';
+      var coin = document.getElementById('coin');
+
+      function apply(view) {
+        document.documentElement.setAttribute('data-view', view);
+
+        document.querySelectorAll('[data-show]').forEach(function (el) {
+          if (el.getAttribute('data-show') === view) {
+            el.classList.remove('hidden');
+            el.classList.remove('view-fade');
+            void el.offsetWidth;
+            el.classList.add('view-fade');
+          } else {
+            el.classList.add('hidden');
+          }
+        });
+
+        document.querySelectorAll('[data-toggle-btn]').forEach(function (btn) {
+          var active = btn.getAttribute('data-view-btn') === view;
+          btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+          btn.classList.toggle('is-active', active);
+        });
+
+        var pill = document.getElementById('mini-pill');
+        if (pill) pill.style.transform = view === 'bde' ? 'translateX(100%)' : 'translateX(0)';
+
+        if (coin) {
+          coin.classList.toggle('is-flipped', view === 'bde');
+          coin.setAttribute('aria-pressed', view === 'bde' ? 'true' : 'false');
+        }
+
+        try { localStorage.setItem(KEY, view); } catch (e) {}
+      }
+
+      document.querySelectorAll('[data-toggle-btn]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          apply(btn.getAttribute('data-view-btn'));
+        });
+      });
+
+      if (coin) {
+        coin.addEventListener('click', function () {
+          var current = document.documentElement.getAttribute('data-view');
+          apply(current === 'rdrp' ? 'bde' : 'rdrp');
+        });
+      }
+
+      var saved = null;
+      try { saved = localStorage.getItem(KEY); } catch (e) {}
+      apply(saved === 'bde' ? 'bde' : 'rdrp');
+    })();
+  </script>
+</body>
+</html>

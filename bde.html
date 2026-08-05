@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" data-view="bde">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Brain Development &amp; Education Lab — Yeatman Lab, Stanford University</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&family=Source+Sans+3:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: { fontFamily: {
+    serif: ['"Source Serif 4"', 'serif'], sans: ['"Source Sans 3"', 'sans-serif'],
+  } } } };
+</script>
+<style>
+  :root { --accent:#007C92; --accent-rgb:0,124,146; --accent-dark:#00596a; }
+  html { scroll-behavior: smooth; }
+  body { font-family:'Source Sans 3',sans-serif; }
+  .accent-bg{ background-color:var(--accent); }
+  .accent-text{ color:var(--accent); }
+  .tint-8{ background-color:rgba(var(--accent-rgb),.08); }
+  .tint-14{ background-color:rgba(var(--accent-rgb),.14); }
+  .btn-primary{ background-color:var(--accent); }
+  .btn-primary:hover{ background-color:var(--accent-dark); }
+  ::selection{ background:rgba(var(--accent-rgb),.22); }
+
+  .coin-wrap{ perspective:900px; }
+  .coin{ width:112px; height:112px; position:relative; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+  .coin-inner{ width:100%; height:100%; position:relative; transition:transform .7s cubic-bezier(.4,0,.2,1); transform-style:preserve-3d; }
+  .coin.is-flipped .coin-inner{ transform:rotateY(180deg); }
+  .coin.is-navigating .coin-inner{ transform:rotateY(0deg) scale(1.08); }
+  .coin-face{ position:absolute; inset:0; border-radius:9999px; display:flex; align-items:center; justify-content:center;
+    font-family:'Source Serif 4',serif; font-weight:700; font-size:2.1rem; color:#fff; backface-visibility:hidden;
+    box-shadow:0 12px 28px rgba(0,0,0,.28), inset 0 0 0 4px rgba(255,255,255,.45); }
+  .coin-front{ background:#8C1515; } .coin-back{ background:#007C92; transform:rotateY(180deg); }
+  .coin:hover .coin-inner{ transform:rotateY(180deg) scale(1.05); }
+
+  .side-panel{ transition:opacity .5s ease, filter .5s ease; }
+  .side-inactive{ opacity:.55; filter:saturate(.7); }
+
+  .avatar-fallback{ font-weight:700; background-color:var(--accent); }
+  .link-chip{ font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:var(--accent); border:1px solid rgba(var(--accent-rgb),.35); border-radius:9999px; padding:2px 10px; }
+  .link-chip:hover{ background-color:rgba(var(--accent-rgb),.08); }
+  .cite-badge{ font-size:11px; font-weight:700; color:#7F7776; background:#F5F4F0; border-radius:9999px; padding:2px 10px; white-space:nowrap; }
+  details > summary::-webkit-details-marker{ display:none; }
+  details summary{ list-style:none; }
+  details summary::before{ content:'▸'; display:inline-block; margin-right:8px; color:var(--accent); transition:transform .2s; }
+  details[open] summary::before{ transform:rotate(90deg); }
+</style>
+</head>
+<body class="text-[#2E2D29] bg-white antialiased">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-[#DAD7CB]">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-3 flex items-center justify-between gap-6">
+      <a href="#top" class="flex items-center gap-3">
+        <img src="assets/logos/stanford-brandbar.png" alt="Stanford University" class="h-6 hidden sm:block" />
+        <img src="assets/logos/bde-banner.png" alt="Brain Development &amp; Education Lab" class="h-9" />
+      </a>
+      <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold text-[#4D4F53]">
+        <a href="#research" class="hover:text-[#2E2D29]">Research</a>
+        <a href="#funding" class="hover:text-[#2E2D29]">Funding</a>
+        <a href="#team" class="hover:text-[#2E2D29]">People</a>
+        <a href="#publications" class="hover:text-[#2E2D29]">Publications</a>
+        <a href="https://roar.stanford.edu" class="hover:text-[#2E2D29]">ROAR ↗</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <div class="relative flex items-center rounded-full bg-[#2E2D29] p-1 w-[152px]">
+          <span class="absolute inset-y-1 right-1 w-[calc(50%-4px)] rounded-full accent-bg"></span>
+          <a href="rdrp.html" class="relative z-10 flex-1 text-center px-3 py-1.5 text-xs font-bold rounded-full text-[#7F7776] hover:text-white transition-colors">RDRP</a>
+          <span class="relative z-10 flex-1 text-center px-3 py-1.5 text-xs font-bold rounded-full text-white">BDE Lab</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="top" class="relative overflow-hidden">
+    <div class="grid lg:grid-cols-2 min-h-[560px]">
+      <div class="side-panel side-inactive flex items-center justify-center px-8 sm:px-14 py-16" style="background:linear-gradient(135deg,#8C1515 0%,#5c0f0f 100%);">
+        <div class="max-w-md text-white text-center lg:text-right lg:items-end lg:flex lg:flex-col">
+          <p class="text-xs font-bold uppercase tracking-widest text-white/70">Program 01</p>
+          <h2 class="font-black text-3xl sm:text-4xl mt-3 leading-tight">Reading &amp; Dyslexia<br/>Research Program</h2>
+          <p class="mt-4 text-white/85 leading-relaxed">Understanding the factors that contribute to differences in how all children and adults learn to read.</p>
+        </div>
+      </div>
+      <div class="side-panel flex items-center justify-center px-8 sm:px-14 py-16" style="background:linear-gradient(135deg,#00596a 0%,#007C92 100%);">
+        <div class="max-w-md text-white text-center lg:text-left">
+          <p class="text-xs font-bold uppercase tracking-widest text-white/70">Yeatman Lab · Program 02</p>
+          <h1 class="font-black text-3xl sm:text-4xl mt-3 leading-tight">Brain Development &amp;<br/>Education Lab</h1>
+          <p class="mt-4 text-white/85 leading-relaxed">
+            Our mission is to both use neuroscience as a tool for improving education, and use education as a tool for furthering our understanding of the brain.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="coin-wrap absolute inset-0 flex items-center justify-center pointer-events-none">
+      <div class="flex flex-col items-center gap-3 pointer-events-auto">
+        <button id="coin" class="coin" aria-label="Flip to the Reading &amp; Dyslexia Research Program page">
+          <div class="coin-inner">
+            <div class="coin-face coin-front">R</div>
+            <div class="coin-face coin-back">B</div>
+          </div>
+        </button>
+        <span class="text-[11px] font-bold uppercase tracking-widest text-white bg-black/30 rounded-full px-3 py-1 backdrop-blur">Flip to RDRP</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-6 lg:px-10 py-10 flex flex-wrap items-center justify-center gap-4 text-center">
+    <a href="#publications" class="btn-primary text-white font-bold rounded-full px-7 py-3.5 text-sm transition-colors">View Publications</a>
+  </section>
+
+  <section class="border-t border-b border-[#DAD7CB] bg-[#FAF9F6]">
+    <div class="max-w-5xl mx-auto px-6 lg:px-10 py-10 text-center">
+      <p class="text-[#4D4F53] max-w-2xl mx-auto leading-relaxed">
+        This page is replacing both <strong>edneuro.stanford.edu</strong> and <strong>dyslexia.stanford.edu</strong> — one lab, directed by Prof. Jason D. Yeatman, viewed through two lenses. Flip the coin above for the Reading &amp; Dyslexia Research Program side, or visit <a href="https://roar.stanford.edu" class="accent-text font-bold underline underline-offset-2">ROAR</a>, our separate reading-assessment platform.
+      </p>
+    </div>
+  </section>
+
+  <!-- Research focus: real, current, funded projects -->
+  <section id="research" class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
+    <h2 class="font-black text-3xl">Research Focus</h2>
+    <p class="text-[#4D4F53] mt-2 max-w-2xl">We study the interplay between brain maturation and cognitive development — how the brain's reading circuitry develops in response to education, and how targeted interventions change the brains of children with dyslexia. In collaboration with the Wu Tsai Neuroscience Institute.</p>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+      <div class="rounded-3xl tint-8 p-8">
+        <p class="text-xs font-bold uppercase tracking-widest accent-text">NIH NICHD R01HD116845 · 2025–2030</p>
+        <h3 class="font-black text-lg mt-2">Deep Phenotyping of Dyslexia Subtypes</h3>
+        <p class="text-sm text-[#4D4F53] mt-2">Characterizing the heterogeneity within dyslexia to move toward more precise, individualized intervention.</p>
+      </div>
+      <div class="rounded-3xl tint-8 p-8">
+        <p class="text-xs font-bold uppercase tracking-widest accent-text">NIH NICHD R01HD095861 · 2019–2024</p>
+        <h3 class="font-black text-lg mt-2">Neural Mechanisms of Successful Intervention in Children with Dyslexia</h3>
+        <p class="text-sm text-[#4D4F53] mt-2">A clinical trial tracking how the brain changes over the course of an intensive reading intervention.</p>
+      </div>
+      <div class="rounded-3xl tint-8 p-8">
+        <p class="text-xs font-bold uppercase tracking-widest accent-text">AERDF · 2023–2025</p>
+        <h3 class="font-black text-lg mt-2">ROAR Platform &amp; New Assessment Components</h3>
+        <p class="text-sm text-[#4D4F53] mt-2">Extending our online assessment platform with new measures, built and validated in the lab.</p>
+      </div>
+      <div class="rounded-3xl tint-8 p-8">
+        <p class="text-xs font-bold uppercase tracking-widest accent-text">State of California · 2022–2025</p>
+        <h3 class="font-black text-lg mt-2">Universal Dyslexia Screener</h3>
+        <p class="text-sm text-[#4D4F53] mt-2">Developing screening tools suitable for statewide deployment.</p>
+      </div>
+      <div class="rounded-3xl tint-8 p-8">
+        <p class="text-xs font-bold uppercase tracking-widest accent-text">Robertson Foundation</p>
+        <h3 class="font-black text-lg mt-2">ROAR for Multilingual Learners in New York City</h3>
+        <p class="text-sm text-[#4D4F53] mt-2">Adapting and validating reading assessment for multilingual student populations.</p>
+      </div>
+      <div class="rounded-3xl tint-8 p-8">
+        <p class="text-xs font-bold uppercase tracking-widest accent-text">Klingenstein Foundation</p>
+        <h3 class="font-black text-lg mt-2">Bridging the Lab and the Classroom</h3>
+        <p class="text-sm text-[#4D4F53] mt-2">Bringing ROAR to New York and Maine to align research and classroom practice.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Funding & affiliations -->
+  <section id="funding" class="border-t border-[#DAD7CB] bg-[#FAF9F6]">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
+      <h2 class="font-black text-3xl">Funding &amp; Affiliations</h2>
+      <p class="text-[#4D4F53] mt-2 max-w-2xl">Our work is supported by federal, state, and philanthropic funders.</p>
+      <div class="flex flex-wrap gap-3 mt-8">
+        <span class="rounded-full bg-white px-5 py-2.5 text-sm font-bold shadow-sm">NIH / NICHD</span>
+        <span class="rounded-full bg-white px-5 py-2.5 text-sm font-bold shadow-sm">Wu Tsai Neuroscience Institute</span>
+        <span class="rounded-full bg-white px-5 py-2.5 text-sm font-bold shadow-sm">AERDF</span>
+        <span class="rounded-full bg-white px-5 py-2.5 text-sm font-bold shadow-sm">Jacobs Foundation</span>
+        <span class="rounded-full bg-white px-5 py-2.5 text-sm font-bold shadow-sm">Robertson Foundation</span>
+        <span class="rounded-full bg-white px-5 py-2.5 text-sm font-bold shadow-sm">Klingenstein Foundation</span>
+        <span class="rounded-full bg-white px-5 py-2.5 text-sm font-bold shadow-sm">State of California</span>
+        <span class="rounded-full bg-white px-5 py-2.5 text-sm font-bold shadow-sm">Microsoft Research</span>
+        <span class="rounded-full bg-white px-5 py-2.5 text-sm font-bold shadow-sm">Stanford Graduate School of Education</span>
+        <span class="rounded-full bg-white px-5 py-2.5 text-sm font-bold shadow-sm">Stanford School of Medicine</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROAR spotlight -->
+  <section class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
+    <div class="rounded-[2rem] accent-bg text-white p-8 sm:p-12 grid lg:grid-cols-2 gap-10 items-center">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-widest text-white/70">Built on our research — a separate platform</p>
+        <h2 class="font-black text-3xl mt-3">ROAR — Rapid Online Assessment of Reading</h2>
+        <p class="mt-4 text-white/85 leading-relaxed">An open-access, fully automated reading assessment platform grounded in our ongoing research. Used by 20,000+ students across 20 states, with real-time score reports for teachers and no test administrator required.</p>
+        <a href="https://roar.stanford.edu" class="inline-block mt-6 bg-white text-[#2E2D29] font-bold rounded-full px-6 py-3 text-sm hover:bg-[#2E2D29] hover:text-white transition-colors">Visit roar.stanford.edu ↗</a>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="rounded-2xl bg-white/10 p-6 text-center"><div class="text-3xl font-black">20,000+</div><div class="text-xs text-white/70 mt-1">Students assessed</div></div>
+        <div class="rounded-2xl bg-white/10 p-6 text-center"><div class="text-3xl font-black">20</div><div class="text-xs text-white/70 mt-1">States</div></div>
+        <div class="rounded-2xl bg-white/10 p-6 text-center"><div class="text-3xl font-black">4</div><div class="text-xs text-white/70 mt-1">Validated modules</div></div>
+        <div class="rounded-2xl bg-white/10 p-6 text-center"><div class="text-3xl font-black">5–10 min</div><div class="text-xs text-white/70 mt-1">Per screening</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team (shared) -->
+  <section id="team" class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
+    <h2 class="font-black text-3xl">Meet the Lab</h2>
+    <p class="text-[#4D4F53] mt-2 max-w-2xl">One interdisciplinary team, working across both programs and ROAR.</p>
+    <div id="team-grid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8"></div>
+  </section>
+
+  <!-- Publications + Media (shared) -->
+  <section id="publications" class="border-t border-[#DAD7CB] bg-[#FAF9F6]">
+    <div class="max-w-5xl mx-auto px-6 lg:px-10 py-16">
+      <h2 class="font-black text-3xl">Publications</h2>
+      <p class="text-[#4D4F53] mt-2">Jason D. Yeatman's complete scholarly record — citation counts via Google Scholar, PDFs / PubMed where available.</p>
+      <div id="pubs-stats" class="flex flex-wrap gap-8 mt-6 mb-4"></div>
+      <div id="pubs-list"></div>
+
+      <h3 class="font-black text-2xl mt-14">In the Media</h3>
+      <div id="media-list" class="mt-4"></div>
+    </div>
+  </section>
+
+  <!-- Get involved -->
+  <section id="involved" class="max-w-7xl mx-auto px-6 lg:px-10 py-16 grid md:grid-cols-2 gap-8">
+    <div class="rounded-3xl tint-8 p-8">
+      <h3 class="font-black text-2xl">Join the Lab</h3>
+      <p class="mt-3 text-[#4D4F53]">We're an interdisciplinary team spanning education, pediatrics, psychology, neuroscience, and engineering — with openings for postdocs, students, and research staff. Open positions are coming soon.</p>
+    </div>
+    <div class="rounded-3xl bg-[#F5F4F0] p-8">
+      <h3 class="font-black text-2xl">Participate in Research</h3>
+      <p class="mt-3 text-[#4D4F53]">Families, schools, and adult readers help drive our work.</p>
+      <a href="rdrp.html#involved" class="inline-block mt-5 font-bold rounded-full px-6 py-3 text-sm border-2 border-[#2E2D29] hover:bg-[#2E2D29] hover:text-white transition-colors">Sign Up on the RDRP page →</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-[#DAD7CB]">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8 text-sm text-[#4D4F53]">
+      <div>
+        <img src="assets/logos/bde-banner.png" alt="BDE Lab" class="h-12 mb-3" />
+        <p class="text-[#7F7776]">Brain Development &amp; Education Lab<br/>Yeatman Lab, Stanford University</p>
+      </div>
+      <div>
+        <div class="font-bold text-[#2E2D29] mb-3">Visit</div>
+        <p class="text-[#7F7776]">Center for Education Research at Stanford (CERAS)<br/>520 Galvez Mall<br/>Stanford, CA 94305</p>
+      </div>
+      <div>
+        <div class="font-bold text-[#2E2D29] mb-3">Explore</div>
+        <ul class="space-y-2 text-[#7F7776]">
+          <li><a href="#research" class="hover:text-[#2E2D29]">Research</a></li>
+          <li><a href="#team" class="hover:text-[#2E2D29]">People</a></li>
+          <li><a href="rdrp.html" class="hover:text-[#2E2D29]">Reading &amp; Dyslexia Research Program</a></li>
+          <li><a href="https://roar.stanford.edu" class="hover:text-[#2E2D29]">ROAR ↗</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-bold text-[#2E2D29] mb-3">Connect</div>
+        <ul class="space-y-2 text-[#7F7776]">
+          <li><a href="mailto:jyeatman@stanford.edu" class="hover:text-[#2E2D29]">jyeatman@stanford.edu</a></li>
+          <li>(650) 321-7553</li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-[#DAD7CB] py-6 text-center text-xs text-[#7F7776]">© 2026 Yeatman Lab, Stanford University.</div>
+  </footer>
+
+  <script src="shared-data.js"></script>
+  <script src="site.js"></script>
+  <script>initSite('bde', 'rdrp.html');</script>
+</body>
+</html>
