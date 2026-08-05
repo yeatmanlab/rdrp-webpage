@@ -61,6 +61,7 @@
       <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold text-[#4D4F53]">
         <a href="#research" class="hover:text-[#2E2D29]">Research</a>
         <a href="#figures" class="hover:text-[#2E2D29]">Figures</a>
+        <a href="#software" class="hover:text-[#2E2D29]">Software</a>
         <a href="#funding" class="hover:text-[#2E2D29]">Funding</a>
         <a href="#team" class="hover:text-[#2E2D29]">People</a>
         <a href="#publications" class="hover:text-[#2E2D29]">Publications</a>
@@ -171,6 +172,68 @@
         <button id="figure-prev" class="hidden md:flex absolute left-0 top-[128px] -translate-x-4 w-10 h-10 rounded-full bg-white shadow-lg items-center justify-center text-lg font-bold hover:bg-[#2E2D29] hover:text-white transition-colors" aria-label="Previous figure">‹</button>
         <button id="figure-next" class="hidden md:flex absolute right-0 top-[128px] translate-x-4 w-10 h-10 rounded-full bg-white shadow-lg items-center justify-center text-lg font-bold hover:bg-[#2E2D29] hover:text-white transition-colors" aria-label="Next figure">›</button>
       </div>
+    </div>
+  </section>
+
+  <!-- Software -->
+  <section id="software" class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
+    <h2 class="font-black text-3xl">Open-Source Software</h2>
+    <p class="text-[#4D4F53] mt-2 max-w-2xl">We build and maintain the tools we use for our own research, so other labs — and citizen scientists — can use them too.</p>
+
+    <div class="mt-8 rounded-3xl tint-8 p-6 sm:p-8 flex flex-col md:flex-row gap-6 items-center">
+      <img src="assets/figures/tractometry-ecosystem.jpg" alt="Diagram of the pyAFQ, AFQ-Browser, and AFQ-Insight software ecosystem" class="w-full md:w-72 rounded-xl shadow-sm shrink-0" loading="lazy" />
+      <p class="text-sm text-[#4D4F53]">Three of these tools form a pipeline: <strong>pyAFQ</strong> turns raw diffusion MRI scans into automatically-identified white matter tracts, <strong>AFQ-Browser</strong> turns those results into an interactive website, and <strong>AFQ-Insight</strong> applies statistical learning to find which tract properties matter. <strong>Swipes for Science</strong> is a separate project for crowdsourcing quality control on imaging data.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6 mt-6">
+      <div class="rounded-3xl bg-white shadow-md p-8">
+        <h3 class="font-serif font-bold text-xl">pyAFQ</h3>
+        <p class="text-sm text-[#4D4F53] mt-2">Automated Fiber Quantification in Python — an open-source, automated pipeline for brain tractometry, from raw diffusion MRI data through white matter tract identification and tissue-property quantification.</p>
+        <div class="flex flex-wrap gap-2 mt-4">
+          <a href="https://github.com/tractometry/pyAFQ" target="_blank" rel="noopener" class="link-chip">GitHub</a>
+          <a href="https://tractometry.org/pyAFQ/" target="_blank" rel="noopener" class="link-chip">Documentation &amp; examples</a>
+        </div>
+      </div>
+      <div class="rounded-3xl bg-white shadow-md p-8">
+        <h3 class="font-serif font-bold text-xl">AFQ-Insight</h3>
+        <p class="text-sm text-[#4D4F53] mt-2">Statistical learning for tractometry data — applies machine learning and multidimensional statistics to pyAFQ output, helping researchers find which tract properties actually predict reading, cognition, or clinical outcomes.</p>
+        <div class="flex flex-wrap gap-2 mt-4">
+          <a href="https://github.com/tractometry/AFQ-Insight" target="_blank" rel="noopener" class="link-chip">GitHub</a>
+          <a href="https://tractometry.org/AFQ-Insight/" target="_blank" rel="noopener" class="link-chip">Documentation</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- AFQ-Browser live demo -->
+    <div class="mt-6 rounded-3xl bg-white shadow-md p-6 sm:p-8">
+      <div class="flex flex-wrap items-baseline justify-between gap-3">
+        <h3 class="font-serif font-bold text-xl">AFQ-Browser — live demo</h3>
+        <div class="flex flex-wrap gap-2">
+          <a href="https://github.com/yeatmanlab/AFQ-Browser" target="_blank" rel="noopener" class="link-chip">GitHub</a>
+          <a href="https://yeatmanlab.github.io/AFQBrowser-demo/" target="_blank" rel="noopener" class="link-chip">Open full screen ↗</a>
+        </div>
+      </div>
+      <p class="text-sm text-[#4D4F53] mt-2 max-w-3xl">Turns a tractometry study into an interactive, sharable website. Rotate the brain, click a tract, and see how its properties vary along its length — and across every participant in the study. This is a real, live example browser.</p>
+      <div class="hidden md:block mt-4 rounded-2xl overflow-hidden border border-[#EDE9E0]" style="height:600px">
+        <iframe src="https://yeatmanlab.github.io/AFQBrowser-demo/" title="AFQ-Browser live demo" loading="lazy" class="w-full h-full" style="border:0"></iframe>
+      </div>
+      <p class="md:hidden mt-3 text-xs text-[#7F7776]">This demo is interactive and works best on a larger screen — use "Open full screen" above.</p>
+    </div>
+
+    <!-- Swipes for Science live demo -->
+    <div class="mt-6 rounded-3xl bg-white shadow-md p-6 sm:p-8">
+      <div class="flex flex-wrap items-baseline justify-between gap-3">
+        <h3 class="font-serif font-bold text-xl">Swipes for Science — live demo</h3>
+        <div class="flex flex-wrap gap-2">
+          <a href="https://github.com/yeatmanlab/SwipesForScience" target="_blank" rel="noopener" class="link-chip">GitHub</a>
+          <a href="https://www.brainswipes.us/" target="_blank" rel="noopener" class="link-chip">Open full screen ↗</a>
+        </div>
+      </div>
+      <p class="text-sm text-[#4D4F53] mt-2 max-w-3xl">A citizen-science game template that turns tedious manual quality-checking of brain scans into a quick swiping game, so any lab can crowdsource data annotation without writing app code. Below is <strong>BrainSwipes</strong>, a live instance built on it — swipe or click through real (de-identified) brain images.</p>
+      <div class="hidden md:block mt-4 rounded-2xl overflow-hidden border border-[#EDE9E0]" style="height:600px">
+        <iframe src="https://www.brainswipes.us/" title="Swipes for Science — BrainSwipes live demo" loading="lazy" class="w-full h-full" style="border:0"></iframe>
+      </div>
+      <p class="md:hidden mt-3 text-xs text-[#7F7776]">This demo is interactive and works best on a larger screen — use "Open full screen" above.</p>
     </div>
   </section>
 
