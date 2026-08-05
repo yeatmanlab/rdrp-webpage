@@ -1,0 +1,70 @@
+# Project notes
+
+Working notes for picking this project back up. This is a hand-built static site (no
+build step, no framework) prototyping a replacement for **dyslexia.stanford.edu** (RDRP)
+and **edneuro.stanford.edu** (BDE Lab) — two sides of the same lab, toggled with a
+coin-flip. **roar.stanford.edu** is a separate, related product and is linked out to,
+not reproduced here.
+
+**Live site:** https://yeatmanlab.github.io/rdrp-webpage/
+**Repo:** yeatmanlab/rdrp-webpage, `main` branch, deployed via GitHub Pages (branch: main, path: /)
+
+## Structure
+
+- `index.html` — redirects to `rdrp.html` (GitHub Pages needs something at `/`)
+- `rdrp.html` / `bde.html` — the two homepages. Same header/coin-flip pattern, distinct
+  hero/research/CTA content per program's actual audience (RDRP = participants/parents,
+  BDE = academic/funding/software).
+- `yeatman.html` — Jason Yeatman's bio, teaching/mentorship philosophy, and courses.
+  Linked from his card in the Team section on both homepages.
+- `shared-data.js` — the single source of truth for `PEOPLE`, `PUBLICATIONS`, `MEDIA`,
+  and `FIGURES`. Both homepages render Team/Publications/Media from this file via
+  `site.js`, so they never drift out of sync with each other.
+- `site.js` — rendering logic (`renderTeam`, `renderPublications`, `renderMedia`,
+  `renderFigures`) plus the coin-flip-then-navigate behavior.
+- `assets/logos/`, `assets/people/`, `assets/figures/` — real logos, team headshots, and
+  brain-imaging figures, all sourced from the lab's own sites or PubMed Central (open
+  access), then resized/optimized locally.
+- `prototypes/` — earlier design explorations (Option A/B/C), kept for reference only.
+  Not linked from the live pages.
+- `.claude/launch.json` — lets Claude Code preview the site locally via a static server.
+
+## Data provenance
+
+- **People**: edneuro.stanford.edu/people + roar.stanford.edu/team, photos downloaded
+  and re-optimized. Flat, alphabetical by surname — deliberately not grouped by rank.
+- **Publications**: Jason's official Stanford CAP CV cross-referenced against his Google
+  Scholar profile for citation counts and precise per-paper Scholar links, then backfilled
+  with PubMed/PMC links via NCBI's E-utilities API for anything missing an official link.
+  `citedBy` is a snapshot (dated in the file's own header comment) — it will drift and
+  there's no live refresh.
+- **Figures**: 8 real figures pulled from open-access PMC versions of lab papers,
+  selected for visual range across 2012–2026, not citation count.
+- **Media**: mix of items from Jason's CV's outreach list and Stanford News / Stanford
+  GSE / Stanford Medicine Children's Health coverage found via web search — not
+  algorithmically complete, just what's been found and verified so far.
+- **Research Focus / mentorship content**: Jason's 2021 tenure personal statement
+  (`~/Research/CV/Yeatman_ResearchProgram_Tenure_20210823.pdf`) — noted as outdated by
+  Jason himself, used for framing/themes rather than current specifics. Cross-checked
+  current grants against the CV where they overlap.
+
+## Known gaps / deferred (ask before assuming these are wanted)
+
+- Full individual People bios beyond Jason's page — nav/team currently only deep-links
+  his card. Everyone else is name/role/one-line-bio only.
+- No general About page for the lab as a whole (history, location details beyond the
+  footer address).
+- `PUBLICATIONS.citedBy` will go stale — no mechanism to refresh it.
+- A handful of older/obscure publications (mostly pre-2015 conference abstracts, JOSS
+  software notes) have no official link at all — Scholar/PubMed search links only.
+- Real "Participate"/"Join the Lab" signup flows don't exist — those CTAs were
+  deliberately removed rather than left as dead buttons; the sections are informational
+  text only until there's a real form to point to.
+
+## Local preview
+
+```bash
+python3 -m http.server 4321 --directory /Users/jyeatman/git/rdrp-webpage
+```
+Then open `http://localhost:4321/rdrp.html`. Or use Claude Code's `preview_start` with
+the `site` config already in `.claude/launch.json`.
