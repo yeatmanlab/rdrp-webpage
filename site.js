@@ -3,28 +3,18 @@
 function renderTeam() {
   const container = document.getElementById('team-grid');
   if (!container) return;
-  PEOPLE_CATEGORY_ORDER.forEach(function (category) {
-    const members = PEOPLE.filter(function (p) { return p.category === category; });
-    if (!members.length) return;
-
-    const heading = document.createElement('h3');
-    heading.className = 'col-span-full font-bold text-sm uppercase tracking-widest text-[#7F7776] mt-8 first:mt-0';
-    heading.textContent = category;
-    container.appendChild(heading);
-
-    members.forEach(function (p) {
-      const card = document.createElement('div');
-      card.className = 'text-center';
-      card.innerHTML =
-        '<img src="' + p.photo + '" alt="' + escapeHtml(p.name) + '" ' +
-        'class="w-20 h-20 rounded-full object-cover mx-auto shadow" loading="lazy" ' +
-        'onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';" />' +
-        '<div class="avatar-fallback w-20 h-20 rounded-full mx-auto items-center justify-center text-lg font-bold text-white" style="display:none">' +
-        initials(p.name) + '</div>' +
-        '<h4 class="font-bold mt-3 text-sm">' + escapeHtml(p.name) + '</h4>' +
-        '<p class="text-xs text-[#7F7776] mt-1">' + escapeHtml(p.role) + '</p>';
-      container.appendChild(card);
-    });
+  PEOPLE.forEach(function (p) {
+    const card = document.createElement('div');
+    card.className = 'text-center';
+    card.innerHTML =
+      '<img src="' + p.photo + '" alt="' + escapeHtml(p.name) + '" ' +
+      'class="w-20 h-20 rounded-full object-cover mx-auto shadow" loading="lazy" ' +
+      'onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';" />' +
+      '<div class="avatar-fallback w-20 h-20 rounded-full mx-auto items-center justify-center text-lg font-bold text-white" style="display:none">' +
+      initials(p.name) + '</div>' +
+      '<h4 class="font-bold mt-3 text-sm">' + escapeHtml(p.name) + '</h4>' +
+      '<p class="text-xs text-[#7F7776] mt-1">' + escapeHtml(p.role) + '</p>';
+    container.appendChild(card);
   });
 }
 

@@ -31,9 +31,9 @@
   .coin.is-flipped .coin-inner{ transform:rotateY(180deg); }
   .coin.is-navigating .coin-inner{ transform:rotateY(180deg) scale(1.08); }
   .coin-face{ position:absolute; inset:0; border-radius:9999px; display:flex; align-items:center; justify-content:center;
-    font-family:'Source Serif 4',serif; font-weight:700; font-size:2.1rem; color:#fff; backface-visibility:hidden;
-    box-shadow:0 12px 28px rgba(0,0,0,.28), inset 0 0 0 4px rgba(255,255,255,.45); }
+    backface-visibility:hidden; box-shadow:0 12px 28px rgba(0,0,0,.28), inset 0 0 0 4px rgba(255,255,255,.45); }
   .coin-front{ background:#8C1515; } .coin-back{ background:#007C92; transform:rotateY(180deg); }
+  .coin-face img{ width:76px; height:76px; object-fit:contain; border-radius:9999px; background:#fff; padding:8px; box-sizing:border-box; }
   .coin:hover .coin-inner{ transform:scale(1.05); }
 
   .side-panel{ transition:opacity .5s ease, filter .5s ease; }
@@ -54,9 +54,9 @@
   <!-- Header -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-[#DAD7CB]">
     <div class="max-w-7xl mx-auto px-6 lg:px-10 py-3 flex items-center justify-between gap-6">
-      <a href="#top" class="flex items-center gap-3">
-        <img src="assets/logos/stanford-brandbar.png" alt="Stanford University" class="h-6 hidden sm:block" />
-        <img src="assets/logos/rdrp-seal.png" alt="Reading &amp; Dyslexia Research Program" class="h-10" />
+      <a href="#top" class="flex items-center gap-2 min-w-0">
+        <img src="assets/logos/stanford-brandbar.png" alt="Stanford University" class="h-5 hidden md:block shrink-0" />
+        <img src="assets/logos/rdrp-seal.png" alt="Reading &amp; Dyslexia Research Program" class="h-7 sm:h-9 shrink-0" />
       </a>
       <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold text-[#4D4F53]">
         <a href="#research" class="hover:text-[#2E2D29]">Research</a>
@@ -65,12 +65,15 @@
         <a href="#publications" class="hover:text-[#2E2D29]">Publications</a>
         <a href="https://roar.stanford.edu" class="hover:text-[#2E2D29]">ROAR ↗</a>
       </nav>
-      <div class="flex items-center gap-3">
-        <div class="relative flex items-center rounded-full bg-[#2E2D29] p-1 w-[152px]">
+      <div class="flex items-center gap-3 shrink-0">
+        <div class="relative hidden sm:flex items-center rounded-full bg-[#2E2D29] p-1 w-[320px]">
           <span class="absolute inset-y-1 left-1 w-[calc(50%-4px)] rounded-full accent-bg"></span>
-          <span class="relative z-10 flex-1 text-center px-3 py-1.5 text-xs font-bold rounded-full text-white">RDRP</span>
-          <a href="bde.html" class="relative z-10 flex-1 text-center px-3 py-1.5 text-xs font-bold rounded-full text-[#7F7776] hover:text-white transition-colors">BDE Lab</a>
+          <span class="relative z-10 flex-1 text-center px-2 py-1.5 text-xs font-bold rounded-full text-white truncate">Reading &amp; Dyslexia</span>
+          <a href="bde.html" class="relative z-10 flex-1 text-center px-2 py-1.5 text-xs font-bold rounded-full text-[#7F7776] hover:text-white transition-colors truncate">Brain Development</a>
         </div>
+        <a href="bde.html" class="sm:hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#2E2D29] text-white shrink-0" aria-label="Switch to the Brain Development &amp; Education Lab page">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+        </a>
       </div>
     </div>
   </header>
@@ -98,11 +101,11 @@
       <div class="flex flex-col items-center gap-3 pointer-events-auto">
         <button id="coin" class="coin" aria-label="Flip to the Brain Development &amp; Education Lab page">
           <div class="coin-inner">
-            <div class="coin-face coin-front">R</div>
-            <div class="coin-face coin-back">B</div>
+            <div class="coin-face coin-front"><img src="assets/logos/rdrp-mark.png" alt="Reading &amp; Dyslexia Research Program" /></div>
+            <div class="coin-face coin-back"><img src="assets/logos/bde-mark.png" alt="Brain Development &amp; Education Lab" /></div>
           </div>
         </button>
-        <span class="text-[11px] font-bold uppercase tracking-widest text-white bg-black/30 rounded-full px-3 py-1 backdrop-blur">Flip to BDE Lab</span>
+        <span class="text-[11px] font-bold uppercase tracking-widest text-white bg-black/30 rounded-full px-3 py-1 backdrop-blur">Flip to Brain Development</span>
       </div>
     </div>
   </section>
@@ -210,7 +213,7 @@
   <!-- Publications + Media (shared) -->
   <section id="publications" class="border-t border-[#DAD7CB] bg-[#FAF9F6]">
     <div class="max-w-5xl mx-auto px-6 lg:px-10 py-16">
-      <h2 class="font-black text-3xl">Publications</h2>
+      <h2 class="font-black text-3xl">Reading &amp; Dyslexia Research Program Publications</h2>
       <p class="text-[#4D4F53] mt-2">Jason D. Yeatman's complete scholarly record — citation counts via Google Scholar, PDFs / PubMed where available.</p>
       <div id="pubs-stats" class="flex flex-wrap gap-8 mt-6 mb-4"></div>
       <div id="pubs-list"></div>
@@ -229,7 +232,7 @@
     <div class="rounded-3xl bg-[#F5F4F0] p-8">
       <h3 class="font-black text-2xl">Join the Lab</h3>
       <p class="mt-3 text-[#4D4F53]">Postdoc, student, and staff openings span both programs.</p>
-      <a href="bde.html#involved" class="inline-block mt-5 font-bold rounded-full px-6 py-3 text-sm border-2 border-[#2E2D29] hover:bg-[#2E2D29] hover:text-white transition-colors">View Openings on the BDE Lab page →</a>
+      <a href="bde.html#involved" class="inline-block mt-5 font-bold rounded-full px-6 py-3 text-sm border-2 border-[#2E2D29] hover:bg-[#2E2D29] hover:text-white transition-colors">View openings on the Brain Development &amp; Education Lab page →</a>
     </div>
   </section>
 
@@ -237,7 +240,7 @@
   <footer class="border-t border-[#DAD7CB]">
     <div class="max-w-7xl mx-auto px-6 lg:px-10 py-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8 text-sm text-[#4D4F53]">
       <div>
-        <img src="assets/logos/rdrp-seal.png" alt="RDRP" class="h-12 mb-3" />
+        <img src="assets/logos/rdrp-seal.png" alt="Reading &amp; Dyslexia Research Program" class="h-12 mb-3" />
         <p class="text-[#7F7776]">Reading &amp; Dyslexia Research Program<br/>Yeatman Lab, Stanford University</p>
       </div>
       <div>
