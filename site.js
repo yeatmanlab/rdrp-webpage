@@ -296,18 +296,18 @@ function setupCoin(currentView, otherPageUrl) {
 // translate off-screen + fade, cubic-bezier(1,.5,.8,1)) — see github.com/SwipesForScience.
 function setupSwipeDemo() {
   const stage = document.getElementById('swipe-stage');
-  if (!stage || typeof FIGURES === 'undefined' || !FIGURES.length) return;
+  if (!stage || typeof BRAINDR_EXAMPLES === 'undefined' || !BRAINDR_EXAMPLES.length) return;
 
   const passBtn = document.getElementById('swipe-pass');
   const failBtn = document.getElementById('swipe-fail');
   const tally = document.getElementById('swipe-tally');
-  const order = FIGURES.map(function (_, i) { return i; });
+  const order = BRAINDR_EXAMPLES.map(function (_, i) { return i; });
   let cursor = 0;
   let passCount = 0, failCount = 0;
   let dragging = null;
 
   function makeCard(offset, depth) {
-    const f = FIGURES[order[(cursor + offset) % order.length]];
+    const f = BRAINDR_EXAMPLES[order[(cursor + offset) % order.length]];
     const card = document.createElement('div');
     card.className = 'swipe-card';
     card.style.zIndex = String(10 - depth);

@@ -350,3 +350,13 @@ const FIGURES = [
     description: "The reading-selective region of the brain, mapped individually in six different people — consistent in location, unique in shape.",
     url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12993163/" },
 ];
+
+// Real example slices citizen scientists rated on braindr — cropped from Figure 5 of
+// Keshavan et al. (2019), "Combining Citizen Science and Deep Learning to Amplify
+// Expertise in Neuroimaging," Frontiers in Neuroinformatics (open access), used here to
+// demo the actual pass/fail swipe task rather than a placeholder image.
+const BRAINDR_EXAMPLES = [
+  { image: "assets/figures/braindr-slices/pass.jpg", title: "Gold-standard example: Pass" },
+  { image: "assets/figures/braindr-slices/fail.jpg", title: "Gold-standard example: Fail (motion artifact)" },
+  { image: "assets/figures/braindr-slices/excluded.jpg", title: "Gold-standard example: Excluded (defacing error)" },
+];

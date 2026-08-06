@@ -54,7 +54,7 @@
   .swipe-card{ position:absolute; inset:0; border-radius:1rem; background:#fff; box-shadow:0 6px 18px rgba(0,0,0,.14);
     border:1px solid #EDE9E0; overflow:hidden; display:flex; flex-direction:column; cursor:grab; touch-action:none; user-select:none; }
   .swipe-card:active{ cursor:grabbing; }
-  .swipe-card img{ width:100%; height:190px; object-fit:cover; pointer-events:none; }
+  .swipe-card img{ width:100%; height:220px; object-fit:cover; pointer-events:none; }
   .swipe-card-label{ font-size:11px; padding:8px 10px; color:#7F7776; line-height:1.3; }
   #swipe-stage:focus{ outline:2px solid rgba(var(--accent-rgb),.4); outline-offset:4px; border-radius:1rem; }
 
@@ -262,20 +262,23 @@
     <div class="mt-6 rounded-3xl bg-white shadow-md p-6 sm:p-8">
       <div class="flex flex-wrap items-baseline justify-between gap-3">
         <h3 class="font-serif font-bold text-xl">Swipes for Science</h3>
-        <div class="flex flex-wrap gap-2">
-          <a href="https://github.com/yeatmanlab/SwipesForScience" target="_blank" rel="noopener" class="link-chip">GitHub</a>
-          <a href="https://www.brainswipes.us/" target="_blank" rel="noopener" class="link-chip">Try the live app ↗</a>
-        </div>
+        <a href="https://github.com/yeatmanlab/SwipesForScience" target="_blank" rel="noopener" class="link-chip">GitHub</a>
       </div>
-      <p class="text-sm text-[#4D4F53] mt-2 max-w-3xl">A citizen-science game template that turns tedious manual quality-checking of brain scans into a quick swiping game, so any lab can crowdsource data annotation without writing app code. <strong>Braindr</strong>, a live instance built on it, has crowdsourced tens of thousands of real quality ratings from citizen scientists. Try the same swipe-card interaction on the left, using real figures from our own published work — and see Braindr's actual live participant leaderboard on the right.</p>
-      <div class="mt-6 grid md:grid-cols-2 gap-6 items-start">
-        <div class="flex flex-col items-center">
-          <div id="swipe-stage" class="relative" style="width:220px; height:250px;" tabindex="0" aria-label="Swipe demo: press left or right arrow, or use the buttons below"></div>
-          <div class="flex items-center gap-6 mt-5">
-            <button id="swipe-fail" aria-label="Fail" class="w-14 h-14 rounded-full bg-white shadow-md border-2 border-[#E8B4B4] text-[#B23B3B] text-2xl font-bold flex items-center justify-center hover:bg-[#FDEEEE] transition-colors">✕</button>
-            <button id="swipe-pass" aria-label="Pass" class="w-14 h-14 rounded-full bg-white shadow-md border-2 border-[#A8CFB0] text-[#2F7D4F] text-2xl font-bold flex items-center justify-center hover:bg-[#EEF8F0] transition-colors">✓</button>
+      <p class="text-sm text-[#4D4F53] mt-2 max-w-3xl">A citizen-science game template that turns tedious manual quality-checking of brain scans into a quick swiping game, so any lab can crowdsource data annotation without writing app code. <strong>Braindr</strong>, the original live instance built on it, crowdsourced tens of thousands of real pass/fail ratings on individual brain slices from citizen scientists — like the gold-standard examples below. The same approach has since scaled into <strong>BrainSwipes</strong>, now used for quality control on two of the largest studies in the field, the NIH's <a href="https://abcdstudy.org/" target="_blank" rel="noopener" class="accent-text hover:underline">ABCD Study</a> and <a href="https://hbcdstudy.org/" target="_blank" rel="noopener" class="accent-text hover:underline">HBCD Study</a>. Try the same pass/fail interaction on the left, and see Braindr's actual live participant leaderboard on the right.</p>
+      <div class="mt-6 grid md:grid-cols-2 gap-6">
+        <div>
+          <div class="flex items-baseline justify-between gap-2 mb-2">
+            <p class="text-xs font-bold uppercase tracking-widest text-[#7F7776]">Try the swipe demo</p>
+            <a href="https://braindr.us/" target="_blank" rel="noopener" class="link-chip">Open full screen ↗</a>
           </div>
-          <p id="swipe-tally" class="text-xs text-[#7F7776] mt-3">0 pass · 0 fail — click, drag, or use arrow keys</p>
+          <div class="rounded-2xl border border-[#EDE9E0] flex flex-col items-center justify-center gap-5" style="height:420px">
+            <div id="swipe-stage" class="relative" style="width:260px; height:280px;" tabindex="0" aria-label="Swipe demo: press left or right arrow, or use the buttons below"></div>
+            <div class="flex items-center gap-6">
+              <button id="swipe-fail" aria-label="Fail" class="w-14 h-14 rounded-full bg-white shadow-md border-2 border-[#E8B4B4] text-[#B23B3B] text-2xl font-bold flex items-center justify-center hover:bg-[#FDEEEE] transition-colors">✕</button>
+              <button id="swipe-pass" aria-label="Pass" class="w-14 h-14 rounded-full bg-white shadow-md border-2 border-[#A8CFB0] text-[#2F7D4F] text-2xl font-bold flex items-center justify-center hover:bg-[#EEF8F0] transition-colors">✓</button>
+            </div>
+          </div>
+          <p id="swipe-tally" class="text-xs text-[#7F7776] mt-2 text-center">0 pass · 0 fail — click, drag, or use arrow keys</p>
         </div>
         <div>
           <div class="flex items-baseline justify-between gap-2 mb-2">
@@ -387,8 +390,8 @@
     <div class="border-t border-[#DAD7CB] py-6 text-center text-xs text-[#7F7776]">© 2026 Yeatman Lab, Stanford University.</div>
   </footer>
 
-  <script src="shared-data.js?v=2"></script>
-  <script src="site.js?v=6"></script>
+  <script src="shared-data.js?v=3"></script>
+  <script src="site.js?v=7"></script>
   <script>initSite('bde', 'rdrp.html');</script>
 </body>
 </html>
