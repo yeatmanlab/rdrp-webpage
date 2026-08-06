@@ -1,6 +1,6 @@
 // Shared rendering + coin-flip navigation logic for rdrp.html and bde.html.
 
-const TEAM_TAG_ORDER = ["Neuroimaging", "Reading & Literacy Science", "Educational Assessment", "Software Engineering", "School Partnerships", "Data Science"];
+const TEAM_TAG_ORDER = ["Faculty", "Postdoc", "Student", "Staff", "Neuroimaging", "Reading & Literacy Science", "Educational Assessment", "Software Engineering", "School Partnerships", "Data Science"];
 
 // Surfaces a person's most recent papers by matching their surname(s) against
 // PUBLICATIONS' author-list strings (format "Surname, F." or "FI Surname,").
@@ -36,11 +36,7 @@ function renderTeam() {
       if (!btn) return;
       filterBar.querySelectorAll('.filter-pill').forEach(function (b) { b.classList.remove('active'); });
       btn.classList.add('active');
-      const tag = btn.dataset.tag;
-      container.querySelectorAll('.team-card').forEach(function (card) {
-        const show = tag === 'all' || (card.dataset.tags || '').split('|').indexOf(tag) !== -1;
-        card.style.display = show ? '' : 'none';
-      });
+      applyTeamFilter(container, btn.dataset.tag);
     });
   }
 
@@ -67,6 +63,60 @@ function renderTeam() {
     container.appendChild(card);
     setupTeamExpand(card);
   });
+}
+
+// Filters the team grid with a two-phase shuffle: cards leaving the filter fade out
+// first (while everyone else is still in their old spot, so there's no reflow to
+// fight), then the grid re-flows and every remaining/entering card animates from its
+// old screen position to its new one (a FLIP animation) instead of snapping instantly.
+function applyTeamFilter(container, tag) {
+  const cards = [].slice.call(container.querySelectorAll('.team-card'));
+  const willShow = function (card) { return tag === 'all' || (card.dataset.tags || '').split('|').indexOf(tag) !== -1; };
+  const leaving = cards.filter(function (c) { return c.style.display !== 'none' && !willShow(c); });
+
+  function reflowAndReveal() {
+    const beforeRects = new Map();
+    cards.forEach(function (c) {
+      if (c.style.display !== 'none') beforeRects.set(c, c.getBoundingClientRect());
+    });
+
+    cards.forEach(function (c) { c.style.display = willShow(c) ? '' : 'none'; });
+
+    cards.forEach(function (c) {
+      if (!willShow(c)) return;
+      const before = beforeRects.get(c);
+      c.style.transition = 'none';
+      if (before) {
+        const after = c.getBoundingClientRect();
+        const dx = before.left - after.left, dy = before.top - after.top;
+        c.style.transform = (dx || dy) ? 'translate(' + dx + 'px,' + dy + 'px)' : '';
+        c.style.opacity = '';
+      } else {
+        c.style.transform = 'scale(.88)';
+        c.style.opacity = '0';
+      }
+    });
+
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        cards.forEach(function (c) {
+          if (!willShow(c)) return;
+          c.style.transition = 'transform .5s cubic-bezier(.34,1.56,.64,1), opacity .35s ease';
+          c.style.transform = '';
+          c.style.opacity = '';
+        });
+      });
+    });
+  }
+
+  if (!leaving.length) { reflowAndReveal(); return; }
+
+  leaving.forEach(function (c) {
+    c.style.transition = 'transform .2s ease, opacity .2s ease';
+    c.style.transform = 'scale(.88)';
+    c.style.opacity = '0';
+  });
+  setTimeout(reflowAndReveal, 200);
 }
 
 // The extra bio/tags/links/publications panel that expands out of each team card
