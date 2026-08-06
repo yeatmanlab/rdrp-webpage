@@ -264,14 +264,26 @@
           <a href="https://www.brainswipes.us/" target="_blank" rel="noopener" class="link-chip">Try the live app ↗</a>
         </div>
       </div>
-      <p class="text-sm text-[#4D4F53] mt-2 max-w-3xl">A citizen-science game template that turns tedious manual quality-checking of brain scans into a quick swiping game, so any lab can crowdsource data annotation without writing app code. <strong>BrainSwipes</strong> is a live instance built on it. Try the same swipe-card interaction below, using real figures from our own published work.</p>
-      <div class="mt-6 flex flex-col items-center">
-        <div id="swipe-stage" class="relative" style="width:220px; height:250px;" tabindex="0" aria-label="Swipe demo: press left or right arrow, or use the buttons below"></div>
-        <div class="flex items-center gap-6 mt-5">
-          <button id="swipe-fail" aria-label="Fail" class="w-14 h-14 rounded-full bg-white shadow-md border-2 border-[#E8B4B4] text-[#B23B3B] text-2xl font-bold flex items-center justify-center hover:bg-[#FDEEEE] transition-colors">✕</button>
-          <button id="swipe-pass" aria-label="Pass" class="w-14 h-14 rounded-full bg-white shadow-md border-2 border-[#A8CFB0] text-[#2F7D4F] text-2xl font-bold flex items-center justify-center hover:bg-[#EEF8F0] transition-colors">✓</button>
+      <p class="text-sm text-[#4D4F53] mt-2 max-w-3xl">A citizen-science game template that turns tedious manual quality-checking of brain scans into a quick swiping game, so any lab can crowdsource data annotation without writing app code. <strong>Braindr</strong>, a live instance built on it, has crowdsourced tens of thousands of real quality ratings from citizen scientists. Try the same swipe-card interaction on the left, using real figures from our own published work — and see Braindr's actual live participant leaderboard on the right.</p>
+      <div class="mt-6 grid md:grid-cols-2 gap-6 items-start">
+        <div class="flex flex-col items-center">
+          <div id="swipe-stage" class="relative" style="width:220px; height:250px;" tabindex="0" aria-label="Swipe demo: press left or right arrow, or use the buttons below"></div>
+          <div class="flex items-center gap-6 mt-5">
+            <button id="swipe-fail" aria-label="Fail" class="w-14 h-14 rounded-full bg-white shadow-md border-2 border-[#E8B4B4] text-[#B23B3B] text-2xl font-bold flex items-center justify-center hover:bg-[#FDEEEE] transition-colors">✕</button>
+            <button id="swipe-pass" aria-label="Pass" class="w-14 h-14 rounded-full bg-white shadow-md border-2 border-[#A8CFB0] text-[#2F7D4F] text-2xl font-bold flex items-center justify-center hover:bg-[#EEF8F0] transition-colors">✓</button>
+          </div>
+          <p id="swipe-tally" class="text-xs text-[#7F7776] mt-3">0 pass · 0 fail — click, drag, or use arrow keys</p>
         </div>
-        <p id="swipe-tally" class="text-xs text-[#7F7776] mt-3">0 pass · 0 fail — click, drag, or use arrow keys</p>
+        <div>
+          <div class="flex items-baseline justify-between gap-2 mb-2">
+            <p class="text-xs font-bold uppercase tracking-widest text-[#7F7776]">Braindr's live leaderboard</p>
+            <a href="https://braindr.us/#/leaderboard" target="_blank" rel="noopener" class="link-chip">Open full screen ↗</a>
+          </div>
+          <div class="hidden sm:block rounded-2xl overflow-hidden border border-[#EDE9E0]" style="height:420px">
+            <iframe src="https://braindr.us/#/leaderboard" title="Braindr live participant leaderboard" loading="lazy" class="w-full h-full" style="border:0"></iframe>
+          </div>
+          <p class="sm:hidden text-xs text-[#7F7776]">This leaderboard is interactive and works best on a larger screen — use "Open full screen" above.</p>
+        </div>
       </div>
     </div>
   </section>
