@@ -59,14 +59,15 @@
   .filter-pill:hover{ border-color:var(--accent); color:var(--accent); }
   .filter-pill.active{ background:var(--accent); border-color:var(--accent); color:#fff; }
   .team-tag-pill{ font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.02em; color:var(--accent); background:rgba(var(--accent-rgb),.08); border-radius:9999px; padding:2px 8px; display:inline-block; }
-  .team-expand{ position:absolute; top:100%; left:0; right:0; margin-top:4px; background:#fff; border-radius:1rem;
-    box-shadow:0 20px 40px rgba(0,0,0,.18), 0 2px 8px rgba(0,0,0,.08); border-top:3px solid var(--accent); text-align:left;
-    opacity:0; max-height:0; overflow:hidden; padding:0 16px;
-    transform:translateY(-6px) scaleY(.96); transform-origin:top center;
-    transition:opacity .3s ease, transform .3s ease, max-height .3s ease, padding .3s ease;
+  .team-photo-wrap img{ transition:transform .4s ease; }
+  .team-card:hover .team-photo-wrap img, .team-card:focus-within .team-photo-wrap img, .team-card.expanded .team-photo-wrap img{ transform:scale(1.08); }
+  .team-expand{ position:absolute; inset:0; background:#fff; border-radius:1rem;
+    box-shadow:0 8px 24px rgba(0,0,0,.25); border-top:3px solid var(--accent); text-align:left;
+    opacity:0; transform:scale(.9); transform-origin:center; overflow-y:auto; padding:16px;
+    transition:opacity .3s ease, transform .3s ease;
     pointer-events:none; }
   .team-card:hover .team-expand, .team-card:focus-within .team-expand, .team-card.expanded .team-expand{
-    opacity:1; max-height:520px; transform:translateY(0) scaleY(1); padding:16px; pointer-events:auto; }
+    opacity:1; transform:scale(1); pointer-events:auto; }
   .team-expand-bio{ font-size:12px; color:#4D4F53; line-height:1.5; }
   .team-expand-tags{ display:flex; flex-wrap:wrap; gap:4px; margin-top:10px; }
   .team-expand-links{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
@@ -184,22 +185,47 @@
       </div>
     </div>
 
-    <p class="text-xs font-bold text-[#7F7776] uppercase tracking-widest mt-8">Download family resources</p>
-    <div class="grid grid-cols-2 gap-4 mt-3 max-w-md">
-      <a href="https://drive.google.com/file/d/1LS8XsZF_rL-G54a-gHYK1REy9nWnyYL0/view" target="_blank" rel="noopener" class="group rounded-2xl bg-white border border-[#DAD7CB] overflow-hidden hover:shadow-md transition-shadow">
-        <img src="assets/figures/roar-resources/family-guide.jpg" alt="ROAR Family Guide cover" class="w-full block" />
-        <div class="p-3">
-          <h4 class="font-bold text-xs group-hover:underline">ROAR Family Guide ↗</h4>
-          <p class="text-[11px] text-[#7F7776] mt-0.5">An introduction to ROAR · PDF</p>
-        </div>
-      </a>
-      <a href="https://drive.google.com/file/d/1d0V9bOuXX83RyUQE1mU4clOx3zkZaYaJ/view" target="_blank" rel="noopener" class="group rounded-2xl bg-white border border-[#DAD7CB] overflow-hidden hover:shadow-md transition-shadow">
-        <img src="assets/figures/roar-resources/next-steps.jpg" alt="ROAR Next Steps guide cover" class="w-full block" />
-        <div class="p-3">
-          <h4 class="font-bold text-xs group-hover:underline">Next Steps Guide ↗</h4>
-          <p class="text-[11px] text-[#7F7776] mt-0.5">Understanding your child's score report · PDF</p>
-        </div>
-      </a>
+    <p class="text-xs font-bold text-[#7F7776] uppercase tracking-widest mt-8">Resources from ROAR@Home</p>
+    <div class="relative mt-3">
+      <div id="resource-track" class="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory scroll-smooth">
+        <a href="https://drive.google.com/file/d/1LS8XsZF_rL-G54a-gHYK1REy9nWnyYL0/view" target="_blank" rel="noopener" class="resource-card group snap-start shrink-0 w-[170px] rounded-2xl bg-white border border-[#DAD7CB] overflow-hidden hover:shadow-md transition-shadow">
+          <img src="assets/figures/roar-resources/family-guide.jpg" alt="ROAR Family Guide cover" class="w-full block" />
+          <div class="p-3">
+            <h4 class="font-bold text-xs group-hover:underline">ROAR Family Guide ↗</h4>
+            <p class="text-[11px] text-[#7F7776] mt-0.5">An introduction to ROAR · PDF</p>
+          </div>
+        </a>
+        <a href="https://drive.google.com/file/d/1d0V9bOuXX83RyUQE1mU4clOx3zkZaYaJ/view" target="_blank" rel="noopener" class="resource-card group snap-start shrink-0 w-[170px] rounded-2xl bg-white border border-[#DAD7CB] overflow-hidden hover:shadow-md transition-shadow">
+          <img src="assets/figures/roar-resources/next-steps.jpg" alt="ROAR Next Steps guide cover" class="w-full block" />
+          <div class="p-3">
+            <h4 class="font-bold text-xs group-hover:underline">Next Steps Guide ↗</h4>
+            <p class="text-[11px] text-[#7F7776] mt-0.5">Understanding your child's score report · PDF</p>
+          </div>
+        </a>
+        <a href="https://drive.google.com/file/d/1DZDopnX6zxXFvKmAUwzgYQDxcyF-5Ft4/view" target="_blank" rel="noopener" class="resource-card group snap-start shrink-0 w-[170px] rounded-2xl bg-white border border-[#DAD7CB] overflow-hidden hover:shadow-md transition-shadow">
+          <img src="assets/figures/roar-resources/strategic-decision-making.jpg" alt="Strategic Decision-Making guide cover" class="w-full block" />
+          <div class="p-3">
+            <h4 class="font-bold text-xs group-hover:underline">Strategic Decision-Making ↗</h4>
+            <p class="text-[11px] text-[#7F7776] mt-0.5">For educators · PDF</p>
+          </div>
+        </a>
+        <a href="https://roar.stanford.edu/technical/" target="_blank" rel="noopener" class="resource-card group snap-start shrink-0 w-[170px] rounded-2xl bg-white border border-[#DAD7CB] overflow-hidden hover:shadow-md transition-shadow">
+          <img src="assets/figures/roar-resources/technical-manual.jpg" alt="ROAR Technical Manual cover" class="w-full block" />
+          <div class="p-3">
+            <h4 class="font-bold text-xs group-hover:underline">Technical Manual ↗</h4>
+            <p class="text-[11px] text-[#7F7776] mt-0.5">Norms &amp; validation details</p>
+          </div>
+        </a>
+        <a href="https://www.youtube.com/watch?v=H1ALVWd4GLo" target="_blank" rel="noopener" class="resource-card group snap-start shrink-0 w-[170px] rounded-2xl bg-white border border-[#DAD7CB] overflow-hidden hover:shadow-md transition-shadow">
+          <img src="assets/figures/roar-resources/video-guide-score-reports.jpg" alt="Guide to the Individual Score Report video thumbnail" class="w-full block" />
+          <div class="p-3">
+            <h4 class="font-bold text-xs group-hover:underline">Score Report Video ↗</h4>
+            <p class="text-[11px] text-[#7F7776] mt-0.5">Guide to your child's report</p>
+          </div>
+        </a>
+      </div>
+      <button id="resource-prev" class="hidden md:flex absolute left-0 top-[90px] -translate-x-4 w-9 h-9 rounded-full bg-white shadow-lg items-center justify-center text-base font-bold hover:bg-[#2E2D29] hover:text-white transition-colors" aria-label="Previous resource">‹</button>
+      <button id="resource-next" class="hidden md:flex absolute right-0 top-[90px] translate-x-4 w-9 h-9 rounded-full bg-white shadow-lg items-center justify-center text-base font-bold hover:bg-[#2E2D29] hover:text-white transition-colors" aria-label="Next resource">›</button>
     </div>
 
     <div class="mt-8 flex flex-wrap items-center gap-4">
@@ -231,7 +257,16 @@
     <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
       <h2 class="font-black text-3xl">Resources for Parents</h2>
       <p class="text-[#4D4F53] mt-2 max-w-2xl">A starting point for families navigating a dyslexia diagnosis or wondering whether one fits.</p>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+
+      <a href="#research" class="flex items-center gap-4 rounded-2xl accent-bg text-white p-5 mt-8 hover:brightness-110 transition-[filter]">
+        <span class="shrink-0 w-11 h-11 rounded-full bg-white/15 flex items-center justify-center font-black text-sm">R</span>
+        <div>
+          <h3 class="font-bold text-sm">ROAR@Home ↑</h3>
+          <p class="text-xs text-white/80 mt-0.5">Our own free reading assessment &amp; dyslexia screener — see above</p>
+        </div>
+      </a>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
         <a href="http://www.readingrockets.org/" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
           <h3 class="font-bold text-sm">Reading Rockets</h3>
           <p class="text-xs text-[#7F7776] mt-1">Intervention strategies &amp; classroom resources</p>
@@ -345,7 +380,7 @@
   </footer>
 
   <script src="shared-data.js?v=3"></script>
-  <script src="site.js?v=9"></script>
+  <script src="site.js?v=11"></script>
   <script>initSite('rdrp', 'bde.html');</script>
 </body>
 </html>

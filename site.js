@@ -53,15 +53,17 @@ function renderTeam() {
       ? '<a href="' + p.profileUrl + '" class="font-bold mt-3 text-sm block accent-text hover:underline">' + escapeHtml(p.name) + '</a>'
       : '<h4 class="font-bold mt-3 text-sm">' + escapeHtml(p.name) + '</h4>';
     card.innerHTML =
-      '<img src="' + p.photo + '" alt="' + escapeHtml(p.name) + '" ' +
-      'class="w-full aspect-square object-cover rounded-2xl shadow" loading="lazy" ' +
-      'onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';" />' +
-      '<div class="avatar-fallback w-full aspect-square rounded-2xl items-center justify-center text-3xl font-bold text-white" style="display:none">' +
-      initials(p.name) + '</div>' +
+      '<div class="team-photo-wrap relative aspect-square rounded-2xl shadow overflow-hidden">' +
+        '<img src="' + p.photo + '" alt="' + escapeHtml(p.name) + '" ' +
+        'class="w-full h-full object-cover" loading="lazy" ' +
+        'onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';" />' +
+        '<div class="avatar-fallback absolute inset-0 items-center justify-center text-3xl font-bold text-white" style="display:none">' +
+        initials(p.name) + '</div>' +
+        buildTeamExpandHtml(p) +
+      '</div>' +
       nameHtml +
       '<p class="text-xs text-[#7F7776] mt-1">' + escapeHtml(p.role) + '</p>' +
-      (p.summary ? '<p class="text-xs text-[#4D4F53] mt-1.5 leading-snug">' + escapeHtml(p.summary) + '</p>' : '') +
-      buildTeamExpandHtml(p);
+      (p.summary ? '<p class="text-xs text-[#4D4F53] mt-1.5 leading-snug">' + escapeHtml(p.summary) + '</p>' : '');
     container.appendChild(card);
     setupTeamExpand(card);
   });
@@ -212,6 +214,16 @@ function renderFigures() {
   if (nextBtn) nextBtn.addEventListener('click', function () { track.scrollBy({ left: scrollAmount(), behavior: 'smooth' }); });
 }
 
+function setupResourceSlider() {
+  const track = document.getElementById('resource-track');
+  if (!track) return;
+  const prevBtn = document.getElementById('resource-prev');
+  const nextBtn = document.getElementById('resource-next');
+  const scrollAmount = function () { return track.querySelector('.resource-card').getBoundingClientRect().width + 16; };
+  if (prevBtn) prevBtn.addEventListener('click', function () { track.scrollBy({ left: -scrollAmount(), behavior: 'smooth' }); });
+  if (nextBtn) nextBtn.addEventListener('click', function () { track.scrollBy({ left: scrollAmount(), behavior: 'smooth' }); });
+}
+
 function renderMedia() {
   const container = document.getElementById('media-list');
   if (!container || typeof MEDIA === 'undefined') return;
@@ -348,6 +360,7 @@ function initSite(currentView, otherPageUrl) {
   renderPublications();
   renderMedia();
   renderFigures();
+  setupResourceSlider();
   setupCoin(currentView, otherPageUrl);
   setupSwipeDemo();
 }
