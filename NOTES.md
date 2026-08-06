@@ -9,6 +9,39 @@ not reproduced here.
 **Live site:** https://yeatmanlab.github.io/rdrp-webpage/
 **Repo:** yeatmanlab/rdrp-webpage, `main` branch, deployed via GitHub Pages (branch: main, path: /)
 
+## Migrating to Firebase Hosting (multi-domain)
+
+Moving to Firebase Hosting so `dyslexia.stanford.edu` and `edneuro.stanford.edu` can
+each be a real custom domain with the correct page at `/` (GitHub Pages can only take
+one custom domain per repo). `firebase.json` is already written for this — two hosting
+targets (`rdrp`, `bde`), both serving this same directory, each rewriting `/` to its own
+homepage. What's left needs your own Firebase account/CLI access, not something I can
+do from here:
+
+1. `npm install -g firebase-tools` (or use `npx firebase-tools` each time), then `firebase login`.
+2. Create a Firebase project at console.firebase.google.com if you don't have one yet.
+3. In that project's Hosting tab, add **two** sites (site IDs are globally unique across
+   all of Firebase, so you'll need to pick available names — e.g. try `yeatmanlab-rdrp`
+   and `yeatmanlab-bde`, or similar).
+4. From this repo, link the targets already defined in `firebase.json` to those two real
+   site IDs — this is what generates `.firebaserc` (not committed yet, since it needs
+   your actual project ID):
+   ```bash
+   firebase target:apply hosting rdrp <your-rdrp-site-id>
+   firebase target:apply hosting bde <your-bde-site-id>
+   firebase deploy --only hosting
+   ```
+5. In the Firebase console, open each site's settings and add its custom domain
+   (`dyslexia.stanford.edu` → the `rdrp` site, `edneuro.stanford.edu` → the `bde` site).
+   Firebase will give you TXT/A/CNAME records — those need to go through whoever
+   currently manages DNS for those two subdomains (likely Stanford GSE/Medicine web
+   services), not something either of us can add directly.
+6. Once both domains actually resolve here, the coin flip's `otherPageUrl` in the
+   `initSite(...)` call at the bottom of `rdrp.html`/`bde.html` should change from a
+   relative path (`bde.html` / `rdrp.html`) to the absolute cross-domain URL
+   (`https://edneuro.stanford.edu/` / `https://dyslexia.stanford.edu/`) — one-line change
+   per file, deliberately not made yet since the domains aren't live.
+
 ## Structure
 
 - `index.html` — redirects to `rdrp.html` (GitHub Pages needs something at `/`)

@@ -1,0 +1,38 @@
+{
+  "hosting": [
+    {
+      "target": "rdrp",
+      "public": ".",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**",
+        "prototypes/**",
+        "NOTES.md",
+        "README.md"
+      ],
+      "cleanUrls": true,
+      "trailingSlash": false,
+      "rewrites": [
+        { "source": "/", "destination": "/rdrp.html" }
+      ]
+    },
+    {
+      "target": "bde",
+      "public": ".",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**",
+        "prototypes/**",
+        "NOTES.md",
+        "README.md"
+      ],
+      "cleanUrls": true,
+      "trailingSlash": false,
+      "rewrites": [
+        { "source": "/", "destination": "/bde.html" }
+      ]
+    }
+  ]
+}
