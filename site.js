@@ -1,11 +1,54 @@
 // Shared rendering + coin-flip navigation logic for rdrp.html and bde.html.
 
+const TEAM_TAG_ORDER = ["Neuroimaging", "Reading & Literacy Science", "Educational Assessment", "Software Engineering", "School Partnerships", "Data Science"];
+
+// Surfaces a person's most recent papers by matching their surname(s) against
+// PUBLICATIONS' author-list strings (format "Surname, F." or "FI Surname,").
+function recentPublicationsFor(surnames) {
+  if (!surnames || !surnames.length || typeof PUBLICATIONS === 'undefined') return [];
+  const matches = PUBLICATIONS.filter(function (p) {
+    return surnames.some(function (sn) {
+      const escaped = sn.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return new RegExp('\\b' + escaped + ',\\s*[A-Z]').test(p.text);
+    });
+  });
+  matches.sort(function (a, b) { return b.year - a.year; });
+  return matches.slice(0, 3);
+}
+
 function renderTeam() {
   const container = document.getElementById('team-grid');
+  const filterBar = document.getElementById('team-filters');
   if (!container) return;
+
+  const tagCounts = {};
+  PEOPLE.forEach(function (p) { (p.tags || []).forEach(function (t) { tagCounts[t] = (tagCounts[t] || 0) + 1; }); });
+  const tagsPresent = TEAM_TAG_ORDER.filter(function (t) { return tagCounts[t]; });
+
+  if (filterBar) {
+    let pillsHtml = '<button class="filter-pill active" data-tag="all">All (' + PEOPLE.length + ')</button>';
+    tagsPresent.forEach(function (t) {
+      pillsHtml += '<button class="filter-pill" data-tag="' + escapeHtml(t) + '">' + escapeHtml(t) + ' (' + tagCounts[t] + ')</button>';
+    });
+    filterBar.innerHTML = pillsHtml;
+    filterBar.addEventListener('click', function (e) {
+      const btn = e.target.closest('.filter-pill');
+      if (!btn) return;
+      filterBar.querySelectorAll('.filter-pill').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      const tag = btn.dataset.tag;
+      container.querySelectorAll('.team-card').forEach(function (card) {
+        const show = tag === 'all' || (card.dataset.tags || '').split('|').indexOf(tag) !== -1;
+        card.style.display = show ? '' : 'none';
+      });
+    });
+  }
+
   PEOPLE.forEach(function (p) {
     const card = document.createElement('div');
-    card.className = 'text-center';
+    card.className = 'team-card text-center';
+    card.dataset.tags = (p.tags || []).join('|');
+    card.tabIndex = 0;
     const nameHtml = p.profileUrl
       ? '<a href="' + p.profileUrl + '" class="font-bold mt-3 text-sm block accent-text hover:underline">' + escapeHtml(p.name) + '</a>'
       : '<h4 class="font-bold mt-3 text-sm">' + escapeHtml(p.name) + '</h4>';
@@ -16,8 +59,120 @@ function renderTeam() {
       '<div class="avatar-fallback w-20 h-20 rounded-full mx-auto items-center justify-center text-lg font-bold text-white" style="display:none">' +
       initials(p.name) + '</div>' +
       nameHtml +
-      '<p class="text-xs text-[#7F7776] mt-1">' + escapeHtml(p.role) + '</p>';
+      '<p class="text-xs text-[#7F7776] mt-1">' + escapeHtml(p.role) + '</p>' +
+      (p.summary ? '<p class="text-xs text-[#4D4F53] mt-1.5 leading-snug">' + escapeHtml(p.summary) + '</p>' : '');
     container.appendChild(card);
+    setupTeamPopup(card, p);
+  });
+}
+
+let teamPopupEl = null;
+let teamPopupHideTimer = null;
+
+function getTeamPopup() {
+  if (teamPopupEl) return teamPopupEl;
+  teamPopupEl = document.createElement('div');
+  teamPopupEl.className = 'team-popup';
+  teamPopupEl.setAttribute('role', 'tooltip');
+  document.body.appendChild(teamPopupEl);
+  teamPopupEl.addEventListener('mouseenter', cancelTeamPopupHide);
+  teamPopupEl.addEventListener('mouseleave', scheduleTeamPopupHide);
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('.team-popup') || e.target.closest('.team-card')) return;
+    hideTeamPopupNow();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') hideTeamPopupNow();
+  });
+  return teamPopupEl;
+}
+
+function cancelTeamPopupHide() {
+  if (teamPopupHideTimer) { clearTimeout(teamPopupHideTimer); teamPopupHideTimer = null; }
+}
+
+function scheduleTeamPopupHide() {
+  cancelTeamPopupHide();
+  teamPopupHideTimer = setTimeout(function () {
+    if (teamPopupEl) teamPopupEl.classList.remove('visible');
+  }, 180);
+}
+
+function hideTeamPopupNow() {
+  cancelTeamPopupHide();
+  if (teamPopupEl) teamPopupEl.classList.remove('visible');
+}
+
+function showTeamPopup(card, p) {
+  cancelTeamPopupHide();
+  const el = getTeamPopup();
+  el.dataset.forName = p.name;
+
+  let linksHtml = '';
+  if (p.links) {
+    if (p.links.website) linksHtml += '<a href="' + p.links.website + '" target="_blank" rel="noopener" class="link-chip">Website ↗</a>';
+    if (p.links.linkedin) linksHtml += '<a href="' + p.links.linkedin + '" target="_blank" rel="noopener" class="link-chip">LinkedIn ↗</a>';
+    if (p.links.scholar) linksHtml += '<a href="' + p.links.scholar + '" target="_blank" rel="noopener" class="link-chip">Scholar ↗</a>';
+  }
+
+  const pubs = recentPublicationsFor(p.pubMatch);
+  let pubsHtml = '';
+  if (pubs.length) {
+    pubsHtml = '<div class="team-popup-pubs"><div class="team-popup-pubs-title">Recent Publications</div><ul>' +
+      pubs.map(function (pub) {
+        const link = pub.url || pub.scholarUrl || pub.pubmedUrl;
+        const text = escapeHtml(pub.text.length > 130 ? pub.text.slice(0, 127) + '…' : pub.text);
+        return '<li>' + text + (link ? ' <a href="' + link + '" target="_blank" rel="noopener">↗</a>' : '') + '</li>';
+      }).join('') + '</ul></div>';
+  }
+
+  el.innerHTML =
+    '<div class="team-popup-header">' +
+      '<img class="team-popup-photo" src="' + p.photo + '" alt="" onerror="this.style.display=\'none\'" />' +
+      '<div><div class="team-popup-name">' + escapeHtml(p.name) + '</div><div class="team-popup-role">' + escapeHtml(p.role) + '</div></div>' +
+    '</div>' +
+    (p.bio ? '<p class="team-popup-bio">' + escapeHtml(p.bio) + '</p>' : '') +
+    (p.tags && p.tags.length ? '<div class="team-popup-tags">' + p.tags.map(function (t) { return '<span class="team-tag-pill">' + escapeHtml(t) + '</span>'; }).join('') + '</div>' : '') +
+    (linksHtml ? '<div class="team-popup-links">' + linksHtml + '</div>' : '') +
+    pubsHtml;
+
+  el.classList.add('visible');
+  positionTeamPopup(card, el);
+}
+
+function positionTeamPopup(card, el) {
+  const rect = card.getBoundingClientRect();
+  const popupWidth = 300;
+  const margin = 12;
+  let left = rect.left + rect.width / 2 - popupWidth / 2;
+  left = Math.max(margin, Math.min(left, window.innerWidth - popupWidth - margin));
+
+  el.style.width = popupWidth + 'px';
+  el.style.left = left + 'px';
+
+  const popupHeight = el.offsetHeight;
+  const spaceBelow = window.innerHeight - rect.bottom;
+  const spaceAbove = rect.top;
+  let top = (spaceBelow >= popupHeight + margin || spaceBelow >= spaceAbove)
+    ? rect.bottom + margin
+    : rect.top - popupHeight - margin;
+  top = Math.max(margin, Math.min(top, window.innerHeight - popupHeight - margin));
+  el.style.top = top + 'px';
+}
+
+function setupTeamPopup(card, p) {
+  card.addEventListener('mouseenter', function () { showTeamPopup(card, p); });
+  card.addEventListener('mouseleave', scheduleTeamPopupHide);
+  card.addEventListener('focus', function () { showTeamPopup(card, p); });
+  card.addEventListener('blur', scheduleTeamPopupHide);
+  card.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    const el = getTeamPopup();
+    if (el.classList.contains('visible') && el.dataset.forName === p.name) {
+      hideTeamPopupNow();
+    } else {
+      showTeamPopup(card, p);
+    }
   });
 }
 
@@ -137,10 +292,107 @@ function setupCoin(currentView, otherPageUrl) {
   });
 }
 
+// Swipe-card interaction modeled on braindr's own animation (rotate 13deg +
+// translate off-screen + fade, cubic-bezier(1,.5,.8,1)) — see github.com/SwipesForScience.
+function setupSwipeDemo() {
+  const stage = document.getElementById('swipe-stage');
+  if (!stage || typeof FIGURES === 'undefined' || !FIGURES.length) return;
+
+  const passBtn = document.getElementById('swipe-pass');
+  const failBtn = document.getElementById('swipe-fail');
+  const tally = document.getElementById('swipe-tally');
+  const order = FIGURES.map(function (_, i) { return i; });
+  let cursor = 0;
+  let passCount = 0, failCount = 0;
+  let dragging = null;
+
+  function makeCard(offset, depth) {
+    const f = FIGURES[order[(cursor + offset) % order.length]];
+    const card = document.createElement('div');
+    card.className = 'swipe-card';
+    card.style.zIndex = String(10 - depth);
+    card.style.transform = 'scale(' + (1 - depth * 0.045).toFixed(3) + ') translateY(' + (depth * 8) + 'px)';
+    card.innerHTML =
+      '<img src="' + f.image + '" alt="' + escapeHtml(f.title) + '" draggable="false" />' +
+      '<div class="swipe-card-label">' + escapeHtml(f.title) + '</div>';
+    return card;
+  }
+
+  function render() {
+    stage.innerHTML = '';
+    for (let d = 2; d >= 0; d--) stage.appendChild(makeCard(d, d));
+  }
+
+  function topCard() {
+    const cards = stage.querySelectorAll('.swipe-card');
+    return cards.length ? cards[cards.length - 1] : null;
+  }
+
+  function updateTally() {
+    tally.textContent = passCount + ' pass · ' + failCount + ' fail — click, drag, or use arrow keys';
+  }
+
+  function flyOut(card, dir, onDone) {
+    card.style.transition = 'transform .55s cubic-bezier(1,.5,.8,1), opacity .55s cubic-bezier(1,.5,.8,1)';
+    requestAnimationFrame(function () {
+      card.style.transform = 'translate3d(' + (dir === 'pass' ? 130 : -130) + '%,0,0) rotate(' + (dir === 'pass' ? 13 : -13) + 'deg)';
+      card.style.opacity = '0';
+    });
+    setTimeout(onDone, 550);
+  }
+
+  function resolve(dir) {
+    const top = topCard();
+    if (!top || top.dataset.resolving) return;
+    top.dataset.resolving = '1';
+    if (dir === 'pass') passCount++; else failCount++;
+    updateTally();
+    flyOut(top, dir, function () {
+      cursor = (cursor + 1) % order.length;
+      render();
+    });
+  }
+
+  passBtn.addEventListener('click', function () { resolve('pass'); });
+  failBtn.addEventListener('click', function () { resolve('fail'); });
+  stage.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') resolve('pass');
+    if (e.key === 'ArrowLeft') resolve('fail');
+  });
+
+  stage.addEventListener('pointerdown', function (e) {
+    const top = topCard();
+    if (!top || e.target.closest('.swipe-card') !== top) return;
+    dragging = { card: top, startX: e.clientX };
+    top.style.transition = 'none';
+    top.setPointerCapture(e.pointerId);
+  });
+  stage.addEventListener('pointermove', function (e) {
+    if (!dragging) return;
+    dragging.dx = e.clientX - dragging.startX;
+    dragging.card.style.transform = 'translate3d(' + dragging.dx + 'px,0,0) rotate(' + (dragging.dx / 14) + 'deg)';
+  });
+  stage.addEventListener('pointerup', function () {
+    if (!dragging) return;
+    const card = dragging.card, dx = dragging.dx || 0;
+    dragging = null;
+    if (Math.abs(dx) > 60) {
+      resolve(dx > 0 ? 'pass' : 'fail');
+    } else {
+      card.style.transition = 'transform .3s ease';
+      card.style.transform = 'scale(1) translateY(0)';
+    }
+  });
+
+  render();
+  updateTally();
+}
+
 function initSite(currentView, otherPageUrl) {
   renderTeam();
   renderPublications();
   renderMedia();
   renderFigures();
   setupCoin(currentView, otherPageUrl);
+  setupSwipeDemo();
 }

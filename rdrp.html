@@ -47,6 +47,29 @@
   details summary{ list-style:none; }
   details summary::before{ content:'▸'; display:inline-block; margin-right:8px; color:var(--accent); transition:transform .2s; }
   details[open] summary::before{ transform:rotate(90deg); }
+
+  .team-card{ cursor:pointer; border-radius:1rem; padding:8px; transition:background-color .15s; }
+  .team-card:hover, .team-card:focus{ background-color:#FAF9F6; outline:none; }
+  .filter-pill{ font-size:12px; font-weight:700; border-radius:9999px; padding:6px 14px; border:1px solid #DAD7CB; color:#4D4F53; background:#fff; cursor:pointer; transition:all .15s; }
+  .filter-pill:hover{ border-color:var(--accent); color:var(--accent); }
+  .filter-pill.active{ background:var(--accent); border-color:var(--accent); color:#fff; }
+  .team-tag-pill{ font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.02em; color:var(--accent); background:rgba(var(--accent-rgb),.08); border-radius:9999px; padding:2px 8px; display:inline-block; }
+  .team-popup{ position:fixed; z-index:60; background:#fff; border-radius:1rem; box-shadow:0 20px 40px rgba(0,0,0,.18), 0 2px 8px rgba(0,0,0,.08);
+    padding:18px; opacity:0; transform:translateY(6px) scale(.97); pointer-events:none; transition:opacity .18s ease, transform .18s ease; border-top:3px solid var(--accent); text-align:left; }
+  .team-popup.visible{ opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+  .team-popup-header{ display:flex; gap:10px; align-items:center; }
+  .team-popup-photo{ width:44px; height:44px; border-radius:9999px; object-fit:cover; flex-shrink:0; }
+  .team-popup-name{ font-weight:700; font-size:14px; }
+  .team-popup-role{ font-size:11px; color:#7F7776; }
+  .team-popup-bio{ font-size:12px; color:#4D4F53; margin-top:10px; line-height:1.5; }
+  .team-popup-tags{ display:flex; flex-wrap:wrap; gap:4px; margin-top:10px; }
+  .team-popup-links{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .team-popup-pubs{ margin-top:12px; border-top:1px solid #EDE9E0; padding-top:10px; }
+  .team-popup-pubs-title{ font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#7F7776; }
+  .team-popup-pubs ul{ list-style:none; margin:0; padding:0; }
+  .team-popup-pubs li{ font-size:11px; color:#4D4F53; margin-top:6px; line-height:1.4; }
+  .team-popup-pubs a{ color:var(--accent); font-weight:600; text-decoration:none; }
+  .team-popup-pubs a:hover{ text-decoration:underline; }
 </style>
 </head>
 <body class="text-[#2E2D29] bg-white antialiased">
@@ -55,7 +78,7 @@
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-[#DAD7CB]">
     <div class="max-w-7xl mx-auto px-6 lg:px-10 py-3 flex items-center justify-between gap-6">
       <a href="#top" class="flex items-center gap-2 min-w-0">
-        <img src="assets/logos/stanford-brandbar.png" alt="Stanford University" class="h-5 hidden md:block shrink-0" />
+        <span class="font-serif font-semibold hidden md:block shrink-0" style="color:#8C1515; font-size:17px; letter-spacing:-0.01em;">Stanford University</span>
         <img src="assets/logos/rdrp-seal.png" alt="Reading &amp; Dyslexia Research Program" class="h-7 sm:h-9 shrink-0" />
       </a>
       <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold text-[#4D4F53]">
@@ -191,14 +214,15 @@
       <div>
         <p class="text-xs font-bold uppercase tracking-widest text-white/70">Built on our research — a separate platform</p>
         <h2 class="font-black text-3xl mt-3">ROAR — Rapid Online Assessment of Reading</h2>
-        <p class="mt-4 text-white/85 leading-relaxed">An open-access, fully automated reading assessment platform grounded in our ongoing research. Used by 20,000+ students in 600+ schools across 23 states — including as one of California's four approved dyslexia screening tools — with real-time score reports for teachers and no test administrator required.</p>
+        <p class="mt-4 text-white/85 leading-relaxed">An open-access, fully automated reading assessment platform grounded in our ongoing research. Rostered in 2,500+ schools and community organizations across 39 states — including as one of California's four approved dyslexia screening tools — with real-time score reports for teachers and no test administrator required.</p>
         <a href="https://roar.stanford.edu" class="inline-block mt-6 bg-white text-[#2E2D29] font-bold rounded-full px-6 py-3 text-sm hover:bg-[#2E2D29] hover:text-white transition-colors">Visit roar.stanford.edu ↗</a>
       </div>
       <div class="grid grid-cols-2 gap-4">
-        <div class="rounded-2xl bg-white/10 p-6 text-center"><div class="text-3xl font-black">20,000+</div><div class="text-xs text-white/70 mt-1">Students assessed</div></div>
-        <div class="rounded-2xl bg-white/10 p-6 text-center"><div class="text-3xl font-black">23</div><div class="text-xs text-white/70 mt-1">States</div></div>
-        <div class="rounded-2xl bg-white/10 p-6 text-center"><div class="text-3xl font-black">600+</div><div class="text-xs text-white/70 mt-1">Schools</div></div>
+        <div class="rounded-2xl bg-white/10 p-6 text-center"><div class="text-3xl font-black">239,000+</div><div class="text-xs text-white/70 mt-1">Students assessed</div></div>
+        <div class="rounded-2xl bg-white/10 p-6 text-center"><div class="text-3xl font-black">39</div><div class="text-xs text-white/70 mt-1">States</div></div>
+        <div class="rounded-2xl bg-white/10 p-6 text-center"><div class="text-3xl font-black">2,542</div><div class="text-xs text-white/70 mt-1">Schools &amp; orgs</div></div>
         <div class="rounded-2xl bg-white/10 p-6 text-center"><div class="text-3xl font-black">5–10 min</div><div class="text-xs text-white/70 mt-1">Per screening</div></div>
+        <p class="col-span-2 text-xs text-white/60">Figures from ROAR's <a href="https://roar.stanford.edu/technical/intro-norms.html" target="_blank" rel="noopener" class="underline hover:text-white">norming &amp; technical documentation ↗</a></p>
       </div>
     </div>
   </section>
@@ -207,6 +231,7 @@
   <section id="team" class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
     <h2 class="font-black text-3xl">Meet the Lab</h2>
     <p class="text-[#4D4F53] mt-2 max-w-2xl">One interdisciplinary team, working across both programs and ROAR.</p>
+    <div id="team-filters" class="flex flex-wrap gap-2 mt-6"></div>
     <div id="team-grid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8"></div>
   </section>
 
@@ -264,11 +289,23 @@
         </ul>
       </div>
     </div>
+    <div class="border-t border-[#DAD7CB] py-8 max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="text-xs font-bold uppercase tracking-widest text-[#7F7776] mb-4">Prof. Yeatman's departmental &amp; institute affiliations</div>
+      <div class="flex flex-wrap items-center gap-x-8 gap-y-4">
+        <a href="https://med.stanford.edu/dbpeds.html" target="_blank" rel="noopener" class="opacity-80 hover:opacity-100 transition-opacity" title="Division of Developmental & Behavioral Pediatrics, Stanford School of Medicine"><img src="assets/logos/affiliations/stanford-medicine.svg" alt="Stanford School of Medicine" class="h-6" /></a>
+        <a href="https://ed.stanford.edu/" target="_blank" rel="noopener" class="opacity-80 hover:opacity-100 transition-opacity"><img src="assets/logos/affiliations/gse.png" alt="Stanford Graduate School of Education" class="h-6" /></a>
+        <a href="https://psychology.stanford.edu/" target="_blank" rel="noopener" class="text-sm font-bold text-[#7F7776] hover:text-[#2E2D29]">Dept. of Psychology</a>
+        <a href="https://neuroscience.stanford.edu/" target="_blank" rel="noopener" class="opacity-80 hover:opacity-100 transition-opacity"><img src="assets/logos/affiliations/wutsai-neuro.svg" alt="Wu Tsai Neurosciences Institute" class="h-6" /></a>
+        <a href="https://biox.stanford.edu/" target="_blank" rel="noopener" class="text-sm font-bold text-[#7F7776] hover:text-[#2E2D29]">Bio-X</a>
+        <a href="https://humanperformance.stanford.edu/" target="_blank" rel="noopener" class="opacity-80 hover:opacity-100 transition-opacity"><img src="assets/logos/affiliations/wutsai-hpa.png" alt="Wu Tsai Human Performance Alliance" class="h-6" /></a>
+        <a href="https://med.stanford.edu/mchri" target="_blank" rel="noopener" class="opacity-80 hover:opacity-100 transition-opacity"><img src="assets/logos/affiliations/mchri.png" alt="Maternal & Child Health Research Institute" class="h-6" /></a>
+      </div>
+    </div>
     <div class="border-t border-[#DAD7CB] py-6 text-center text-xs text-[#7F7776]">© 2026 Yeatman Lab, Stanford University.</div>
   </footer>
 
-  <script src="shared-data.js"></script>
-  <script src="site.js"></script>
+  <script src="shared-data.js?v=2"></script>
+  <script src="site.js?v=5"></script>
   <script>initSite('rdrp', 'bde.html');</script>
 </body>
 </html>
