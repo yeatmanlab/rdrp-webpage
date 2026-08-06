@@ -54,9 +54,9 @@ function renderTeam() {
       : '<h4 class="font-bold mt-3 text-sm">' + escapeHtml(p.name) + '</h4>';
     card.innerHTML =
       '<img src="' + p.photo + '" alt="' + escapeHtml(p.name) + '" ' +
-      'class="w-20 h-20 rounded-full object-cover mx-auto shadow" loading="lazy" ' +
+      'class="w-full aspect-square object-cover rounded-2xl shadow" loading="lazy" ' +
       'onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';" />' +
-      '<div class="avatar-fallback w-20 h-20 rounded-full mx-auto items-center justify-center text-lg font-bold text-white" style="display:none">' +
+      '<div class="avatar-fallback w-full aspect-square rounded-2xl items-center justify-center text-3xl font-bold text-white" style="display:none">' +
       initials(p.name) + '</div>' +
       nameHtml +
       '<p class="text-xs text-[#7F7776] mt-1">' + escapeHtml(p.role) + '</p>' +
