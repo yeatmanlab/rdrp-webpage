@@ -60,54 +60,16 @@ function renderTeam() {
       initials(p.name) + '</div>' +
       nameHtml +
       '<p class="text-xs text-[#7F7776] mt-1">' + escapeHtml(p.role) + '</p>' +
-      (p.summary ? '<p class="text-xs text-[#4D4F53] mt-1.5 leading-snug">' + escapeHtml(p.summary) + '</p>' : '');
+      (p.summary ? '<p class="text-xs text-[#4D4F53] mt-1.5 leading-snug">' + escapeHtml(p.summary) + '</p>' : '') +
+      buildTeamExpandHtml(p);
     container.appendChild(card);
-    setupTeamPopup(card, p);
+    setupTeamExpand(card);
   });
 }
 
-let teamPopupEl = null;
-let teamPopupHideTimer = null;
-
-function getTeamPopup() {
-  if (teamPopupEl) return teamPopupEl;
-  teamPopupEl = document.createElement('div');
-  teamPopupEl.className = 'team-popup';
-  teamPopupEl.setAttribute('role', 'tooltip');
-  document.body.appendChild(teamPopupEl);
-  teamPopupEl.addEventListener('mouseenter', cancelTeamPopupHide);
-  teamPopupEl.addEventListener('mouseleave', scheduleTeamPopupHide);
-  document.addEventListener('click', function (e) {
-    if (e.target.closest('.team-popup') || e.target.closest('.team-card')) return;
-    hideTeamPopupNow();
-  });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') hideTeamPopupNow();
-  });
-  return teamPopupEl;
-}
-
-function cancelTeamPopupHide() {
-  if (teamPopupHideTimer) { clearTimeout(teamPopupHideTimer); teamPopupHideTimer = null; }
-}
-
-function scheduleTeamPopupHide() {
-  cancelTeamPopupHide();
-  teamPopupHideTimer = setTimeout(function () {
-    if (teamPopupEl) teamPopupEl.classList.remove('visible');
-  }, 180);
-}
-
-function hideTeamPopupNow() {
-  cancelTeamPopupHide();
-  if (teamPopupEl) teamPopupEl.classList.remove('visible');
-}
-
-function showTeamPopup(card, p) {
-  cancelTeamPopupHide();
-  const el = getTeamPopup();
-  el.dataset.forName = p.name;
-
+// The extra bio/tags/links/publications panel that expands out of each team card
+// on hover/focus/tap, rather than a separate floating popup positioned elsewhere.
+function buildTeamExpandHtml(p) {
   let linksHtml = '';
   if (p.links) {
     if (p.links.website) linksHtml += '<a href="' + p.links.website + '" target="_blank" rel="noopener" class="link-chip">Website ↗</a>';
@@ -118,7 +80,7 @@ function showTeamPopup(card, p) {
   const pubs = recentPublicationsFor(p.pubMatch);
   let pubsHtml = '';
   if (pubs.length) {
-    pubsHtml = '<div class="team-popup-pubs"><div class="team-popup-pubs-title">Recent Publications</div><ul>' +
+    pubsHtml = '<div class="team-expand-pubs"><div class="team-expand-pubs-title">Recent Publications</div><ul>' +
       pubs.map(function (pub) {
         const link = pub.url || pub.scholarUrl || pub.pubmedUrl;
         const text = escapeHtml(pub.text.length > 130 ? pub.text.slice(0, 127) + '…' : pub.text);
@@ -126,55 +88,39 @@ function showTeamPopup(card, p) {
       }).join('') + '</ul></div>';
   }
 
-  el.innerHTML =
-    '<div class="team-popup-header">' +
-      '<img class="team-popup-photo" src="' + p.photo + '" alt="" onerror="this.style.display=\'none\'" />' +
-      '<div><div class="team-popup-name">' + escapeHtml(p.name) + '</div><div class="team-popup-role">' + escapeHtml(p.role) + '</div></div>' +
-    '</div>' +
-    (p.bio ? '<p class="team-popup-bio">' + escapeHtml(p.bio) + '</p>' : '') +
-    (p.tags && p.tags.length ? '<div class="team-popup-tags">' + p.tags.map(function (t) { return '<span class="team-tag-pill">' + escapeHtml(t) + '</span>'; }).join('') + '</div>' : '') +
-    (linksHtml ? '<div class="team-popup-links">' + linksHtml + '</div>' : '') +
-    pubsHtml;
+  if (!p.bio && !linksHtml && !pubsHtml && !(p.tags && p.tags.length)) return '';
 
-  el.classList.add('visible');
-  positionTeamPopup(card, el);
+  return '<div class="team-expand">' +
+    (p.bio ? '<p class="team-expand-bio">' + escapeHtml(p.bio) + '</p>' : '') +
+    (p.tags && p.tags.length ? '<div class="team-expand-tags">' + p.tags.map(function (t) { return '<span class="team-tag-pill">' + escapeHtml(t) + '</span>'; }).join('') + '</div>' : '') +
+    (linksHtml ? '<div class="team-expand-links">' + linksHtml + '</div>' : '') +
+    pubsHtml +
+    '</div>';
 }
 
-function positionTeamPopup(card, el) {
-  const rect = card.getBoundingClientRect();
-  const popupWidth = 300;
-  const margin = 12;
-  let left = rect.left + rect.width / 2 - popupWidth / 2;
-  left = Math.max(margin, Math.min(left, window.innerWidth - popupWidth - margin));
-
-  el.style.width = popupWidth + 'px';
-  el.style.left = left + 'px';
-
-  const popupHeight = el.offsetHeight;
-  const spaceBelow = window.innerHeight - rect.bottom;
-  const spaceAbove = rect.top;
-  let top = (spaceBelow >= popupHeight + margin || spaceBelow >= spaceAbove)
-    ? rect.bottom + margin
-    : rect.top - popupHeight - margin;
-  top = Math.max(margin, Math.min(top, window.innerHeight - popupHeight - margin));
-  el.style.top = top + 'px';
-}
-
-function setupTeamPopup(card, p) {
-  card.addEventListener('mouseenter', function () { showTeamPopup(card, p); });
-  card.addEventListener('mouseleave', scheduleTeamPopupHide);
-  card.addEventListener('focus', function () { showTeamPopup(card, p); });
-  card.addEventListener('blur', scheduleTeamPopupHide);
+// Hover/focus already reveal .team-expand via CSS; click/tap toggles it too, so it
+// works on touch devices and lets a click "pin" it open on desktop.
+function setupTeamExpand(card) {
   card.addEventListener('click', function (e) {
     if (e.target.closest('a')) return;
-    const el = getTeamPopup();
-    if (el.classList.contains('visible') && el.dataset.forName === p.name) {
-      hideTeamPopupNow();
-    } else {
-      showTeamPopup(card, p);
-    }
+    if (!card.querySelector('.team-expand')) return;
+    const wasOpen = card.classList.contains('expanded');
+    document.querySelectorAll('.team-card.expanded').forEach(function (c) {
+      if (c !== card) c.classList.remove('expanded');
+    });
+    card.classList.toggle('expanded', !wasOpen);
   });
 }
+
+document.addEventListener('click', function (e) {
+  if (e.target.closest('.team-card')) return;
+  document.querySelectorAll('.team-card.expanded').forEach(function (c) { c.classList.remove('expanded'); });
+});
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.team-card.expanded').forEach(function (c) { c.classList.remove('expanded'); });
+  }
+});
 
 function initials(name) {
   return name.replace(/,.*/, '').split(' ').filter(Boolean).slice(0, 2).map(function (w) { return w[0]; }).join('');
@@ -286,9 +232,18 @@ function setupCoin(currentView, otherPageUrl) {
   const coin = document.getElementById('coin');
   if (!coin) return;
   if (currentView === 'bde') coin.classList.add('is-flipped');
-  coin.addEventListener('click', function () {
+
+  let navigating = false;
+  function flipAndGo() {
+    if (navigating) return;
+    navigating = true;
     coin.classList.add('is-navigating');
-    setTimeout(function () { window.location.href = otherPageUrl; }, 420);
+    setTimeout(function () { window.location.href = otherPageUrl; }, 550);
+  }
+
+  coin.addEventListener('click', flipAndGo);
+  document.querySelectorAll('.side-panel').forEach(function (panel) {
+    panel.addEventListener('click', flipAndGo);
   });
 }
 

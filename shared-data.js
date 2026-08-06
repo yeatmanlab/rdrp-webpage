@@ -6,8 +6,15 @@
 // used for the team filter. `pubMatch` lists surname(s) used to surface a person's
 // most recent papers from PUBLICATIONS by author-string match — see recentPublicationsFor().
 
-// Alphabetized by surname — deliberately flat, not organized by rank or team.
+// Jason Yeatman is pinned first as lab director; everyone else is alphabetized by
+// surname — deliberately flat otherwise, not organized around the rest of an org chart.
 const PEOPLE = [
+  { name: "Jason D. Yeatman, Ph.D.", role: "Stanford Faculty, Lab Director", photo: "assets/people/jason-yeatman.jpg", profileUrl: "yeatman.html",
+    summary: "Studies how the brain's reading circuitry develops and changes with instruction and intervention. Leads Brain Development & Education Lab, Reading & Dyslexia Research Program and ROAR.",
+    bio: "Associate Professor, Graduate School of Education; Division of Developmental & Behavioral Pediatrics, School of Medicine; Department of Psychology. Directs both the Reading & Dyslexia Research Program and the Brain Development & Education Lab, and built the ROAR reading-assessment platform.",
+    tags: ["Neuroimaging", "Reading & Literacy Science"],
+    links: { website: "https://profiles.stanford.edu/jason-yeatman", scholar: "https://scholar.google.com/citations?user=ROfIDvQAAAAJ" },
+    pubMatch: ["Yeatman"] },
   { name: "Jechun An", role: "Postdoctoral Scholar", photo: "assets/people/jechun-an.jpg",
     summary: "Develops data-informed literacy assessment and instructional systems for struggling readers and writers.",
     bio: "Began his career as an elementary teacher in rural Korea, then coordinated a principal-training program at Seoul National University. Completed his Ph.D. and a postdoc at the University of Minnesota researching data-based individualization for students with literacy difficulties, and received the Council for Learning Disabilities' Outstanding Researcher Award.",
@@ -132,12 +139,6 @@ const PEOPLE = [
     tags: ["Neuroimaging"],
     links: { linkedin: "https://www.linkedin.com/in/jewelia-yao-879032125/", scholar: "https://scholar.google.com/citations?user=PR5NnL4AAAAJ&hl=en" },
     pubMatch: ["Yao"] },
-  { name: "Jason D. Yeatman, Ph.D.", role: "Director", photo: "assets/people/jason-yeatman.jpg", profileUrl: "yeatman.html",
-    summary: "Studies how the brain's reading circuitry develops and changes with instruction and intervention.",
-    bio: "Associate Professor, Graduate School of Education; Division of Developmental & Behavioral Pediatrics, School of Medicine; Department of Psychology. Directs both the Reading & Dyslexia Research Program and the Brain Development & Education Lab, and built the ROAR reading-assessment platform.",
-    tags: ["Neuroimaging", "Reading & Literacy Science"],
-    links: { website: "https://profiles.stanford.edu/jason-yeatman", scholar: "https://scholar.google.com/citations?user=ROfIDvQAAAAJ" },
-    pubMatch: ["Yeatman"] },
   { name: "Amy Yeung", role: "Web Developer", photo: "assets/people/amy-yeung.jpg",
     summary: "Builds and maintains ROAR, Stanford's free online reading-assessment platform.",
     bio: "Holds a BAS in Computer and Cognitive Science from the University of Pennsylvania. A first-generation graduate, she is focused on making education accessible and has done volunteer frontend-development work (Code for Philly) alongside her work on ROAR.",
