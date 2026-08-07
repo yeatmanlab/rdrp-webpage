@@ -57,8 +57,8 @@ function renderTeam() {
     card.dataset.tags = (p.tags || []).join('|');
     card.tabIndex = 0;
     const nameHtml = p.profileUrl
-      ? '<a href="' + p.profileUrl + '" class="font-bold mt-3 text-sm block accent-text hover:underline">' + escapeHtml(p.name) + '</a>'
-      : '<h4 class="font-bold mt-3 text-sm">' + escapeHtml(p.name) + '</h4>';
+      ? '<h3 class="font-bold mt-3 text-sm"><a href="' + p.profileUrl + '" class="block accent-text hover:underline">' + escapeHtml(p.name) + '</a></h3>'
+      : '<h3 class="font-bold mt-3 text-sm">' + escapeHtml(p.name) + '</h3>';
     card.innerHTML =
       '<div class="team-photo-wrap relative aspect-square rounded-2xl shadow overflow-hidden">' +
         '<img src="' + p.photo + '" alt="' + escapeHtml(p.name) + '" ' +
@@ -69,7 +69,7 @@ function renderTeam() {
         buildTeamExpandHtml(p) +
       '</div>' +
       nameHtml +
-      '<p class="text-xs text-[#7F7776] mt-1">' + escapeHtml(p.role) + '</p>' +
+      '<p class="text-xs text-[#6B6560] mt-1">' + escapeHtml(p.role) + '</p>' +
       (p.summary ? '<p class="text-xs text-[#4D4F53] mt-1.5 leading-snug">' + escapeHtml(p.summary) + '</p>' : '');
     container.appendChild(card);
     setupTeamExpand(card);
@@ -208,9 +208,9 @@ function renderPublications() {
   if (statsEl) {
     const totalCites = PUBLICATIONS.reduce(function (sum, p) { return sum + (p.citedBy || 0); }, 0);
     statsEl.innerHTML =
-      '<div><span class="font-serif text-2xl font-bold">' + PUBLICATIONS.length + '</span> <span class="text-sm text-[#7F7776]">publications</span></div>' +
-      '<div><span class="font-serif text-2xl font-bold">' + totalCites.toLocaleString() + '</span> <span class="text-sm text-[#7F7776]">citations (Google Scholar)</span></div>' +
-      '<div><span class="font-serif text-2xl font-bold">' + years[years.length - 1] + '–' + years[0] + '</span> <span class="text-sm text-[#7F7776]">span</span></div>';
+      '<div><span class="font-serif text-2xl font-bold">' + PUBLICATIONS.length + '</span> <span class="text-sm text-[#6B6560]">publications</span></div>' +
+      '<div><span class="font-serif text-2xl font-bold">' + totalCites.toLocaleString() + '</span> <span class="text-sm text-[#6B6560]">citations (Google Scholar)</span></div>' +
+      '<div><span class="font-serif text-2xl font-bold">' + years[years.length - 1] + '–' + years[0] + '</span> <span class="text-sm text-[#6B6560]">span</span></div>';
   }
 
   if (filterBar) {
@@ -244,7 +244,7 @@ function renderPublications() {
 
     const summary = document.createElement('summary');
     summary.className = 'cursor-pointer font-bold text-lg font-serif py-1 flex items-center gap-3';
-    summary.innerHTML = '<span>' + year + '</span><span class="text-xs font-normal text-[#7F7776]">(' + byYear[year].length + ')</span>';
+    summary.innerHTML = '<span>' + year + '</span><span class="text-xs font-normal text-[#6B6560]">(' + byYear[year].length + ')</span>';
     details.appendChild(summary);
 
     const list = document.createElement('ul');
@@ -360,7 +360,7 @@ function renderFigureCarousel(data, ids) {
       '</div>' +
       '<div class="md:hidden bg-white p-3">' +
         '<p class="font-bold text-sm leading-snug">' + escapeHtml(f.title) + '</p>' +
-        '<p class="text-xs text-[#7F7776] mt-1">' + f.year + ' — tap to read the paper</p>' +
+        '<p class="text-xs text-[#6B6560] mt-1">' + f.year + ' — tap to read the paper</p>' +
       '</div>';
     track.appendChild(card);
   });
@@ -419,7 +419,7 @@ function renderMedia() {
     a.rel = 'noopener';
     a.className = 'block py-3 border-b border-[#EDE9E0] hover:bg-[#FBF9F5] -mx-2 px-2 rounded';
     a.innerHTML =
-      '<p class="text-xs text-[#7F7776] uppercase tracking-wide font-bold">' + escapeHtml(m.outlet) + ' · ' + escapeHtml(m.date) + '</p>' +
+      '<p class="text-xs text-[#6B6560] uppercase tracking-wide font-bold">' + escapeHtml(m.outlet) + ' · ' + escapeHtml(m.date) + '</p>' +
       '<p class="font-semibold text-sm mt-1">' + escapeHtml(m.title) + '</p>';
     container.appendChild(a);
   });

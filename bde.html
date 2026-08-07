@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Brain Development &amp; Education Lab — Yeatman Lab, Stanford University</title>
+<meta name="description" content="The Brain Development & Education Lab at Stanford uses neuroscience to understand how children's brains develop and learn, and applies those insights to improve educational practice and reading assessment tools like ROAR." />
 <link rel="icon" type="image/png" sizes="32x32" href="assets/logos/stanford-s-favicon-32.png" />
 <link rel="icon" type="image/png" sizes="16x16" href="assets/logos/stanford-s-favicon-16.png" />
 <link rel="apple-touch-icon" href="assets/logos/stanford-s-favicon.png" />
@@ -29,7 +30,8 @@
   ::selection{ background:rgba(var(--accent-rgb),.22); }
 
   .coin-wrap{ perspective:1200px; }
-  .coin{ width:132px; height:132px; position:relative; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+  .coin{ width:96px; height:96px; position:relative; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+  @media (min-width:1280px){ .coin{ width:132px; height:132px; } }
   .coin-inner{ width:100%; height:100%; position:relative; transition:transform .85s cubic-bezier(.34,1.56,.64,1), filter .85s ease; transform-style:preserve-3d; }
   .coin.is-flipped .coin-inner{ transform:rotateY(180deg); }
   .coin.is-navigating .coin-inner{ transform:rotateY(0deg) scale(1.22); filter:drop-shadow(0 0 28px rgba(255,255,255,.6)); }
@@ -46,7 +48,7 @@
   .avatar-fallback{ font-weight:700; background-color:var(--accent); }
   .link-chip{ font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:var(--accent); border:1px solid rgba(var(--accent-rgb),.35); border-radius:9999px; padding:2px 10px; }
   .link-chip:hover{ background-color:rgba(var(--accent-rgb),.08); }
-  .cite-badge{ font-size:11px; font-weight:700; color:#7F7776; background:#F5F4F0; border-radius:9999px; padding:2px 10px; white-space:nowrap; }
+  .cite-badge{ font-size:11px; font-weight:700; color:#6B6560; background:#F5F4F0; border-radius:9999px; padding:2px 10px; white-space:nowrap; }
   details > summary::-webkit-details-marker{ display:none; }
   details summary{ list-style:none; }
   details summary::before{ content:'▸'; display:inline-block; margin-right:8px; color:var(--accent); transition:transform .2s; }
@@ -56,7 +58,7 @@
     border:1px solid #EDE9E0; overflow:hidden; display:flex; flex-direction:column; cursor:grab; touch-action:none; user-select:none; }
   .swipe-card:active{ cursor:grabbing; }
   .swipe-card img{ width:100%; height:220px; object-fit:cover; pointer-events:none; }
-  .swipe-card-label{ font-size:11px; padding:8px 10px; color:#7F7776; line-height:1.3; }
+  .swipe-card-label{ font-size:11px; padding:8px 10px; color:#6B6560; line-height:1.3; }
   #swipe-stage:focus{ outline:2px solid rgba(var(--accent-rgb),.4); outline-offset:4px; border-radius:1rem; }
 
   .team-card{ cursor:pointer; border-radius:1rem; padding:8px; position:relative; transition:background-color .15s; }
@@ -82,7 +84,7 @@
   .team-expand-tags{ display:flex; flex-wrap:wrap; gap:4px; margin-top:10px; }
   .team-expand-links{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
   .team-expand-pubs{ margin-top:12px; border-top:1px solid #EDE9E0; padding-top:10px; }
-  .team-expand-pubs-title{ font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#7F7776; }
+  .team-expand-pubs-title{ font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#6B6560; }
   .team-expand-pubs ul{ list-style:none; margin:0; padding:0; }
   .team-expand-pubs li{ font-size:11px; color:#4D4F53; margin-top:6px; line-height:1.4; }
   .team-expand-pubs a{ color:var(--accent); font-weight:600; text-decoration:none; }
@@ -106,10 +108,10 @@
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-[#DAD7CB]">
     <div class="max-w-7xl mx-auto px-6 lg:px-10 py-3 flex items-center justify-between gap-6">
       <a href="#top" class="flex items-center gap-2 min-w-0">
-        <span class="font-serif font-semibold hidden md:block shrink-0" style="color:#8C1515; font-size:17px; letter-spacing:-0.01em;">Stanford University</span>
+        <span class="font-serif font-semibold hidden xl:block shrink-0" style="color:#8C1515; font-size:17px; letter-spacing:-0.01em;">Stanford University</span>
         <img src="assets/logos/bde-banner.png" alt="Brain Development &amp; Education Lab" class="h-7 sm:h-9 shrink-0" />
       </a>
-      <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold text-[#4D4F53]">
+      <nav class="hidden lg:flex items-center gap-4 xl:gap-8 text-sm font-semibold text-[#4D4F53] whitespace-nowrap">
         <a href="#research" class="hover:text-[#2E2D29]">Research</a>
         <a href="#figures" class="hover:text-[#2E2D29]">Figures</a>
         <a href="#team" class="hover:text-[#2E2D29]">People</a>
@@ -120,7 +122,7 @@
       <div class="flex items-center gap-3 shrink-0">
         <div class="relative hidden sm:flex items-center rounded-full bg-[#2E2D29] p-1 w-[320px]">
           <span class="absolute inset-y-1 right-1 w-[calc(50%-4px)] rounded-full accent-bg"></span>
-          <a href="rdrp.html" class="relative z-10 flex-1 text-center px-2 py-1.5 text-xs font-bold rounded-full text-[#7F7776] hover:text-white transition-colors truncate">Reading &amp; Dyslexia</a>
+          <a href="rdrp.html" class="relative z-10 flex-1 text-center px-2 py-1.5 text-xs font-bold rounded-full text-white/60 hover:text-white transition-colors truncate">Reading &amp; Dyslexia</a>
           <span class="relative z-10 flex-1 text-center px-2 py-1.5 text-xs font-bold rounded-full text-white truncate">Brain Development</span>
         </div>
         <a href="rdrp.html" class="sm:hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#2E2D29] text-white shrink-0" aria-label="Switch to the Reading &amp; Dyslexia Research Program page">
@@ -130,6 +132,7 @@
     </div>
   </header>
 
+  <main>
   <!-- Hero -->
   <section id="top" class="relative overflow-hidden">
     <div class="grid lg:grid-cols-2 min-h-[560px]">
@@ -160,7 +163,7 @@
             <div class="coin-face coin-back"><img src="assets/logos/bde-mark.png" alt="Brain Development &amp; Education Lab" /></div>
           </div>
         </button>
-        <span class="text-[11px] font-bold uppercase tracking-widest text-white bg-black/30 rounded-full px-3 py-1 backdrop-blur">Flip to Reading &amp; Dyslexia</span>
+        <span class="hidden xl:inline-block text-[11px] font-bold uppercase tracking-widest text-white bg-black/30 rounded-full px-3 py-1 backdrop-blur">Flip to Reading &amp; Dyslexia</span>
       </div>
     </div>
   </section>
@@ -174,7 +177,7 @@
       <div class="rounded-3xl tint-8 p-8">
         <h3 class="font-black text-xl">Plasticity &amp; Learning</h3>
         <p class="text-sm text-[#4D4F53] mt-3">We combine state-of-the-art neuroimaging with intensive reading-intervention programs to understand how education sculpts the brain's reading circuitry. Our work has shown that a targeted intervention drives rapid, large-scale changes in white matter tissue properties that track a child's learning in real time — and we're now working to predict a child's learning trajectory from the structure of their reading circuitry, and to understand the long-term effects of that plasticity.</p>
-        <p class="text-xs text-[#7F7776] mt-4">Currently funded by NIH NICHD R01HD095861 · <a href="https://clinicaltrials.gov/study/NCT04323488" target="_blank" rel="noopener" class="link-chip">NCT04323488</a></p>
+        <p class="text-xs text-[#6B6560] mt-4">Currently funded by NIH NICHD R01HD095861 · <a href="https://clinicaltrials.gov/study/NCT04323488" target="_blank" rel="noopener" class="link-chip">NCT04323488</a></p>
         <div class="flex flex-wrap gap-2 mt-3">
           <a href="https://rdcu.be/UFXd" target="_blank" rel="noopener" class="link-chip">Huber et al., 2018</a>
           <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=ROfIDvQAAAAJ&citation_for_view=ROfIDvQAAAAJ:4TOpqqG69KYC" target="_blank" rel="noopener" class="link-chip">Yeatman et al., 2014</a>
@@ -184,7 +187,7 @@
       <div class="rounded-3xl tint-8 p-8">
         <h3 class="font-black text-xl">Mechanisms of Learning Differences</h3>
         <p class="text-sm text-[#4D4F53] mt-3">Rather than treating dyslexia as a single, homogeneous condition, we conceptualize it as the interaction between a combination of risk and protective factors — a multifactorial model. The long-term goal is to identify the mechanisms underlying an individual child's struggles, elucidate useful accommodations, and predict the optimal approach to education and intervention for that child.</p>
-        <p class="text-xs text-[#7F7776] mt-4">Currently funded by NIH NICHD R01HD116845, 2025–2030</p>
+        <p class="text-xs text-[#6B6560] mt-4">Currently funded by NIH NICHD R01HD116845, 2025–2030</p>
         <div class="flex flex-wrap gap-2 mt-3">
           <a href="https://edneuro.stanford.edu/wp-content/uploads/2020/10/OBrienYeatman2020desc.13039.pdf" target="_blank" rel="noopener" class="link-chip">O'Brien &amp; Yeatman, 2020</a>
           <a href="http://www.annualreviews.org/eprint/WRUBGP3PSYAJMVKMKA3R/full/10.1146/annurev-vision-093019-113509" target="_blank" rel="noopener" class="link-chip">Yeatman &amp; White, 2021</a>
@@ -203,7 +206,7 @@
       <div class="rounded-3xl tint-8 p-8">
         <h3 class="font-black text-xl">Research-Practice Partnerships</h3>
         <p class="text-sm text-[#4D4F53] mt-3">Rather than a one-way street from the lab to society, we treat our partnerships with schools and pediatric clinics as a virtuous cycle — deploying ROAR as a real screening and progress-monitoring tool keeps our research grounded in real-world problems, while what we learn from those deployments feeds back into the science.</p>
-        <p class="text-xs text-[#7F7776] mt-4">Supported by AERDF, the Robertson Foundation, the Klingenstein Foundation, and the State of California</p>
+        <p class="text-xs text-[#6B6560] mt-4">Supported by AERDF, the Robertson Foundation, the Klingenstein Foundation, and the State of California</p>
         <div class="flex flex-wrap gap-2 mt-3">
           <a href="https://edneuro.stanford.edu/wp-content/uploads/2021/09/ROAR.pdf" target="_blank" rel="noopener" class="link-chip">Yeatman et al., 2021</a>
           <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Rapid%20Online%20Assessment%20of%20Reading%20%28ROAR%29%3A%20evaluation%20of%20an%20online%20tool%20for%20screening%20reading%20skills%20in%20a%20developmental-behavioral%20pediatrics%20clinic" target="_blank" rel="noopener" class="link-chip">Barrington et al., 2023</a>
@@ -253,7 +256,7 @@
             <a href="https://github.com/tractometry/pyAFQ" target="_blank" rel="noopener" class="link-chip">GitHub</a>
             <a href="https://tractometry.org/pyAFQ/" target="_blank" rel="noopener" class="link-chip">Documentation &amp; Tutorials</a>
           </div>
-          <p class="text-xs text-[#7F7776] mt-4">Cite: <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12373284/" target="_blank" rel="noopener" class="accent-text hover:underline">Kruper et al., 2025, PLoS Comp. Biology</a> · <a href="https://edneuro.stanford.edu/wp-content/uploads/2021/09/reliability-of-human-brain-white-matter-tractometry.pdf" target="_blank" rel="noopener" class="accent-text hover:underline">Kruper et al., 2021, Aperture</a></p>
+          <p class="text-xs text-[#6B6560] mt-4">Cite: <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12373284/" target="_blank" rel="noopener" class="accent-text hover:underline">Kruper et al., 2025, PLoS Comp. Biology</a> · <a href="https://edneuro.stanford.edu/wp-content/uploads/2021/09/reliability-of-human-brain-white-matter-tractometry.pdf" target="_blank" rel="noopener" class="accent-text hover:underline">Kruper et al., 2021, Aperture</a></p>
         </div>
       </div>
       <div class="rounded-3xl bg-white shadow-md p-8">
@@ -279,7 +282,7 @@
       <div class="hidden md:block mt-4 rounded-2xl overflow-hidden border border-[#EDE9E0]" style="height:600px">
         <iframe src="https://yeatmanlab.github.io/AFQBrowser-demo/" title="AFQ-Browser live demo" loading="lazy" class="w-full h-full" style="border:0"></iframe>
       </div>
-      <p class="md:hidden mt-3 text-xs text-[#7F7776]">This demo is interactive and works best on a larger screen — use "Open full screen" above.</p>
+      <p class="md:hidden mt-3 text-xs text-[#6B6560]">This demo is interactive and works best on a larger screen — use "Open full screen" above.</p>
     </div>
 
     <!-- Swipes for Science mini demo -->
@@ -292,7 +295,7 @@
       <div class="mt-6 grid md:grid-cols-2 gap-6">
         <div>
           <div class="flex items-baseline justify-between gap-2 mb-2">
-            <p class="text-xs font-bold uppercase tracking-widest text-[#7F7776]">Try the swipe demo</p>
+            <p class="text-xs font-bold uppercase tracking-widest text-[#6B6560]">Try the swipe demo</p>
             <a href="https://braindr.us/" target="_blank" rel="noopener" class="link-chip">Open full screen ↗</a>
           </div>
           <div class="rounded-2xl border border-[#EDE9E0] flex flex-col items-center justify-center gap-5" style="height:420px">
@@ -302,17 +305,17 @@
               <button id="swipe-pass" aria-label="Pass" class="w-14 h-14 rounded-full bg-white shadow-md border-2 border-[#A8CFB0] text-[#2F7D4F] text-2xl font-bold flex items-center justify-center hover:bg-[#EEF8F0] transition-colors">✓</button>
             </div>
           </div>
-          <p id="swipe-tally" class="text-xs text-[#7F7776] mt-2 text-center">0 pass · 0 fail — click, drag, or use arrow keys</p>
+          <p id="swipe-tally" class="text-xs text-[#6B6560] mt-2 text-center">0 pass · 0 fail — click, drag, or use arrow keys</p>
         </div>
         <div>
           <div class="flex items-baseline justify-between gap-2 mb-2">
-            <p class="text-xs font-bold uppercase tracking-widest text-[#7F7776]">Braindr's live leaderboard</p>
+            <p class="text-xs font-bold uppercase tracking-widest text-[#6B6560]">Braindr's live leaderboard</p>
             <a href="https://braindr.us/#/leaderboard" target="_blank" rel="noopener" class="link-chip">Open full screen ↗</a>
           </div>
           <div class="hidden sm:block rounded-2xl overflow-hidden border border-[#EDE9E0]" style="height:420px">
             <iframe src="https://braindr.us/#/leaderboard" title="Braindr live participant leaderboard" loading="lazy" class="w-full h-full" style="border:0"></iframe>
           </div>
-          <p class="sm:hidden text-xs text-[#7F7776]">This leaderboard is interactive and works best on a larger screen — use "Open full screen" above.</p>
+          <p class="sm:hidden text-xs text-[#6B6560]">This leaderboard is interactive and works best on a larger screen — use "Open full screen" above.</p>
         </div>
       </div>
     </div>
@@ -332,7 +335,7 @@
         <div class="rounded-2xl bg-white/10 p-6 text-center"><div class="text-3xl font-black">39</div><div class="text-xs text-white/70 mt-1">States</div></div>
         <div class="rounded-2xl bg-white/10 p-6 text-center"><div class="text-3xl font-black">2,542</div><div class="text-xs text-white/70 mt-1">Schools &amp; orgs</div></div>
         <div class="rounded-2xl bg-white/10 p-6 text-center"><div class="text-3xl font-black">5–10 min</div><div class="text-xs text-white/70 mt-1">Per screening</div></div>
-        <p class="col-span-2 text-xs text-white/60">Figures from ROAR's <a href="https://roar.stanford.edu/technical/intro-norms.html" target="_blank" rel="noopener" class="underline hover:text-white">norming &amp; technical documentation ↗</a></p>
+        <p class="col-span-2 text-xs text-white">Figures from ROAR's <a href="https://roar.stanford.edu/technical/intro-norms.html" target="_blank" rel="noopener" class="underline">norming &amp; technical documentation ↗</a></p>
       </div>
     </div>
   </section>
@@ -364,20 +367,22 @@
     </div>
   </section>
 
+  </main>
+
   <!-- Footer -->
   <footer class="border-t border-[#DAD7CB]">
     <div class="max-w-7xl mx-auto px-6 lg:px-10 py-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8 text-sm text-[#4D4F53]">
       <div>
-        <img src="assets/logos/bde-banner.png" alt="Brain Development &amp; Education Lab" class="h-12 mb-3" />
-        <p class="text-[#7F7776]">Brain Development &amp; Education Lab<br/>Yeatman Lab, Stanford University</p>
+        <img src="assets/logos/bde-banner.png" alt="Brain Development &amp; Education Lab" width="180" height="48" class="h-12 mb-3" />
+        <p class="text-[#6B6560]">Brain Development &amp; Education Lab<br/>Yeatman Lab, Stanford University</p>
       </div>
       <div>
         <div class="font-bold text-[#2E2D29] mb-3">Visit</div>
-        <p class="text-[#7F7776]"><a href="https://ed.stanford.edu/news/stanford-graduate-school-education-kicks-new-academic-year-remodeled-space" target="_blank" rel="noopener" class="hover:text-[#2E2D29] hover:underline">Angela Nomellini &amp; Ken Olivier (ANKO) Building ↗</a><br/>485 Lasuen Mall<br/>Stanford, CA 94305</p>
+        <p class="text-[#6B6560]"><a href="https://ed.stanford.edu/news/stanford-graduate-school-education-kicks-new-academic-year-remodeled-space" target="_blank" rel="noopener" class="hover:text-[#2E2D29] hover:underline">Angela Nomellini &amp; Ken Olivier (ANKO) Building ↗</a><br/>485 Lasuen Mall<br/>Stanford, CA 94305</p>
       </div>
       <div>
         <div class="font-bold text-[#2E2D29] mb-3">Explore</div>
-        <ul class="space-y-2 text-[#7F7776]">
+        <ul class="space-y-2 text-[#6B6560]">
           <li><a href="#research" class="hover:text-[#2E2D29]">Research</a></li>
           <li><a href="#team" class="hover:text-[#2E2D29]">People</a></li>
           <li><a href="rdrp.html" class="hover:text-[#2E2D29]">Reading &amp; Dyslexia Research Program</a></li>
@@ -386,24 +391,24 @@
       </div>
       <div>
         <div class="font-bold text-[#2E2D29] mb-3">Connect</div>
-        <ul class="space-y-2 text-[#7F7776]">
+        <ul class="space-y-2 text-[#6B6560]">
           <li><a href="mailto:jyeatman@stanford.edu" class="hover:text-[#2E2D29]">jyeatman@stanford.edu</a></li>
         </ul>
       </div>
     </div>
     <div class="border-t border-[#DAD7CB] py-8 max-w-7xl mx-auto px-6 lg:px-10">
-      <div class="text-xs font-bold uppercase tracking-widest text-[#7F7776] mb-4">Yeatman Lab Affiliations</div>
+      <div class="text-xs font-bold uppercase tracking-widest text-[#6B6560] mb-4">Yeatman Lab Affiliations</div>
       <div class="flex flex-wrap items-center gap-x-8 gap-y-4">
         <a href="https://med.stanford.edu/dbpeds.html" target="_blank" rel="noopener" class="opacity-80 hover:opacity-100 transition-opacity" title="Division of Developmental & Behavioral Pediatrics, Stanford School of Medicine"><img src="assets/logos/affiliations/stanford-medicine.svg" alt="Stanford School of Medicine" class="h-6" /></a>
         <a href="https://ed.stanford.edu/" target="_blank" rel="noopener" class="opacity-80 hover:opacity-100 transition-opacity"><img src="assets/logos/affiliations/gse.png" alt="Stanford Graduate School of Education" class="h-6" /></a>
-        <a href="https://psychology.stanford.edu/" target="_blank" rel="noopener" class="text-sm font-bold text-[#7F7776] hover:text-[#2E2D29]">Dept. of Psychology</a>
+        <a href="https://psychology.stanford.edu/" target="_blank" rel="noopener" class="text-sm font-bold text-[#6B6560] hover:text-[#2E2D29]">Dept. of Psychology</a>
         <a href="https://neuroscience.stanford.edu/" target="_blank" rel="noopener" class="opacity-80 hover:opacity-100 transition-opacity"><img src="assets/logos/affiliations/wutsai-neuro.svg" alt="Wu Tsai Neurosciences Institute" class="h-6" /></a>
-        <a href="https://biox.stanford.edu/" target="_blank" rel="noopener" class="text-sm font-bold text-[#7F7776] hover:text-[#2E2D29]">Bio-X</a>
+        <a href="https://biox.stanford.edu/" target="_blank" rel="noopener" class="text-sm font-bold text-[#6B6560] hover:text-[#2E2D29]">Bio-X</a>
         <a href="https://humanperformance.stanford.edu/" target="_blank" rel="noopener" class="opacity-80 hover:opacity-100 transition-opacity"><img src="assets/logos/affiliations/wutsai-hpa.png" alt="Wu Tsai Human Performance Alliance" class="h-6" /></a>
         <a href="https://med.stanford.edu/mchri" target="_blank" rel="noopener" class="opacity-80 hover:opacity-100 transition-opacity"><img src="assets/logos/affiliations/mchri.png" alt="Maternal & Child Health Research Institute" class="h-6" /></a>
       </div>
     </div>
-    <div class="border-t border-[#DAD7CB] py-6 text-center text-xs text-[#7F7776]">© 2026 Yeatman Lab, Stanford University.</div>
+    <div class="border-t border-[#DAD7CB] py-6 text-center text-xs text-[#6B6560]">© 2026 Yeatman Lab, Stanford University.</div>
   </footer>
 
   <script src="shared-data.js?v=8"></script>
