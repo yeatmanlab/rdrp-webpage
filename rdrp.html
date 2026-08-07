@@ -77,6 +77,17 @@
   .team-expand-pubs li{ font-size:11px; color:#4D4F53; margin-top:6px; line-height:1.4; }
   .team-expand-pubs a{ color:var(--accent); font-weight:600; text-decoration:none; }
   .team-expand-pubs a:hover{ text-decoration:underline; }
+
+  .pub-card{ position:absolute; bottom:calc(100% + 8px); left:50%; z-index:40;
+    width:340px; max-width:90vw; background:#fff; border-radius:1rem; text-align:left;
+    box-shadow:0 20px 45px rgba(0,0,0,.22), 0 2px 8px rgba(0,0,0,.08); border-top:3px solid var(--accent);
+    padding:14px 16px; opacity:0; pointer-events:none;
+    transform:translateX(-50%) translateY(6px) scale(.96);
+    transition:opacity .2s ease, transform .2s ease; }
+  .pub-item:hover .pub-card, .pub-item:focus-within .pub-card{
+    opacity:1; transform:translateX(-50%) translateY(0) scale(1); pointer-events:auto; }
+  .pub-card-figure{ width:100%; border-radius:.5rem; margin-bottom:8px; display:block; background:#F5F4F0; }
+  .pub-card-summary{ font-size:12px; line-height:1.5; color:#2E2D29; }
 </style>
 </head>
 <body class="text-[#2E2D29] bg-white antialiased">
@@ -316,6 +327,7 @@
       <h2 class="font-black text-3xl">Reading &amp; Dyslexia Research Program Publications</h2>
       <p class="text-[#4D4F53] mt-2">Jason D. Yeatman's complete scholarly record — citation counts via Google Scholar, PDFs / PubMed where available.</p>
       <div id="pubs-stats" class="flex flex-wrap gap-8 mt-6 mb-4"></div>
+      <div id="pubs-filters" class="flex flex-wrap gap-2 mb-6"></div>
       <div id="pubs-list"></div>
 
       <h3 class="font-black text-2xl mt-14">In the Media</h3>
@@ -378,8 +390,8 @@
     <div class="border-t border-[#DAD7CB] py-6 text-center text-xs text-[#7F7776]">© 2026 Yeatman Lab, Stanford University.</div>
   </footer>
 
-  <script src="shared-data.js?v=5"></script>
-  <script src="site.js?v=12"></script>
+  <script src="shared-data.js?v=6"></script>
+  <script src="site.js?v=13"></script>
   <script>initSite('rdrp', 'bde.html');</script>
 </body>
 </html>

@@ -2,6 +2,15 @@
 
 const TEAM_TAG_ORDER = ["Faculty", "Postdoc", "Student", "Staff", "Neuroimaging", "Reading & Literacy Science", "Educational Assessment", "Software Engineering", "School Partnerships", "Data Science"];
 
+const PUBS_TAG_ORDER = [
+  "White Matter & Tractometry", "Reading Development & Individual Differences",
+  "Vision Science, Attention & Electrophysiology", "Dyslexia & Reading Difficulties",
+  "ROAR & Reading Assessment", "Visual Word Form Area & Word-Selective Cortex",
+  "Clinical Populations & Neurological Conditions", "Reading Intervention & Neuroplasticity",
+  "Brain Development in Infancy & Childhood", "Education, Equity & Policy",
+  "Computational Methods & AI", "Open-Source Neuroimaging Software",
+];
+
 // Surfaces a person's most recent papers by matching their surname(s) against
 // PUBLICATIONS' author-list strings (format "Surname, F." or "FI Surname,").
 function recentPublicationsFor(surnames) {
@@ -187,6 +196,7 @@ function escapeHtml(s) {
 function renderPublications() {
   const container = document.getElementById('pubs-list');
   const statsEl = document.getElementById('pubs-stats');
+  const filterBar = document.getElementById('pubs-filters');
   if (!container) return;
 
   const byYear = {};
@@ -201,10 +211,30 @@ function renderPublications() {
       '<div><span class="font-serif text-2xl font-bold">' + years[years.length - 1] + '–' + years[0] + '</span> <span class="text-sm text-[#7F7776]">span</span></div>';
   }
 
+  if (filterBar) {
+    const tagCounts = {};
+    PUBLICATIONS.forEach(function (p) { (p.tags || []).forEach(function (t) { tagCounts[t] = (tagCounts[t] || 0) + 1; }); });
+    const tagsPresent = PUBS_TAG_ORDER.filter(function (t) { return tagCounts[t]; });
+    let pillsHtml = '<button class="filter-pill active" data-tag="all">All (' + PUBLICATIONS.length + ')</button>';
+    tagsPresent.forEach(function (t) {
+      pillsHtml += '<button class="filter-pill" data-tag="' + escapeHtml(t) + '">' + escapeHtml(t) + ' (' + tagCounts[t] + ')</button>';
+    });
+    filterBar.innerHTML = pillsHtml;
+    filterBar.addEventListener('click', function (e) {
+      const btn = e.target.closest('.filter-pill');
+      if (!btn) return;
+      filterBar.querySelectorAll('.filter-pill').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      applyPubsFilter(container, btn.dataset.tag);
+    });
+  }
+
   years.forEach(function (year, idx) {
     const details = document.createElement('details');
     details.className = 'border-b border-[#EDE9E0] py-3';
-    if (idx < 3) details.setAttribute('open', '');
+    const defaultOpen = idx < 3;
+    details.dataset.defaultOpen = defaultOpen ? '1' : '0';
+    if (defaultOpen) details.setAttribute('open', '');
 
     const summary = document.createElement('summary');
     summary.className = 'cursor-pointer font-bold text-lg font-serif py-1 flex items-center gap-3';
@@ -215,7 +245,8 @@ function renderPublications() {
     list.className = 'mt-2 space-y-3';
     byYear[year].forEach(function (p) {
       const li = document.createElement('li');
-      li.className = 'text-sm text-[#4D4F53] leading-relaxed pl-1';
+      li.className = 'pub-item text-sm text-[#4D4F53] leading-relaxed pl-1 relative';
+      li.dataset.tags = (p.tags || []).join('|');
       let links = '';
       if (p.url) {
         const label = /\.pdf($|\?)/.test(p.url) ? 'PDF' : 'Article';
@@ -224,12 +255,80 @@ function renderPublications() {
       if (p.scholarUrl) links += '<a href="' + p.scholarUrl + '" target="_blank" rel="noopener" class="link-chip">Google Scholar</a>';
       if (p.pubmedUrl) links += '<a href="' + p.pubmedUrl + '" target="_blank" rel="noopener" class="link-chip">PubMed</a>';
       const badge = p.citedBy ? '<span class="cite-badge">' + p.citedBy + ' citation' + (p.citedBy === 1 ? '' : 's') + '</span>' : '';
-      li.innerHTML = escapeHtml(p.text) + ' ' + badge + '<div class="mt-1 flex flex-wrap gap-2">' + links + '</div>';
+      li.innerHTML = escapeHtml(p.text) + ' ' + badge + '<div class="mt-1 flex flex-wrap gap-2">' + links + '</div>' + buildPubCardHtml(p);
       list.appendChild(li);
     });
     details.appendChild(list);
     container.appendChild(details);
   });
+}
+
+// Only renders a hover card once a paper has a real summary — papers not yet written
+// up just show the plain citation, so nothing looks broken while coverage is filled in.
+function buildPubCardHtml(p) {
+  if (!p.summary) return '';
+  const figureHtml = p.figure ? '<img src="' + p.figure + '" alt="Key result figure" class="pub-card-figure" loading="lazy" />' : '';
+  return '<div class="pub-card">' + figureHtml + '<p class="pub-card-summary">' + escapeHtml(p.summary) + '</p></div>';
+}
+
+// Same fade-out-then-FLIP-in shuffle as the team filter, adapted for a year-grouped
+// accordion: a year auto-opens if filtering reveals a match inside it, and collapses
+// back to its original open/closed state once the filter returns to "all".
+function applyPubsFilter(container, tag) {
+  const items = [].slice.call(container.querySelectorAll('.pub-item'));
+  const willShow = function (li) { return tag === 'all' || (li.dataset.tags || '').split('|').indexOf(tag) !== -1; };
+  const isOpen = function (li) { const d = li.closest('details'); return !d || d.open; };
+  const leaving = items.filter(function (li) { return li.style.display !== 'none' && isOpen(li) && !willShow(li); });
+
+  function reflowAndReveal() {
+    const beforeRects = new Map();
+    items.forEach(function (li) {
+      if (li.style.display !== 'none' && isOpen(li)) beforeRects.set(li, li.getBoundingClientRect());
+    });
+
+    items.forEach(function (li) { li.style.display = willShow(li) ? '' : 'none'; });
+
+    [].slice.call(container.querySelectorAll('details')).forEach(function (d) {
+      const anyMatch = [].slice.call(d.querySelectorAll('.pub-item')).some(willShow);
+      d.style.display = anyMatch ? '' : 'none';
+      if (tag === 'all') d.open = d.dataset.defaultOpen === '1';
+      else if (anyMatch) d.open = true;
+    });
+
+    items.forEach(function (li) {
+      if (!willShow(li) || !isOpen(li)) return;
+      const before = beforeRects.get(li);
+      li.style.transition = 'none';
+      if (before) {
+        const after = li.getBoundingClientRect();
+        const dx = before.left - after.left, dy = before.top - after.top;
+        li.style.transform = (dx || dy) ? 'translate(' + dx + 'px,' + dy + 'px)' : '';
+        li.style.opacity = '';
+      } else {
+        li.style.transform = 'translateY(-8px)';
+        li.style.opacity = '0';
+      }
+    });
+
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        items.forEach(function (li) {
+          if (!willShow(li) || !isOpen(li)) return;
+          li.style.transition = 'transform .45s cubic-bezier(.34,1.56,.64,1), opacity .3s ease';
+          li.style.transform = '';
+          li.style.opacity = '';
+        });
+      });
+    });
+  }
+
+  if (!leaving.length) { reflowAndReveal(); return; }
+  leaving.forEach(function (li) {
+    li.style.transition = 'transform .18s ease, opacity .18s ease';
+    li.style.transform = 'translateY(-8px)';
+    li.style.opacity = '0';
+  });
+  setTimeout(reflowAndReveal, 180);
 }
 
 function renderFigures() {
