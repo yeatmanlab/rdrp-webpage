@@ -355,6 +355,18 @@ const FIGURES = [
     title: "Visual Word Form Area: Individual and Task-Agnostic Consistency",
     description: "Explains why group-averaged brain maps often miss the reading region — each person's word-selective cortex is consistent across tasks, but its exact location varies enough between people to wash out in an average.",
     url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12993163/" },
+  { image: "assets/figures/pub-figures/two-axes-white-matter.jpg", year: 2026,
+    title: "Two Organizing Axes of White Matter Development",
+    description: "Individual tracts mature from deep to superficial, and different tracts finish maturing in an order that mirrors the brain's sensorimotor-to-association hierarchy — a single organizing principle behind white matter development in youth.",
+    url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12929777/" },
+  { image: "assets/figures/pub-figures/multisite-wm-maturation.jpg", year: 2026,
+    title: "White Matter Maturation, Replicated Across 24,000+ Scans",
+    description: "A newer microstructural metric (ICVF) explains roughly 35% of the variance in adolescent white-matter maturation — nearly five times more than the conventional measure (FA) — with the pattern highly reproducible across sites.",
+    url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13105032/" },
+  { image: "assets/figures/pub-figures/neonatal-brain-age-panelA.jpg", year: 2026,
+    title: "Predicting a Newborn's Brain Age from a Single Scan",
+    description: "A diffusion-MRI \"brain age\" model trained on 368 newborns predicts postmenstrual age within about 4 days on research-grade scans — though brain-age gaps didn't track prematurity-related health complications in this sample.",
+    url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13355775/" },
 ];
 
 const RDRP_FIGURES = [
@@ -386,6 +398,18 @@ const RDRP_FIGURES = [
     title: "Visual Processing Reveals Hidden Reading Risk",
     description: "In a large California sample, children with strong language skills but weak rapid visual-processing scores had the second-highest rate of reading difficulty of any subgroup (26–32%) — a risk that language-only screening would miss entirely.",
     url: "assets/papers/ramamurthy-2026-visual-processing-reading.pdf" },
+  { image: "assets/figures/pub-figures/adhd-dyslexia-cooccur.jpg", year: 2026,
+    title: "A Shared Brain Basis for ADHD and Dyslexia",
+    description: "Children with both low attention and low reading skill show a drop in white-matter integrity beyond what either trait alone predicts — evidence that co-occurring ADHD and dyslexia share an underlying neuroanatomical basis, not just overlapping symptoms.",
+    url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13425234/" },
+  { image: "assets/figures/pub-figures/ma-feedback-correct-incorrect.jpg", year: 2026,
+    title: "A Small UX Tweak That Makes Screening More Valid",
+    description: "Across two trials with 6,610 students in Colombia and the U.S., telling kids right-or-wrong after each item — instead of staying neutral — raised how well a digital reading screener tracked real word-reading skill (r = 0.80 vs. 0.72).",
+    url: "https://pubmed.ncbi.nlm.nih.gov/42189560/" },
+  { image: "assets/figures/pub-figures/bilingual-monolingual-learning.jpg", year: 2026,
+    title: "Bilingual and Monolingual Children Learn to Read Alike",
+    description: "Once family income, vocabulary, and nonverbal IQ are accounted for, bilingual and monolingual children gain single-word decoding skill at comparable rates — though bilingual 1st- and 2nd-graders show a brief edge in processing speed.",
+    url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13115128/" },
 ];
 
 // Real example slices citizen scientists rated on braindr — cropped from Figure 5 of
