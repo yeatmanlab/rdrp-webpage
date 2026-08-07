@@ -2,6 +2,8 @@
 
 const TEAM_TAG_ORDER = ["Faculty", "Postdoc", "Student", "Staff", "Neuroimaging", "Reading & Literacy Science", "Educational Assessment", "Software Engineering", "School Partnerships", "Data Science"];
 
+const PROGRAM_TAG_ORDER = ["Reading & Dyslexia Research Program", "Brain Development & Education Lab"];
+
 const PUBS_TAG_ORDER = [
   "White Matter & Tractometry", "Reading Development & Individual Differences",
   "Vision Science, Attention & Electrophysiology", "Dyslexia & Reading Difficulties",
@@ -215,16 +217,19 @@ function renderPublications() {
     const tagCounts = {};
     PUBLICATIONS.forEach(function (p) { (p.tags || []).forEach(function (t) { tagCounts[t] = (tagCounts[t] || 0) + 1; }); });
     const tagsPresent = PUBS_TAG_ORDER.filter(function (t) { return tagCounts[t]; });
-    let pillsHtml = '<button class="filter-pill active" data-tag="all">All (' + PUBLICATIONS.length + ')</button>';
+    let pillsHtml = '<button class="filter-pill filter-pill-primary active" data-tag="all">All (' + PUBLICATIONS.length + ')</button>';
+    PROGRAM_TAG_ORDER.forEach(function (t) {
+      if (!tagCounts[t]) return;
+      pillsHtml += '<button class="filter-pill filter-pill-primary" data-tag="' + escapeHtml(t) + '">' + escapeHtml(t) + ' (' + tagCounts[t] + ')</button>';
+    });
+    pillsHtml += '<span class="pill-divider" aria-hidden="true"></span>';
     tagsPresent.forEach(function (t) {
       pillsHtml += '<button class="filter-pill" data-tag="' + escapeHtml(t) + '">' + escapeHtml(t) + ' (' + tagCounts[t] + ')</button>';
     });
     filterBar.innerHTML = pillsHtml;
     filterBar.addEventListener('click', function (e) {
       const btn = e.target.closest('.filter-pill');
-      if (!btn || btn.classList.contains('hero-filter-pill')) return;
-      const heroPill = filterBar.querySelector('.hero-filter-pill');
-      if (heroPill) heroPill.remove();
+      if (!btn) return;
       filterBar.querySelectorAll('.filter-pill').forEach(function (b) { b.classList.remove('active'); });
       btn.classList.add('active');
       applyPubsFilter(container, btn.dataset.tag);
@@ -234,9 +239,8 @@ function renderPublications() {
   years.forEach(function (year, idx) {
     const details = document.createElement('details');
     details.className = 'border-b border-[#EDE9E0] py-3';
-    const defaultOpen = idx < 3;
-    details.dataset.defaultOpen = defaultOpen ? '1' : '0';
-    if (defaultOpen) details.setAttribute('open', '');
+    details.dataset.defaultOpen = '1';
+    details.setAttribute('open', '');
 
     const summary = document.createElement('summary');
     summary.className = 'cursor-pointer font-bold text-lg font-serif py-1 flex items-center gap-3';
@@ -372,38 +376,21 @@ function renderFigures() {
   renderFigureCarousel(typeof RDRP_FIGURES === 'undefined' ? null : RDRP_FIGURES, { track: 'rdrp-figure-track', prev: 'rdrp-figure-prev', next: 'rdrp-figure-next' });
 }
 
+// The hero buttons just activate the matching permanent program pill (added
+// alongside "All" in the filter bar) so there's one consistent way to filter,
+// highlight what's active, and get back to "All" - no separate clear control.
 function setupHeroPubsButtons() {
-  const list = document.getElementById('pubs-list');
   const filterBar = document.getElementById('pubs-filters');
   const section = document.getElementById('publications');
-  if (!list || !section) return;
-
-  function clearToAll() {
-    const old = filterBar.querySelector('.hero-filter-pill');
-    if (old) old.remove();
-    filterBar.querySelectorAll('.filter-pill').forEach(function (b) { b.classList.remove('active'); });
-    const allPill = filterBar.querySelector('.filter-pill[data-tag="all"]');
-    if (allPill) allPill.classList.add('active');
-    applyPubsFilter(list, 'all');
-  }
+  if (!filterBar || !section) return;
 
   const wire = function (id, tag) {
     const btn = document.getElementById(id);
     if (!btn) return;
     btn.addEventListener('click', function (e) {
       e.stopPropagation(); // this button sits inside .side-panel, which flips to the other page on click
-      if (filterBar) {
-        const old = filterBar.querySelector('.hero-filter-pill');
-        if (old) old.remove();
-        filterBar.querySelectorAll('.filter-pill').forEach(function (b) { b.classList.remove('active'); });
-        const pill = document.createElement('button');
-        pill.className = 'filter-pill active hero-filter-pill';
-        pill.textContent = 'Showing: ' + tag + '  ✕';
-        pill.setAttribute('aria-label', 'Clear filter and show all publications');
-        pill.addEventListener('click', function (e) { e.stopPropagation(); clearToAll(); });
-        filterBar.insertBefore(pill, filterBar.firstChild);
-      }
-      applyPubsFilter(list, tag);
+      const pill = filterBar.querySelector('.filter-pill[data-tag="' + tag + '"]');
+      if (pill) pill.click();
       section.scrollIntoView({ behavior: 'smooth' });
     });
   };
