@@ -383,14 +383,19 @@ function renderFigureSlider(data, ids) {
   var dots = dotsWrap ? [].slice.call(dotsWrap.querySelectorAll('.figure-dot')) : [];
 
   function show(index) {
-    current = (index + items.length) % items.length;
+    var nextIndex = (index + items.length) % items.length;
+    if (nextIndex === current) return;
+    var outgoing = slides[current];
+    outgoing.classList.add('figure-slide-exit');
+    setTimeout(function () { outgoing.classList.remove('figure-slide-exit'); }, 650);
+    current = nextIndex;
     slides.forEach(function (s, i) { s.classList.toggle('active', i === current); });
     dots.forEach(function (d, i) { d.classList.toggle('active', i === current); });
   }
 
   function restartTimer() {
     if (timer) clearInterval(timer);
-    timer = setInterval(function () { show(current + 1); }, 12000);
+    timer = setInterval(function () { show(current + 1); }, 6000);
   }
 
   var prevBtn = document.getElementById(ids.prev);
