@@ -90,14 +90,14 @@
   .team-expand-pubs a{ color:var(--accent); font-weight:600; text-decoration:none; }
   .team-expand-pubs a:hover{ text-decoration:underline; }
 
-  .pub-card{ position:absolute; bottom:calc(100% + 8px); left:50%; z-index:40;
+  .pub-card{ position:absolute; bottom:calc(100% + 8px); right:0; z-index:40;
     width:340px; max-width:90vw; background:#fff; border-radius:1rem; text-align:left;
     box-shadow:0 20px 45px rgba(0,0,0,.22), 0 2px 8px rgba(0,0,0,.08); border-top:3px solid var(--accent);
     padding:14px 16px; opacity:0; pointer-events:none;
-    transform:translateX(-50%) translateY(6px) scale(.96);
+    transform:translateY(6px) scale(.96);
     transition:opacity .2s ease, transform .2s ease; }
   .pub-item:hover .pub-card, .pub-item:focus-within .pub-card{
-    opacity:1; transform:translateX(-50%) translateY(0) scale(1); pointer-events:auto; }
+    opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
   .pub-card-figure{ width:100%; max-height:220px; object-fit:contain; border-radius:.5rem; margin-bottom:8px; display:block; background:#F5F4F0; }
   .pub-card-summary{ font-size:12px; line-height:1.5; color:#2E2D29; }
 </style>
@@ -137,7 +137,7 @@
   <section id="top" class="relative overflow-hidden">
     <div class="grid lg:grid-cols-2 min-h-[560px]">
       <div class="side-panel side-inactive relative flex items-start justify-center px-8 sm:px-14 pt-20 pb-16" style="background:linear-gradient(135deg,#8C1515 0%,#5c0f0f 100%);">
-        <p class="hidden lg:block lg:absolute lg:top-0 lg:right-1 text-[10px] font-bold uppercase tracking-[.08em] text-white/45">Yeatman</p>
+        <p class="hidden lg:block lg:absolute lg:top-8 lg:right-1 text-[20px] font-bold uppercase tracking-[.08em] text-white/45">Yeatman</p>
         <div class="max-w-md text-white text-center lg:text-right lg:items-end lg:flex lg:flex-col">
           <h2 class="font-black text-3xl sm:text-4xl mt-3 leading-tight">Reading &amp; Dyslexia<br/>Research Program</h2>
           <p class="mt-4 text-white/85 leading-relaxed min-h-[80px] sm:min-h-[100px]">Understanding the factors that contribute to differences in how all children and adults learn to read.</p>
@@ -145,7 +145,7 @@
         </div>
       </div>
       <div class="side-panel relative flex items-start justify-center px-8 sm:px-14 pt-20 pb-16" style="background:linear-gradient(135deg,#00596a 0%,#007C92 100%);">
-        <p class="hidden lg:block lg:absolute lg:top-0 lg:left-1 text-[10px] font-bold uppercase tracking-[.08em] text-white/45">Lab</p>
+        <p class="hidden lg:block lg:absolute lg:top-8 lg:left-1 text-[20px] font-bold uppercase tracking-[.08em] text-white/45">Lab</p>
         <div class="max-w-md text-white text-center lg:text-left">
           <h1 class="font-black text-3xl sm:text-4xl mt-3 leading-tight">Brain Development &amp;<br/>Education Lab</h1>
           <p class="mt-4 text-white/85 leading-relaxed min-h-[80px] sm:min-h-[100px]">
