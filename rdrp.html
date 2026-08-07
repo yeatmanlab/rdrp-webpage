@@ -34,7 +34,7 @@
   @media (min-width:1280px){ .coin{ width:132px; height:132px; } }
   .coin-inner{ width:100%; height:100%; position:relative; transition:transform .85s cubic-bezier(.34,1.56,.64,1), filter .85s ease; transform-style:preserve-3d; }
   .coin.is-flipped .coin-inner{ transform:rotateY(180deg); }
-  .coin.is-navigating .coin-inner{ transform:rotateY(180deg) scale(1.22); filter:drop-shadow(0 0 28px rgba(255,255,255,.6)); }
+  .coin.is-navigating .coin-inner{ transform:rotateY(900deg) scale(1.22); filter:drop-shadow(0 0 28px rgba(255,255,255,.6)); transition:transform .9s cubic-bezier(.22,.68,0,1), filter .9s ease; }
   .coin-face{ position:absolute; inset:0; border-radius:9999px; display:flex; align-items:center; justify-content:center;
     backface-visibility:hidden; box-shadow:0 14px 34px rgba(0,0,0,.32), inset 0 0 0 5px rgba(255,255,255,.5); }
   .coin-front{ background:#8C1515; } .coin-back{ background:#007C92; transform:rotateY(180deg); }
@@ -118,24 +118,39 @@
         <span class="font-serif font-semibold hidden xl:block shrink-0" style="color:#8C1515; font-size:17px; letter-spacing:-0.01em;">Stanford University</span>
         <img src="assets/logos/rdrp-seal.png" alt="Reading &amp; Dyslexia Research Program" class="h-7 sm:h-9 shrink-0" />
       </a>
-      <nav class="hidden lg:flex items-center gap-4 xl:gap-8 text-sm font-semibold text-[#4D4F53] whitespace-nowrap">
+      <nav class="hidden lg:flex items-center gap-3 xl:gap-8 text-sm font-semibold text-[#4D4F53] whitespace-nowrap">
         <a href="#research" class="hover:text-[#2E2D29]">Research</a>
         <a href="#figures" class="hover:text-[#2E2D29]">Figures</a>
         <a href="#team" class="hover:text-[#2E2D29]">People</a>
-        <a href="#parents" class="hover:text-[#2E2D29]">For Parents</a>
+        <a href="#roar" class="hover:text-[#2E2D29]">ROAR</a>
+        <a href="#parents" class="hover:text-[#2E2D29]">Parents</a>
         <a href="#publications" class="hover:text-[#2E2D29]">Publications</a>
-        <a href="https://roar.stanford.edu" class="hover:text-[#2E2D29]">ROAR ↗</a>
+        <a href="#media" class="hover:text-[#2E2D29]">Media</a>
       </nav>
       <div class="flex items-center gap-3 shrink-0">
-        <div class="relative hidden sm:flex items-center rounded-full bg-[#2E2D29] p-1 w-[320px]">
+        <div class="relative hidden sm:flex items-center rounded-full bg-[#2E2D29] p-1 w-[260px] xl:w-[320px]">
           <span class="absolute inset-y-1 left-1 w-[calc(50%-4px)] rounded-full accent-bg"></span>
           <span class="relative z-10 flex-1 text-center px-2 py-1.5 text-xs font-bold rounded-full text-white truncate">Reading &amp; Dyslexia</span>
           <a href="bde.html" class="relative z-10 flex-1 text-center px-2 py-1.5 text-xs font-bold rounded-full text-white/60 hover:text-white transition-colors truncate">Brain Development</a>
         </div>
+        <button id="mobile-nav-toggle" class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#2E2D29] text-white shrink-0" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-nav-panel">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+        </button>
         <a href="bde.html" class="sm:hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#2E2D29] text-white shrink-0" aria-label="Switch to the Brain Development &amp; Education Lab page">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
         </a>
       </div>
+    </div>
+    <div id="mobile-nav-panel" class="hidden lg:hidden absolute inset-x-0 top-full bg-white border-b border-[#DAD7CB] shadow-lg">
+      <nav class="flex flex-col px-6 py-2 text-sm font-semibold text-[#4D4F53]">
+        <a href="#research" class="py-3 border-b border-[#EDE9E0] hover:text-[#2E2D29]">Research</a>
+        <a href="#figures" class="py-3 border-b border-[#EDE9E0] hover:text-[#2E2D29]">Figures</a>
+        <a href="#team" class="py-3 border-b border-[#EDE9E0] hover:text-[#2E2D29]">People</a>
+        <a href="#roar" class="py-3 border-b border-[#EDE9E0] hover:text-[#2E2D29]">ROAR</a>
+        <a href="#parents" class="py-3 border-b border-[#EDE9E0] hover:text-[#2E2D29]">Parents</a>
+        <a href="#publications" class="py-3 border-b border-[#EDE9E0] hover:text-[#2E2D29]">Publications</a>
+        <a href="#media" class="py-3 hover:text-[#2E2D29]">Media</a>
+      </nav>
     </div>
   </header>
 
@@ -176,20 +191,23 @@
   </section>
 
   <!-- About / Mission -->
-  <section class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
+  <section class="max-w-7xl mx-auto px-6 lg:px-10 py-14">
     <p class="text-xs font-bold uppercase tracking-widest accent-text">The Program</p>
     <h2 class="font-black text-3xl mt-3">Why This Research Matters</h2>
     <p class="text-[#4D4F53] mt-2 max-w-2xl">Reading is at the foundation of academic success, and children who struggle to learn to read are at a disadvantage throughout their academic careers. Our program exists to change that.</p>
     <div class="grid sm:grid-cols-3 gap-6 mt-8">
       <div class="rounded-3xl tint-8 p-8">
+        <div class="w-10 h-10 rounded-full tint-14 flex items-center justify-center mb-3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-text"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path></svg></div>
         <h3 class="font-black text-lg">Who We Study</h3>
         <p class="text-sm text-[#4D4F53] mt-2">We run studies with a broad range of participants across childhood and adulthood — not just people with dyslexia — to understand the full diversity of how people learn to read.</p>
       </div>
       <div class="rounded-3xl tint-8 p-8">
+        <div class="w-10 h-10 rounded-full tint-14 flex items-center justify-center mb-3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-text"><path d="M4 21V10l8-5 8 5v11"></path><path d="M4 21h16"></path><path d="M9 21v-6h6v6"></path></svg></div>
         <h3 class="font-black text-lg">An Interdisciplinary Team</h3>
         <p class="text-sm text-[#4D4F53] mt-2">A collaboration between the Division of Developmental &amp; Behavioral Pediatrics at Stanford's School of Medicine and the Graduate School of Education, spanning education, pediatrics, psychology, neuroscience, and engineering.</p>
       </div>
       <div class="rounded-3xl tint-8 p-8">
+        <div class="w-10 h-10 rounded-full tint-14 flex items-center justify-center mb-3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-text"><polyline points="4 15 10 9 14 13 20 6"></polyline><polyline points="14 6 20 6 20 12"></polyline></svg></div>
         <h3 class="font-black text-lg">From Findings to Practice</h3>
         <p class="text-sm text-[#4D4F53] mt-2">What we learn directly shapes ROAR, our reading assessment platform now used in thousands of schools, and the guidance we share with families below.</p>
       </div>
@@ -200,21 +218,55 @@
     </div>
   </section>
 
+  <!-- ROAR spotlight -->
+  <section id="roar" class="max-w-7xl mx-auto px-6 lg:px-10 py-14 border-t border-[#DAD7CB]">
+    <div class="rounded-[2rem] accent-bg text-white p-8 sm:p-12 grid lg:grid-cols-2 gap-10 items-center">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-widest text-white/70">Building bridges from the lab to the classroom and back — inspiring a virtuous cycle between research and practice</p>
+        <h2 class="font-black text-3xl mt-3">ROAR — Rapid Online Assessment of Reading</h2>
+        <p class="mt-4 text-white/85 leading-relaxed">An open-access, fully automated reading assessment platform grounded in our ongoing research. Rostered in 2,500+ schools and community organizations across 39 states — including as one of California's four approved dyslexia screening tools — with real-time score reports for teachers and no test administrator required.</p>
+        <a href="https://roar.stanford.edu" class="inline-block mt-6 bg-white text-[#2E2D29] font-bold rounded-full px-6 py-3 text-sm hover:bg-[#2E2D29] hover:text-white transition-colors">Visit roar.stanford.edu ↗</a>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="rounded-2xl bg-white/10 p-6 text-center flex flex-col items-center">
+          <div class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center mb-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path></svg></div>
+          <div class="text-3xl font-black">239,000+</div><div class="text-xs text-white/70 mt-1">Students assessed</div>
+        </div>
+        <div class="rounded-2xl bg-white/10 p-6 text-center flex flex-col items-center">
+          <div class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center mb-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11a7 7 0 1 1 14 0c0 4.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.3"></circle></svg></div>
+          <div class="text-3xl font-black">39</div><div class="text-xs text-white/70 mt-1">States</div>
+        </div>
+        <div class="rounded-2xl bg-white/10 p-6 text-center flex flex-col items-center">
+          <div class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center mb-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V10l8-5 8 5v11"></path><path d="M4 21h16"></path><path d="M9 21v-6h6v6"></path></svg></div>
+          <div class="text-3xl font-black">2,542</div><div class="text-xs text-white/70 mt-1">Schools &amp; orgs</div>
+        </div>
+        <div class="rounded-2xl bg-white/10 p-6 text-center flex flex-col items-center">
+          <div class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center mb-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 15.5 14"></polyline></svg></div>
+          <div class="text-3xl font-black">5–10 min</div><div class="text-xs text-white/70 mt-1">Per screening</div>
+        </div>
+        <p class="col-span-2 text-xs text-white">Figures from ROAR's <a href="https://roar.stanford.edu/technical/intro-norms.html" target="_blank" rel="noopener" class="underline">norming &amp; technical documentation ↗</a></p>
+      </div>
+    </div>
+  </section>
+
   <!-- Research -->
-  <section id="research" class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
+  <section id="research" class="max-w-7xl mx-auto px-6 lg:px-10 py-14 border-t border-[#DAD7CB]">
     <p class="text-xs font-bold uppercase tracking-widest accent-text">Beta · Parent Research Portal</p>
     <h2 class="font-black text-3xl mt-3">ROAR@Home</h2>
     <p class="text-[#4D4F53] mt-2 max-w-2xl">Democratizing access to validated assessments. ROAR@Home gives families direct access to the same validated reading assessment and dyslexia screener used in hundreds of U.S. schools — plus new assessments still under active research — while helping us investigate what factors help children learn to read.</p>
     <div class="grid sm:grid-cols-3 gap-6 mt-8">
       <div class="rounded-3xl tint-8 p-8">
+        <div class="w-10 h-10 rounded-full tint-14 flex items-center justify-center mb-3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-text"><circle cx="10" cy="8" r="4"></circle><path d="M3 20c0-3.8 3.1-6.5 7-6.5"></path><line x1="17" y1="9" x2="17" y2="15"></line><line x1="14" y1="12" x2="20" y2="12"></line></svg></div>
         <h3 class="font-black text-lg">Participate in Research</h3>
         <p class="text-sm text-[#4D4F53] mt-2">Register to help us investigate the factors that contribute to reading difficulties and design personalized approaches to education.</p>
       </div>
       <div class="rounded-3xl tint-8 p-8">
+        <div class="w-10 h-10 rounded-full tint-14 flex items-center justify-center mb-3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-text"><path d="M8 3h6l4 4v13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"></path><path d="M14 3v4h4"></path><line x1="9.5" y1="12" x2="14.5" y2="12"></line><line x1="9.5" y1="16" x2="14.5" y2="16"></line></svg></div>
         <h3 class="font-black text-lg">Real Score Reports</h3>
         <p class="text-sm text-[#4D4F53] mt-2">Learn about your child's reading skills with ROAR@Home score reports, scored and validated the same way as the version used in schools.</p>
       </div>
       <div class="rounded-3xl tint-8 p-8">
+        <div class="w-10 h-10 rounded-full tint-14 flex items-center justify-center mb-3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-text"><path d="M12 6.8C10.4 5.4 7.8 4.6 4 4.6v13.8c3.8 0 6.4.8 8 2.2 1.6-1.4 4.2-2.2 8-2.2V4.6c-3.8 0-6.4.8-8 2.2z"></path></svg></div>
         <h3 class="font-black text-lg">Built for Families</h3>
         <p class="text-sm text-[#4D4F53] mt-2">A Family Guide, Next Steps Guide, Technical Manual, and video walkthroughs help you interpret your child's results.</p>
       </div>
@@ -269,6 +321,56 @@
     </div>
   </section>
 
+  <section id="parents" class="border-t border-[#DAD7CB] bg-[#FAF9F6]">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-14">
+      <h2 class="font-black text-3xl">Resources for Parents</h2>
+      <p class="text-[#4D4F53] mt-2 max-w-2xl">A starting point for families navigating a dyslexia diagnosis or wondering whether one fits.</p>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+        <a href="http://www.readingrockets.org/" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
+          <div class="w-9 h-9 rounded-full tint-14 flex items-center justify-center mb-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-text"><path d="M12 6.8C10.4 5.4 7.8 4.6 4 4.6v13.8c3.8 0 6.4.8 8 2.2 1.6-1.4 4.2-2.2 8-2.2V4.6c-3.8 0-6.4.8-8 2.2z"></path></svg></div>
+          <h3 class="font-bold text-sm">Reading Rockets</h3>
+          <p class="text-xs text-[#6B6560] mt-1">Intervention strategies &amp; classroom resources</p>
+        </a>
+        <a href="http://www.dyslexicadvantage.org/" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
+          <div class="w-9 h-9 rounded-full tint-14 flex items-center justify-center mb-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-text"><circle cx="12" cy="8.5" r="4.5"></circle><path d="M8.2 12.5 6.5 20l5.5-3 5.5 3-1.7-7.5"></path></svg></div>
+          <h3 class="font-bold text-sm">Dyslexic Advantage</h3>
+          <p class="text-xs text-[#6B6560] mt-1">Reframing dyslexia's strengths, reducing stigma</p>
+        </a>
+        <a href="http://www.decodingdyslexia.net/" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
+          <div class="w-9 h-9 rounded-full tint-14 flex items-center justify-center mb-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-text"><path d="M4 10v4h2.5l5.5 3.5v-11L6.5 10H4z"></path><path d="M14 8.5a4 4 0 0 1 0 7"></path></svg></div>
+          <h3 class="font-bold text-sm">Decoding Dyslexia</h3>
+          <p class="text-xs text-[#6B6560] mt-1">A parent-run, grassroots advocacy movement</p>
+        </a>
+        <a href="https://www.chconline.org/kids-we-serve/learning-differences/" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
+          <div class="w-9 h-9 rounded-full tint-14 flex items-center justify-center mb-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-text"><path d="M12 20.5s-7-4.5-9.3-8.6C1.2 8.7 2.7 5.5 5.8 5.5c2 0 3.4 1.1 4.7 2.9 1.3-1.8 2.7-2.9 4.7-2.9 3.1 0 4.6 3.2 3.1 6.4C19 16 12 20.5 12 20.5z"></path></svg></div>
+          <h3 class="font-bold text-sm">Children's Health Council</h3>
+          <p class="text-xs text-[#6B6560] mt-1">Evaluation, coaching &amp; clinical services</p>
+        </a>
+        <a href="http://www.fcrr.org/index.shtml" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
+          <div class="w-9 h-9 rounded-full tint-14 flex items-center justify-center mb-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-text"><path d="M4 21V10l8-5 8 5v11"></path><path d="M4 21h16"></path><path d="M9 21v-6h6v6"></path></svg></div>
+          <h3 class="font-bold text-sm">Florida Center for Reading Research</h3>
+          <p class="text-xs text-[#6B6560] mt-1">Research-backed student activities</p>
+        </a>
+        <a href="http://modules.ilabs.uw.edu/module/foundations-of-literacy/" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
+          <div class="w-9 h-9 rounded-full tint-14 flex items-center justify-center mb-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-text"><path d="M12 4 3 8.5 12 13l9-4.5L12 4z"></path><path d="M7 10.8v4.4c0 1.4 2.3 2.6 5 2.6s5-1.2 5-2.6v-4.4"></path></svg></div>
+          <h3 class="font-bold text-sm">Foundations of Literacy</h3>
+          <p class="text-xs text-[#6B6560] mt-1">Free I-LABS training module</p>
+        </a>
+        <a href="https://lindamoodbell.com/" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
+          <div class="w-9 h-9 rounded-full tint-14 flex items-center justify-center mb-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-text"><rect x="6" y="4" width="12" height="16" rx="1.5"></rect><path d="M9.5 4V3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1"></path><polyline points="9 12.5 11 14.5 15 10"></polyline></svg></div>
+          <h3 class="font-bold text-sm">Lindamood-Bell</h3>
+          <p class="text-xs text-[#6B6560] mt-1">Intervention &amp; tutoring centers</p>
+        </a>
+        <a href="https://www.k12.wa.us/about-ospi/workgroups-committees/currently-meeting-workgroups/washington-state-dyslexia-advisory-council/washington-state-dyslexia-resource-guide" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
+          <div class="w-9 h-9 rounded-full tint-14 flex items-center justify-center mb-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-text"><path d="M12 3.5 19 6.5v5.5c0 4.8-3.2 8-7 9.5-3.8-1.5-7-4.7-7-9.5V6.5L12 3.5z"></path></svg></div>
+          <h3 class="font-bold text-sm">WA State Dyslexia Resource Guide</h3>
+          <p class="text-xs text-[#6B6560] mt-1">State-level guidance for families &amp; schools</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- Figures from the literature -->
   <section id="figures" class="border-t border-[#DAD7CB]">
     <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
@@ -289,76 +391,7 @@
     <div id="team-grid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8"></div>
   </section>
 
-  <section id="parents" class="border-t border-[#DAD7CB] bg-[#FAF9F6]">
-    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
-      <h2 class="font-black text-3xl">Resources for Parents</h2>
-      <p class="text-[#4D4F53] mt-2 max-w-2xl">A starting point for families navigating a dyslexia diagnosis or wondering whether one fits.</p>
-
-      <a href="#research" class="flex items-center gap-4 rounded-2xl accent-bg text-white p-5 mt-8 hover:brightness-110 transition-[filter]">
-        <span class="shrink-0 w-11 h-11 rounded-full bg-white/15 flex items-center justify-center font-black text-sm">R</span>
-        <div>
-          <h3 class="font-bold text-sm">ROAR@Home ↑</h3>
-          <p class="text-xs text-white/80 mt-0.5">Our own free reading assessment &amp; dyslexia screener — see above</p>
-        </div>
-      </a>
-
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
-        <a href="http://www.readingrockets.org/" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
-          <h3 class="font-bold text-sm">Reading Rockets</h3>
-          <p class="text-xs text-[#6B6560] mt-1">Intervention strategies &amp; classroom resources</p>
-        </a>
-        <a href="http://www.dyslexicadvantage.org/" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
-          <h3 class="font-bold text-sm">Dyslexic Advantage</h3>
-          <p class="text-xs text-[#6B6560] mt-1">Reframing dyslexia's strengths, reducing stigma</p>
-        </a>
-        <a href="http://www.decodingdyslexia.net/" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
-          <h3 class="font-bold text-sm">Decoding Dyslexia</h3>
-          <p class="text-xs text-[#6B6560] mt-1">A parent-run, grassroots advocacy movement</p>
-        </a>
-        <a href="https://www.chconline.org/kids-we-serve/learning-differences/" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
-          <h3 class="font-bold text-sm">Children's Health Council</h3>
-          <p class="text-xs text-[#6B6560] mt-1">Evaluation, coaching &amp; clinical services</p>
-        </a>
-        <a href="http://www.fcrr.org/index.shtml" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
-          <h3 class="font-bold text-sm">Florida Center for Reading Research</h3>
-          <p class="text-xs text-[#6B6560] mt-1">Research-backed student activities</p>
-        </a>
-        <a href="http://modules.ilabs.uw.edu/module/foundations-of-literacy/" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
-          <h3 class="font-bold text-sm">Foundations of Literacy</h3>
-          <p class="text-xs text-[#6B6560] mt-1">Free I-LABS training module</p>
-        </a>
-        <a href="https://lindamoodbell.com/" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
-          <h3 class="font-bold text-sm">Lindamood-Bell</h3>
-          <p class="text-xs text-[#6B6560] mt-1">Intervention &amp; tutoring centers</p>
-        </a>
-        <a href="https://www.k12.wa.us/about-ospi/workgroups-committees/currently-meeting-workgroups/washington-state-dyslexia-advisory-council/washington-state-dyslexia-resource-guide" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
-          <h3 class="font-bold text-sm">WA State Dyslexia Resource Guide</h3>
-          <p class="text-xs text-[#6B6560] mt-1">State-level guidance for families &amp; schools</p>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ROAR spotlight -->
-  <section class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
-    <div class="rounded-[2rem] accent-bg text-white p-8 sm:p-12 grid lg:grid-cols-2 gap-10 items-center">
-      <div>
-        <p class="text-xs font-bold uppercase tracking-widest text-white/70">Building bridges from the lab to the classroom and back — inspiring a virtuous cycle between research and practice</p>
-        <h2 class="font-black text-3xl mt-3">ROAR — Rapid Online Assessment of Reading</h2>
-        <p class="mt-4 text-white/85 leading-relaxed">An open-access, fully automated reading assessment platform grounded in our ongoing research. Rostered in 2,500+ schools and community organizations across 39 states — including as one of California's four approved dyslexia screening tools — with real-time score reports for teachers and no test administrator required.</p>
-        <a href="https://roar.stanford.edu" class="inline-block mt-6 bg-white text-[#2E2D29] font-bold rounded-full px-6 py-3 text-sm hover:bg-[#2E2D29] hover:text-white transition-colors">Visit roar.stanford.edu ↗</a>
-      </div>
-      <div class="grid grid-cols-2 gap-4">
-        <div class="rounded-2xl bg-white/10 p-6 text-center"><div class="text-3xl font-black">239,000+</div><div class="text-xs text-white/70 mt-1">Students assessed</div></div>
-        <div class="rounded-2xl bg-white/10 p-6 text-center"><div class="text-3xl font-black">39</div><div class="text-xs text-white/70 mt-1">States</div></div>
-        <div class="rounded-2xl bg-white/10 p-6 text-center"><div class="text-3xl font-black">2,542</div><div class="text-xs text-white/70 mt-1">Schools &amp; orgs</div></div>
-        <div class="rounded-2xl bg-white/10 p-6 text-center"><div class="text-3xl font-black">5–10 min</div><div class="text-xs text-white/70 mt-1">Per screening</div></div>
-        <p class="col-span-2 text-xs text-white">Figures from ROAR's <a href="https://roar.stanford.edu/technical/intro-norms.html" target="_blank" rel="noopener" class="underline">norming &amp; technical documentation ↗</a></p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Publications + Media (shared) -->
+  <!-- Publications (shared) -->
   <section id="publications" class="border-t border-[#DAD7CB] bg-[#FAF9F6]">
     <div class="max-w-5xl mx-auto px-6 lg:px-10 py-16">
       <h2 class="font-black text-3xl">Reading &amp; Dyslexia Research Program Publications</h2>
@@ -366,9 +399,15 @@
       <div id="pubs-stats" class="flex flex-wrap gap-8 mt-6 mb-4"></div>
       <div id="pubs-filters" class="flex flex-wrap gap-2 mb-6"></div>
       <div id="pubs-list"></div>
+    </div>
+  </section>
 
-      <h3 class="font-black text-2xl mt-14">In the Media</h3>
-      <div id="media-list" class="mt-4"></div>
+  <!-- Media (shared) -->
+  <section id="media" class="border-t border-[#DAD7CB]">
+    <div class="max-w-5xl mx-auto px-6 lg:px-10 py-16">
+      <h2 class="font-black text-3xl">In the Media</h2>
+      <p class="text-[#4D4F53] mt-2">Press coverage of the lab's research and the ROAR platform.</p>
+      <div id="media-list" class="mt-6"></div>
     </div>
   </section>
 
@@ -430,7 +469,7 @@
   </footer>
 
   <script src="shared-data.js?v=8"></script>
-  <script src="site.js?v=20"></script>
+  <script src="site.js?v=21"></script>
   <script>initSite('rdrp', 'bde.html');</script>
 </body>
 </html>

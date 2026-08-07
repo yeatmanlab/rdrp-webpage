@@ -54,7 +54,13 @@ do from here:
   and `FIGURES`. Both homepages render Team/Publications/Media from this file via
   `site.js`, so they never drift out of sync with each other.
 - `site.js` — rendering logic (`renderTeam`, `renderPublications`, `renderMedia`,
-  `renderFigures`) plus the coin-flip-then-navigate behavior.
+  `renderFigures`) plus the coin-flip-then-navigate behavior and the mobile nav
+  dropdown (`setupMobileNav`, toggled below the `lg` breakpoint on both pages).
+- Section order on `rdrp.html` deliberately introduces ROAR (`#roar`) before ROAR@Home
+  (`#research`) before Parents (`#parents`), so the story reads mission → what ROAR is →
+  how to use it at home → parent resources, before Figures/Team/Publications/Media.
+  `#media` (In the Media) is its own section on both pages, not nested under
+  `#publications` — `renderMedia()` just targets `#media-list` wherever it lives.
 - `assets/logos/`, `assets/people/`, `assets/figures/` — real logos, team headshots, and
   brain-imaging figures, all sourced from the lab's own sites or PubMed Central (open
   access), then resized/optimized locally.

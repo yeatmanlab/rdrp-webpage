@@ -262,7 +262,11 @@ function renderPublications() {
       if (p.pubmedUrl) links += '<a href="' + p.pubmedUrl + '" target="_blank" rel="noopener" class="link-chip">PubMed</a>';
       if (p.pdf) links += '<a href="' + p.pdf + '" target="_blank" rel="noopener" class="link-chip">PDF</a>';
       const badge = p.citedBy ? '<span class="cite-badge">' + p.citedBy + ' citation' + (p.citedBy === 1 ? '' : 's') + '</span>' : '';
-      li.innerHTML = escapeHtml(p.text) + ' ' + badge + '<div class="mt-1 flex flex-wrap gap-2">' + links + '</div>' + buildPubCardHtml(p);
+      const primaryLink = p.url || p.scholarUrl || p.pubmedUrl || p.pdf;
+      const citationHtml = primaryLink
+        ? '<a href="' + primaryLink + '" target="_blank" rel="noopener" class="hover:underline">' + escapeHtml(p.text) + '</a>'
+        : escapeHtml(p.text);
+      li.innerHTML = citationHtml + ' ' + badge + '<div class="mt-1 flex flex-wrap gap-2">' + links + '</div>' + buildPubCardHtml(p);
       list.appendChild(li);
     });
     details.appendChild(list);
@@ -475,7 +479,7 @@ function setupCoin(currentView, otherPageUrl) {
     if (navigating) return;
     navigating = true;
     coin.classList.add('is-navigating');
-    setTimeout(function () { window.location.href = otherPageUrl; }, 550);
+    setTimeout(function () { window.location.href = otherPageUrl; }, 900);
   }
 
   coin.addEventListener('click', flipAndGo);
@@ -580,6 +584,34 @@ function setupSwipeDemo() {
   updateTally();
 }
 
+function setupMobileNav() {
+  const btn = document.getElementById('mobile-nav-toggle');
+  const panel = document.getElementById('mobile-nav-panel');
+  if (!btn || !panel) return;
+
+  function close() {
+    panel.classList.add('hidden');
+    btn.setAttribute('aria-expanded', 'false');
+  }
+  function open() {
+    panel.classList.remove('hidden');
+    btn.setAttribute('aria-expanded', 'true');
+  }
+
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    if (panel.classList.contains('hidden')) open(); else close();
+  });
+  panel.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', close); });
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('#mobile-nav-panel') || e.target.closest('#mobile-nav-toggle')) return;
+    close();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') close();
+  });
+}
+
 function initSite(currentView, otherPageUrl) {
   renderTeam();
   renderPublications();
@@ -589,4 +621,5 @@ function initSite(currentView, otherPageUrl) {
   setupResourceSlider();
   setupCoin(currentView, otherPageUrl);
   setupSwipeDemo();
+  setupMobileNav();
 }

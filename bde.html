@@ -34,7 +34,7 @@
   @media (min-width:1280px){ .coin{ width:132px; height:132px; } }
   .coin-inner{ width:100%; height:100%; position:relative; transition:transform .85s cubic-bezier(.34,1.56,.64,1), filter .85s ease; transform-style:preserve-3d; }
   .coin.is-flipped .coin-inner{ transform:rotateY(180deg); }
-  .coin.is-navigating .coin-inner{ transform:rotateY(0deg) scale(1.22); filter:drop-shadow(0 0 28px rgba(255,255,255,.6)); }
+  .coin.is-navigating .coin-inner{ transform:rotateY(1080deg) scale(1.22); filter:drop-shadow(0 0 28px rgba(255,255,255,.6)); transition:transform .9s cubic-bezier(.22,.68,0,1), filter .9s ease; }
   .coin-face{ position:absolute; inset:0; border-radius:9999px; display:flex; align-items:center; justify-content:center;
     backface-visibility:hidden; box-shadow:0 14px 34px rgba(0,0,0,.32), inset 0 0 0 5px rgba(255,255,255,.5); }
   .coin-front{ background:#8C1515; } .coin-back{ background:#007C92; transform:rotateY(180deg); }
@@ -125,24 +125,39 @@
         <span class="font-serif font-semibold hidden xl:block shrink-0" style="color:#8C1515; font-size:17px; letter-spacing:-0.01em;">Stanford University</span>
         <img src="assets/logos/bde-banner.png" alt="Brain Development &amp; Education Lab" class="h-7 sm:h-9 shrink-0" />
       </a>
-      <nav class="hidden lg:flex items-center gap-4 xl:gap-8 text-sm font-semibold text-[#4D4F53] whitespace-nowrap">
+      <nav class="hidden lg:flex items-center gap-3 xl:gap-8 text-sm font-semibold text-[#4D4F53] whitespace-nowrap">
         <a href="#research" class="hover:text-[#2E2D29]">Research</a>
         <a href="#figures" class="hover:text-[#2E2D29]">Figures</a>
         <a href="#team" class="hover:text-[#2E2D29]">People</a>
         <a href="#software" class="hover:text-[#2E2D29]">Software</a>
+        <a href="#roar" class="hover:text-[#2E2D29]">ROAR</a>
         <a href="#publications" class="hover:text-[#2E2D29]">Publications</a>
-        <a href="https://roar.stanford.edu" class="hover:text-[#2E2D29]">ROAR ↗</a>
+        <a href="#media" class="hover:text-[#2E2D29]">Media</a>
       </nav>
       <div class="flex items-center gap-3 shrink-0">
-        <div class="relative hidden sm:flex items-center rounded-full bg-[#2E2D29] p-1 w-[320px]">
+        <div class="relative hidden sm:flex items-center rounded-full bg-[#2E2D29] p-1 w-[260px] xl:w-[320px]">
           <span class="absolute inset-y-1 right-1 w-[calc(50%-4px)] rounded-full accent-bg"></span>
           <a href="rdrp.html" class="relative z-10 flex-1 text-center px-2 py-1.5 text-xs font-bold rounded-full text-white/60 hover:text-white transition-colors truncate">Reading &amp; Dyslexia</a>
           <span class="relative z-10 flex-1 text-center px-2 py-1.5 text-xs font-bold rounded-full text-white truncate">Brain Development</span>
         </div>
+        <button id="mobile-nav-toggle" class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#2E2D29] text-white shrink-0" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-nav-panel">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+        </button>
         <a href="rdrp.html" class="sm:hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#2E2D29] text-white shrink-0" aria-label="Switch to the Reading &amp; Dyslexia Research Program page">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
         </a>
       </div>
+    </div>
+    <div id="mobile-nav-panel" class="hidden lg:hidden absolute inset-x-0 top-full bg-white border-b border-[#DAD7CB] shadow-lg">
+      <nav class="flex flex-col px-6 py-2 text-sm font-semibold text-[#4D4F53]">
+        <a href="#research" class="py-3 border-b border-[#EDE9E0] hover:text-[#2E2D29]">Research</a>
+        <a href="#figures" class="py-3 border-b border-[#EDE9E0] hover:text-[#2E2D29]">Figures</a>
+        <a href="#team" class="py-3 border-b border-[#EDE9E0] hover:text-[#2E2D29]">People</a>
+        <a href="#software" class="py-3 border-b border-[#EDE9E0] hover:text-[#2E2D29]">Software</a>
+        <a href="#roar" class="py-3 border-b border-[#EDE9E0] hover:text-[#2E2D29]">ROAR</a>
+        <a href="#publications" class="py-3 border-b border-[#EDE9E0] hover:text-[#2E2D29]">Publications</a>
+        <a href="#media" class="py-3 hover:text-[#2E2D29]">Media</a>
+      </nav>
     </div>
   </header>
 
@@ -189,6 +204,7 @@
 
     <div class="grid md:grid-cols-2 gap-6 mt-8">
       <div class="rounded-3xl tint-8 p-8">
+        <div class="w-10 h-10 rounded-full tint-14 flex items-center justify-center mb-3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-text"><polyline points="3 12 8 12 10 6 14 18 16 12 21 12"></polyline></svg></div>
         <h3 class="font-black text-xl">Plasticity &amp; Learning</h3>
         <p class="text-sm text-[#4D4F53] mt-3">We combine state-of-the-art neuroimaging with intensive reading-intervention programs to understand how education sculpts the brain's reading circuitry. Our work has shown that a targeted intervention drives rapid, large-scale changes in white matter tissue properties that track a child's learning in real time — and we're now working to predict a child's learning trajectory from the structure of their reading circuitry, and to understand the long-term effects of that plasticity.</p>
         <p class="text-xs text-[#6B6560] mt-4">Currently funded by NIH NICHD R01HD095861 · <a href="https://clinicaltrials.gov/study/NCT04323488" target="_blank" rel="noopener" class="link-chip">NCT04323488</a></p>
@@ -199,6 +215,7 @@
       </div>
 
       <div class="rounded-3xl tint-8 p-8">
+        <div class="w-10 h-10 rounded-full tint-14 flex items-center justify-center mb-3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-text"><polygon points="12 3 3 8 12 13 21 8 12 3"></polygon><polyline points="3 13 12 18 21 13"></polyline></svg></div>
         <h3 class="font-black text-xl">Mechanisms of Learning Differences</h3>
         <p class="text-sm text-[#4D4F53] mt-3">Rather than treating dyslexia as a single, homogeneous condition, we conceptualize it as the interaction between a combination of risk and protective factors — a multifactorial model. The long-term goal is to identify the mechanisms underlying an individual child's struggles, elucidate useful accommodations, and predict the optimal approach to education and intervention for that child.</p>
         <p class="text-xs text-[#6B6560] mt-4">Currently funded by NIH NICHD R01HD116845, 2025–2030</p>
@@ -209,6 +226,7 @@
       </div>
 
       <div class="rounded-3xl tint-8 p-8">
+        <div class="w-10 h-10 rounded-full tint-14 flex items-center justify-center mb-3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-text"><line x1="5" y1="20" x2="5" y2="11"></line><line x1="10.5" y1="20" x2="10.5" y2="5"></line><line x1="16" y1="20" x2="16" y2="14"></line><line x1="3" y1="20" x2="19" y2="20"></line></svg></div>
         <h3 class="font-black text-xl">Quantitative Models of the Reading Circuitry</h3>
         <p class="text-sm text-[#4D4F53] mt-3">How does the literate brain recognize a word? We introduced the first computational model of the computations performed by word-selective visual cortex, then extended it to explain a striking fact about reading: the brain can only recognize a single word at a time, with attention acting as a gating mechanism. We continue to formalize these models and apply them to individual differences in learning.</p>
         <div class="flex flex-wrap gap-2 mt-4">
@@ -218,6 +236,7 @@
       </div>
 
       <div class="rounded-3xl tint-8 p-8">
+        <div class="w-10 h-10 rounded-full tint-14 flex items-center justify-center mb-3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-text"><path d="M9.5 14.5 14.5 9.5"></path><path d="M8 8l-1.3 1.3a3 3 0 0 0 4.24 4.24L12 12.5"></path><path d="M16 16l1.3-1.3a3 3 0 0 0-4.24-4.24L12 11.5"></path></svg></div>
         <h3 class="font-black text-xl">Research-Practice Partnerships</h3>
         <p class="text-sm text-[#4D4F53] mt-3">Rather than a one-way street from the lab to society, we treat our partnerships with schools and pediatric clinics as a virtuous cycle — deploying ROAR as a real screening and progress-monitoring tool keeps our research grounded in real-world problems, while what we learn from those deployments feeds back into the science.</p>
         <p class="text-xs text-[#6B6560] mt-4">Supported by AERDF, the Robertson Foundation, the Klingenstein Foundation, and the State of California</p>
@@ -337,7 +356,7 @@
   </section>
 
   <!-- ROAR spotlight -->
-  <section class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
+  <section id="roar" class="max-w-7xl mx-auto px-6 lg:px-10 py-16 border-t border-[#DAD7CB]">
     <div class="rounded-[2rem] accent-bg text-white p-8 sm:p-12 grid lg:grid-cols-2 gap-10 items-center">
       <div>
         <p class="text-xs font-bold uppercase tracking-widest text-white/70">Building bridges from the lab to the classroom and back — inspiring a virtuous cycle between research and practice</p>
@@ -346,16 +365,28 @@
         <a href="https://roar.stanford.edu" class="inline-block mt-6 bg-white text-[#2E2D29] font-bold rounded-full px-6 py-3 text-sm hover:bg-[#2E2D29] hover:text-white transition-colors">Visit roar.stanford.edu ↗</a>
       </div>
       <div class="grid grid-cols-2 gap-4">
-        <div class="rounded-2xl bg-white/10 p-6 text-center"><div class="text-3xl font-black">239,000+</div><div class="text-xs text-white/70 mt-1">Students assessed</div></div>
-        <div class="rounded-2xl bg-white/10 p-6 text-center"><div class="text-3xl font-black">39</div><div class="text-xs text-white/70 mt-1">States</div></div>
-        <div class="rounded-2xl bg-white/10 p-6 text-center"><div class="text-3xl font-black">2,542</div><div class="text-xs text-white/70 mt-1">Schools &amp; orgs</div></div>
-        <div class="rounded-2xl bg-white/10 p-6 text-center"><div class="text-3xl font-black">5–10 min</div><div class="text-xs text-white/70 mt-1">Per screening</div></div>
+        <div class="rounded-2xl bg-white/10 p-6 text-center flex flex-col items-center">
+          <div class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center mb-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path></svg></div>
+          <div class="text-3xl font-black">239,000+</div><div class="text-xs text-white/70 mt-1">Students assessed</div>
+        </div>
+        <div class="rounded-2xl bg-white/10 p-6 text-center flex flex-col items-center">
+          <div class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center mb-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11a7 7 0 1 1 14 0c0 4.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.3"></circle></svg></div>
+          <div class="text-3xl font-black">39</div><div class="text-xs text-white/70 mt-1">States</div>
+        </div>
+        <div class="rounded-2xl bg-white/10 p-6 text-center flex flex-col items-center">
+          <div class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center mb-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V10l8-5 8 5v11"></path><path d="M4 21h16"></path><path d="M9 21v-6h6v6"></path></svg></div>
+          <div class="text-3xl font-black">2,542</div><div class="text-xs text-white/70 mt-1">Schools &amp; orgs</div>
+        </div>
+        <div class="rounded-2xl bg-white/10 p-6 text-center flex flex-col items-center">
+          <div class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center mb-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 15.5 14"></polyline></svg></div>
+          <div class="text-3xl font-black">5–10 min</div><div class="text-xs text-white/70 mt-1">Per screening</div>
+        </div>
         <p class="col-span-2 text-xs text-white">Figures from ROAR's <a href="https://roar.stanford.edu/technical/intro-norms.html" target="_blank" rel="noopener" class="underline">norming &amp; technical documentation ↗</a></p>
       </div>
     </div>
   </section>
 
-  <!-- Publications + Media (shared) -->
+  <!-- Publications (shared) -->
   <section id="publications" class="border-t border-[#DAD7CB] bg-[#FAF9F6]">
     <div class="max-w-5xl mx-auto px-6 lg:px-10 py-16">
       <h2 class="font-black text-3xl">Brain Development &amp; Education Lab Publications</h2>
@@ -363,9 +394,15 @@
       <div id="pubs-stats" class="flex flex-wrap gap-8 mt-6 mb-4"></div>
       <div id="pubs-filters" class="flex flex-wrap gap-2 mb-6"></div>
       <div id="pubs-list"></div>
+    </div>
+  </section>
 
-      <h3 class="font-black text-2xl mt-14">In the Media</h3>
-      <div id="media-list" class="mt-4"></div>
+  <!-- Media (shared) -->
+  <section id="media" class="border-t border-[#DAD7CB]">
+    <div class="max-w-5xl mx-auto px-6 lg:px-10 py-16">
+      <h2 class="font-black text-3xl">In the Media</h2>
+      <p class="text-[#4D4F53] mt-2">Press coverage of the lab's research and the ROAR platform.</p>
+      <div id="media-list" class="mt-6"></div>
     </div>
   </section>
 
@@ -427,7 +464,7 @@
   </footer>
 
   <script src="shared-data.js?v=8"></script>
-  <script src="site.js?v=20"></script>
+  <script src="site.js?v=21"></script>
   <script>initSite('bde', 'rdrp.html');</script>
 </body>
 </html>
