@@ -15,7 +15,7 @@
 const PEOPLE = [
   { name: "Jason D. Yeatman, Ph.D.", role: "Stanford Faculty, Lab Director", photo: "assets/people/jason-yeatman.jpg", profileUrl: "yeatman.html",
     summary: "Studies how the brain's reading circuitry develops and changes with instruction and intervention. Leads Brain Development & Education Lab, Reading & Dyslexia Research Program and ROAR.",
-    bio: "Associate Professor, Graduate School of Education; Division of Developmental & Behavioral Pediatrics, School of Medicine; Department of Psychology. Directs both the Reading & Dyslexia Research Program and the Brain Development & Education Lab, and built the ROAR reading-assessment platform.",
+    bio: "Earned his Ph.D. in Psychology at Stanford and held a faculty position at the University of Washington's Institute for Learning & Brain Sciences before returning to Stanford as Associate Professor in the Graduate School of Education, the Department of Psychology, and the Division of Developmental & Behavioral Pediatrics, School of Medicine. Directs the Brain Development & Education Lab and the Reading & Dyslexia Research Program, built the ROAR reading-assessment platform, and is a member of Bio-X, the Wu Tsai Human Performance Alliance, the Maternal & Child Health Research Institute, and the Wu Tsai Neurosciences Institute.",
     tags: ["Faculty", "Neuroimaging", "Reading & Literacy Science"],
     links: { stanfordProfile: "https://profiles.stanford.edu/jason-yeatman", scholar: "https://scholar.google.com/citations?user=ROfIDvQAAAAJ", linkedin: "https://www.linkedin.com/in/jason-yeatman-287a69140/" },
     pubMatch: ["Yeatman"] },
