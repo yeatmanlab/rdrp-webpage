@@ -222,7 +222,9 @@ function renderPublications() {
     filterBar.innerHTML = pillsHtml;
     filterBar.addEventListener('click', function (e) {
       const btn = e.target.closest('.filter-pill');
-      if (!btn) return;
+      if (!btn || btn.classList.contains('hero-filter-pill')) return;
+      const heroPill = filterBar.querySelector('.hero-filter-pill');
+      if (heroPill) heroPill.remove();
       filterBar.querySelectorAll('.filter-pill').forEach(function (b) { b.classList.remove('active'); });
       btn.classList.add('active');
       applyPubsFilter(container, btn.dataset.tag);
@@ -375,11 +377,32 @@ function setupHeroPubsButtons() {
   const filterBar = document.getElementById('pubs-filters');
   const section = document.getElementById('publications');
   if (!list || !section) return;
+
+  function clearToAll() {
+    const old = filterBar.querySelector('.hero-filter-pill');
+    if (old) old.remove();
+    filterBar.querySelectorAll('.filter-pill').forEach(function (b) { b.classList.remove('active'); });
+    const allPill = filterBar.querySelector('.filter-pill[data-tag="all"]');
+    if (allPill) allPill.classList.add('active');
+    applyPubsFilter(list, 'all');
+  }
+
   const wire = function (id, tag) {
     const btn = document.getElementById(id);
     if (!btn) return;
-    btn.addEventListener('click', function () {
-      if (filterBar) filterBar.querySelectorAll('.filter-pill').forEach(function (b) { b.classList.remove('active'); });
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation(); // this button sits inside .side-panel, which flips to the other page on click
+      if (filterBar) {
+        const old = filterBar.querySelector('.hero-filter-pill');
+        if (old) old.remove();
+        filterBar.querySelectorAll('.filter-pill').forEach(function (b) { b.classList.remove('active'); });
+        const pill = document.createElement('button');
+        pill.className = 'filter-pill active hero-filter-pill';
+        pill.textContent = 'Showing: ' + tag + '  ✕';
+        pill.setAttribute('aria-label', 'Clear filter and show all publications');
+        pill.addEventListener('click', function (e) { e.stopPropagation(); clearToAll(); });
+        filterBar.insertBefore(pill, filterBar.firstChild);
+      }
       applyPubsFilter(list, tag);
       section.scrollIntoView({ behavior: 'smooth' });
     });
