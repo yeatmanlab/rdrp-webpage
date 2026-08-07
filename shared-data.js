@@ -311,7 +311,7 @@ const MEDIA = [
   { title: "Despite Dyslexia", outlet: "University of Washington Columns Magazine", date: "September 2018", url: "http://magazine.washington.edu/feature/dyslexia/" },
   { title: "Decoding Dyslexia", outlet: "UW College of Arts & Sciences Newsletter", date: "August 2016", url: "https://artsci.washington.edu/news/2016-08/decoding-dyslexia" },
   { title: "What is the Role of the Visual System in Reading and Dyslexia?", outlet: "International Dyslexia Association Examiner", date: "March 2016", url: "https://dyslexiaida.org/what-is-the-role-of-the-visual-system-in-reading-and-dyslexia/" },
-  { title: "Scientists Discover Secret Corridor In Brain, Lost For 100 Years", outlet: "NPR / KUOW — “The Record”", date: "2015", url: "http://kuow.org/post/scientists-discover-secret-corridor-brain-lost-100-years" },
+  { title: "Scientists Discover Secret Corridor In Brain, Lost For 100 Years", outlet: "NPR / KUOW — “The Record”", date: "2015", url: "https://web.archive.org/web/20160111192153/http://kuow.org/post/scientists-discover-secret-corridor-brain-lost-100-years" },
 ];
 
 // A curated set of real figures from the lab's brain-imaging papers, for the BDE Lab
@@ -376,7 +376,7 @@ const RDRP_FIGURES = [
   { image: "assets/figures/rdrp-figures/roar-norms-validity.jpg", year: 2026,
     title: "National Norms Across Grades 1–10",
     description: "Percentile scores from ROAR's national norming sample closely track Woodcock-Johnson percentiles at every grade from 1 through 10, supporting its use as a norm-referenced screener across elementary and secondary school.",
-    url: "https://roar.stanford.edu/technical/Rapid-Online-Assessment-of-Reading–ROAR-.pdf" },
+    url: "https://roar.stanford.edu/technical/Rapid-Online-Assessment-of-Reading--ROAR-.pdf" },
   { image: "assets/figures/pub-figures/ramamurthy-visual-processing-risk.jpg", year: 2026,
     title: "Visual Processing Reveals Hidden Reading Risk",
     description: "In a large California sample, children with strong language skills but weak rapid visual-processing scores had the second-highest rate of reading difficulty of any subgroup (26–32%) — a risk that language-only screening would miss entirely.",

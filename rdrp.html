@@ -89,7 +89,7 @@
     transition:opacity .2s ease, transform .2s ease; }
   .pub-item:hover .pub-card, .pub-item:focus-within .pub-card{
     opacity:1; transform:translateX(-50%) translateY(0) scale(1); pointer-events:auto; }
-  .pub-card-figure{ width:100%; border-radius:.5rem; margin-bottom:8px; display:block; background:#F5F4F0; }
+  .pub-card-figure{ width:100%; max-height:220px; object-fit:contain; border-radius:.5rem; margin-bottom:8px; display:block; background:#F5F4F0; }
   .pub-card-summary{ font-size:12px; line-height:1.5; color:#2E2D29; }
 </style>
 </head>
@@ -145,7 +145,7 @@
         </div>
       </div>
     </div>
-    <div class="coin-wrap absolute inset-0 flex items-center justify-center pointer-events-none">
+    <div class="coin-wrap hidden lg:flex absolute inset-0 items-center justify-center pointer-events-none">
       <div class="flex flex-col items-center gap-3 pointer-events-auto">
         <button id="coin" class="coin" aria-label="Flip to the Brain Development &amp; Education Lab page">
           <div class="coin-inner">
@@ -410,7 +410,7 @@
   </footer>
 
   <script src="shared-data.js?v=8"></script>
-  <script src="site.js?v=17"></script>
+  <script src="site.js?v=18"></script>
   <script>initSite('rdrp', 'bde.html');</script>
 </body>
 </html>
