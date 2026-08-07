@@ -260,6 +260,7 @@ function renderPublications() {
       }
       if (p.scholarUrl) links += '<a href="' + p.scholarUrl + '" target="_blank" rel="noopener" class="link-chip">Google Scholar</a>';
       if (p.pubmedUrl) links += '<a href="' + p.pubmedUrl + '" target="_blank" rel="noopener" class="link-chip">PubMed</a>';
+      if (p.pdf) links += '<a href="' + p.pdf + '" target="_blank" rel="noopener" class="link-chip">PDF</a>';
       const badge = p.citedBy ? '<span class="cite-badge">' + p.citedBy + ' citation' + (p.citedBy === 1 ? '' : 's') + '</span>' : '';
       li.innerHTML = escapeHtml(p.text) + ' ' + badge + '<div class="mt-1 flex flex-wrap gap-2">' + links + '</div>' + buildPubCardHtml(p);
       list.appendChild(li);
