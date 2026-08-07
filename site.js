@@ -135,6 +135,7 @@ function applyTeamFilter(container, tag) {
 function buildTeamExpandHtml(p) {
   let linksHtml = '';
   if (p.links) {
+    if (p.links.stanfordProfile) linksHtml += '<a href="' + p.links.stanfordProfile + '" target="_blank" rel="noopener" class="link-chip">Stanford Profile ↗</a>';
     if (p.links.website) linksHtml += '<a href="' + p.links.website + '" target="_blank" rel="noopener" class="link-chip">Website ↗</a>';
     if (p.links.linkedin) linksHtml += '<a href="' + p.links.linkedin + '" target="_blank" rel="noopener" class="link-chip">LinkedIn ↗</a>';
     if (p.links.scholar) linksHtml += '<a href="' + p.links.scholar + '" target="_blank" rel="noopener" class="link-chip">Scholar ↗</a>';
