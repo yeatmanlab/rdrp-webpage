@@ -15,7 +15,10 @@
       "cleanUrls": true,
       "trailingSlash": false,
       "rewrites": [
-        { "source": "/", "destination": "/rdrp.html" }
+        {
+          "source": "/",
+          "destination": "/rdrp.html"
+        }
       ]
     },
     {
@@ -33,7 +36,10 @@
       "cleanUrls": true,
       "trailingSlash": false,
       "rewrites": [
-        { "source": "/", "destination": "/bde.html" }
+        {
+          "source": "/",
+          "destination": "/bde.html"
+        }
       ]
     }
   ]
