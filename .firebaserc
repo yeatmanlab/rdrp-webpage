@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "gse-yeatman-lab-website"
+  },
+  "targets": {
+    "gse-yeatman-lab-website": {
+      "hosting": {
+        "rdrp": [
+          "yeatman-rdrp"
+        ],
+        "bde": [
+          "yeatman-bde"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
