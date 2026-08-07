@@ -251,7 +251,7 @@ function renderPublications() {
     list.className = 'mt-2 space-y-3';
     byYear[year].forEach(function (p) {
       const li = document.createElement('li');
-      li.className = 'pub-item text-sm text-[#4D4F53] leading-relaxed relative rounded-lg -mx-2 px-2 py-1.5 transition-colors hover:bg-[#FAF9F6] focus-within:bg-[#FAF9F6]';
+      li.className = 'pub-item text-sm text-[#4D4F53] leading-relaxed relative rounded-lg -mx-2 px-2 py-1.5 transition-colors hover:bg-white focus-within:bg-white hover:shadow-sm focus-within:shadow-sm';
       li.dataset.tags = (p.tags || []).join('|');
       let links = '';
       if (p.url) {
