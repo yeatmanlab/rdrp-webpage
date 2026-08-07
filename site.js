@@ -331,11 +331,13 @@ function applyPubsFilter(container, tag) {
   setTimeout(reflowAndReveal, 180);
 }
 
-function renderFigures() {
-  var track = document.getElementById('figure-track');
-  if (!track || typeof FIGURES === 'undefined') return;
+// Shared by both pages' figure carousels (BDE's brain-imaging figures and RDRP's
+// ROAR/dyslexia findings) - same markup and scroll behavior, different data + ids.
+function renderFigureCarousel(data, ids) {
+  var track = document.getElementById(ids.track);
+  if (!track || !data) return;
 
-  FIGURES.forEach(function (f) {
+  data.forEach(function (f) {
     var card = document.createElement('a');
     card.href = f.url;
     card.target = '_blank';
@@ -356,11 +358,34 @@ function renderFigures() {
     track.appendChild(card);
   });
 
-  var prevBtn = document.getElementById('figure-prev');
-  var nextBtn = document.getElementById('figure-next');
+  var prevBtn = document.getElementById(ids.prev);
+  var nextBtn = document.getElementById(ids.next);
   var scrollAmount = function () { return track.querySelector('.figure-card').getBoundingClientRect().width + 16; };
   if (prevBtn) prevBtn.addEventListener('click', function () { track.scrollBy({ left: -scrollAmount(), behavior: 'smooth' }); });
   if (nextBtn) nextBtn.addEventListener('click', function () { track.scrollBy({ left: scrollAmount(), behavior: 'smooth' }); });
+}
+
+function renderFigures() {
+  renderFigureCarousel(typeof FIGURES === 'undefined' ? null : FIGURES, { track: 'figure-track', prev: 'figure-prev', next: 'figure-next' });
+  renderFigureCarousel(typeof RDRP_FIGURES === 'undefined' ? null : RDRP_FIGURES, { track: 'rdrp-figure-track', prev: 'rdrp-figure-prev', next: 'rdrp-figure-next' });
+}
+
+function setupHeroPubsButtons() {
+  const list = document.getElementById('pubs-list');
+  const filterBar = document.getElementById('pubs-filters');
+  const section = document.getElementById('publications');
+  if (!list || !section) return;
+  const wire = function (id, tag) {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      if (filterBar) filterBar.querySelectorAll('.filter-pill').forEach(function (b) { b.classList.remove('active'); });
+      applyPubsFilter(list, tag);
+      section.scrollIntoView({ behavior: 'smooth' });
+    });
+  };
+  wire('hero-pubs-rdrp', 'Reading & Dyslexia Research Program');
+  wire('hero-pubs-bde', 'Brain Development & Education Lab');
 }
 
 function setupResourceSlider() {
@@ -509,6 +534,7 @@ function initSite(currentView, otherPageUrl) {
   renderPublications();
   renderMedia();
   renderFigures();
+  setupHeroPubsButtons();
   setupResourceSlider();
   setupCoin(currentView, otherPageUrl);
   setupSwipeDemo();
