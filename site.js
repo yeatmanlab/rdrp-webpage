@@ -76,6 +76,30 @@ function renderTeam() {
   });
 }
 
+function renderAlumni() {
+  const container = document.getElementById('alumni-grid');
+  if (!container || typeof ALUMNI === 'undefined' || !ALUMNI.length) return;
+
+  ALUMNI.forEach(function (p) {
+    const card = document.createElement('div');
+    card.className = 'team-card text-center';
+    card.tabIndex = 0;
+    card.innerHTML =
+      '<div class="team-photo-wrap relative aspect-square rounded-2xl shadow overflow-hidden">' +
+        '<img src="' + p.photo + '" alt="' + escapeHtml(p.name) + '" ' +
+        'class="w-full h-full object-cover" loading="lazy" ' +
+        'onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';" />' +
+        '<div class="avatar-fallback absolute inset-0 items-center justify-center text-3xl font-bold text-white" style="display:none">' +
+        initials(p.name) + '</div>' +
+        buildTeamExpandHtml(p) +
+      '</div>' +
+      '<h3 class="font-bold mt-3 text-sm">' + escapeHtml(p.name) + '</h3>' +
+      '<p class="text-xs text-[#6B6560] mt-1">' + escapeHtml(p.role) + '</p>';
+    container.appendChild(card);
+    setupTeamExpand(card);
+  });
+}
+
 // Filters the team grid with a two-phase shuffle: cards leaving the filter fade out
 // first (while everyone else is still in their old spot, so there's no reflow to
 // fight), then the grid re-flows and every remaining/entering card animates from its
@@ -615,6 +639,7 @@ function setupMobileNav() {
 
 function initSite(currentView, otherPageUrl) {
   renderTeam();
+  renderAlumni();
   renderPublications();
   renderMedia();
   renderFigures();
