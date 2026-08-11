@@ -293,10 +293,29 @@ function renderPublications() {
         : escapeHtml(p.text);
       li.innerHTML = citationHtml + ' ' + badge + '<div class="mt-1 flex flex-wrap gap-2">' + links + '</div>' + buildPubCardHtml(p);
       list.appendChild(li);
+      positionPubCardOnHover(li);
     });
     details.appendChild(list);
     container.appendChild(details);
   });
+}
+
+// The card normally opens upward above its row; for rows near the top of the
+// viewport (e.g. right below the sticky header) that would push the card off
+// screen, so flip it to open downward instead when there isn't room above.
+function positionPubCardOnHover(li) {
+  function check() {
+    const card = li.querySelector('.pub-card');
+    if (!card) return;
+    // Measure from the default (upward-opening) position, not whatever the
+    // card's current flipped state happens to be, or this would oscillate:
+    // reset first, then decide.
+    card.classList.remove('flip-down');
+    const rect = card.getBoundingClientRect();
+    card.classList.toggle('flip-down', rect.top < 8);
+  }
+  li.addEventListener('mouseenter', check);
+  li.addEventListener('focusin', check);
 }
 
 // Only renders a hover card once a paper has a real summary — papers not yet written
