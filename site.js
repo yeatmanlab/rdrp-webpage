@@ -497,18 +497,52 @@ function setupResourceSlider() {
   if (nextBtn) nextBtn.addEventListener('click', function () { track.scrollBy({ left: scrollAmount(), behavior: 'smooth' }); });
 }
 
+const MEDIA_FALLBACK_ICON = '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 15l-5-4-6 5-3-2-4 3"/></svg>';
+
 function renderMedia() {
   const container = document.getElementById('media-list');
   if (!container || typeof MEDIA === 'undefined') return;
+  container.className = (container.className || '') + ' grid sm:grid-cols-2 lg:grid-cols-3 gap-4';
+
+  const filterBar = document.getElementById('media-filters');
+  if (filterBar) {
+    const tagCounts = {};
+    MEDIA.forEach(function (m) { (m.tags || []).forEach(function (t) { tagCounts[t] = (tagCounts[t] || 0) + 1; }); });
+    const tagsPresent = MEDIA_TAG_ORDER.filter(function (t) { return tagCounts[t]; });
+    let pillsHtml = '<button class="filter-pill active" data-tag="all">All (' + MEDIA.length + ')</button>';
+    tagsPresent.forEach(function (t) {
+      pillsHtml += '<button class="filter-pill" data-tag="' + escapeHtml(t) + '">' + escapeHtml(t) + ' (' + tagCounts[t] + ')</button>';
+    });
+    filterBar.innerHTML = pillsHtml;
+    filterBar.addEventListener('click', function (e) {
+      const btn = e.target.closest('.filter-pill');
+      if (!btn) return;
+      filterBar.querySelectorAll('.filter-pill').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      const tag = btn.dataset.tag;
+      container.querySelectorAll('.media-card').forEach(function (card) {
+        const show = tag === 'all' || (card.dataset.tags || '').split('|').indexOf(tag) !== -1;
+        card.style.display = show ? '' : 'none';
+      });
+    });
+  }
+
   MEDIA.forEach(function (m) {
     const a = document.createElement('a');
     a.href = m.url;
     a.target = '_blank';
     a.rel = 'noopener';
-    a.className = 'block py-3 border-b border-[#EDE9E0] hover:bg-[#FBF9F5] -mx-2 px-2 rounded';
+    a.className = 'media-card block rounded-2xl border border-[#DAD7CB] overflow-hidden hover:shadow-md transition-shadow bg-white';
+    a.dataset.tags = (m.tags || []).join('|');
+    const mediaHtml = m.image
+      ? '<img src="' + m.image + '" alt="" class="w-full h-24 object-cover" loading="lazy" />'
+      : '<div class="w-full h-24 tint-14 flex items-center justify-center accent-text">' + MEDIA_FALLBACK_ICON + '</div>';
     a.innerHTML =
-      '<p class="text-xs text-[#6B6560] uppercase tracking-wide font-bold">' + escapeHtml(m.outlet) + ' · ' + escapeHtml(m.date) + '</p>' +
-      '<p class="font-semibold text-sm mt-1">' + escapeHtml(m.title) + '</p>';
+      mediaHtml +
+      '<div class="p-3">' +
+      '<p class="text-[10px] text-[#6B6560] uppercase tracking-wide font-bold">' + escapeHtml(m.outlet) + ' · ' + escapeHtml(m.date) + '</p>' +
+      '<p class="font-semibold text-[13px] mt-1 leading-snug">' + escapeHtml(m.title) + '</p>' +
+      '</div>';
     container.appendChild(a);
   });
 }
