@@ -19,7 +19,8 @@
 </script>
 <style>
   :root { --accent:#007C92; --accent-rgb:0,124,146; --accent-dark:#00596a; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: 68px; }
+  @media (min-width:1024px){ html{ scroll-padding-top: 62px; } }
   body { font-family:'Source Sans 3',sans-serif; }
   .accent-bg{ background-color:var(--accent); }
   .accent-text{ color:var(--accent); }
@@ -464,7 +465,7 @@
     <div class="border-t border-[#DAD7CB] py-6 text-center text-xs text-[#6B6560]">© 2026 Yeatman Lab, Stanford University.</div>
   </footer>
 
-  <script src="shared-data.js?v=15"></script>
+  <script src="shared-data.js?v=16"></script>
   <script src="site.js?v=23"></script>
   <script>initSite('bde', 'https://dyslexia.stanford.edu/');</script>
 </body>
