@@ -509,9 +509,9 @@ function renderMedia() {
     const tagCounts = {};
     MEDIA.forEach(function (m) { (m.tags || []).forEach(function (t) { tagCounts[t] = (tagCounts[t] || 0) + 1; }); });
     const tagsPresent = MEDIA_TAG_ORDER.filter(function (t) { return tagCounts[t]; });
-    let pillsHtml = '<button class="filter-pill active" data-tag="all">All (' + MEDIA.length + ')</button>';
+    let pillsHtml = '<button class="filter-pill active" data-tag="all">All</button>';
     tagsPresent.forEach(function (t) {
-      pillsHtml += '<button class="filter-pill" data-tag="' + escapeHtml(t) + '">' + escapeHtml(t) + ' (' + tagCounts[t] + ')</button>';
+      pillsHtml += '<button class="filter-pill" data-tag="' + escapeHtml(t) + '">' + escapeHtml(t) + '</button>';
     });
     filterBar.innerHTML = pillsHtml;
     filterBar.addEventListener('click', function (e) {
@@ -535,13 +535,17 @@ function renderMedia() {
     a.className = 'media-card block rounded-2xl border border-[#DAD7CB] overflow-hidden hover:shadow-md transition-shadow bg-white';
     a.dataset.tags = (m.tags || []).join('|');
     const mediaHtml = m.image
-      ? '<img src="' + m.image + '" alt="" class="w-full h-24 object-cover" loading="lazy" />'
-      : '<div class="w-full h-24 tint-14 flex items-center justify-center accent-text">' + MEDIA_FALLBACK_ICON + '</div>';
+      ? '<img src="' + m.image + '" alt="" class="w-full aspect-square object-cover" loading="lazy" />'
+      : '<div class="w-full aspect-square tint-14 flex items-center justify-center accent-text">' + MEDIA_FALLBACK_ICON + '</div>';
+    const tagsHtml = (m.tags || []).map(function (t) {
+      return '<span class="media-tag">' + escapeHtml(t) + '</span>';
+    }).join('');
     a.innerHTML =
       mediaHtml +
       '<div class="p-3">' +
       '<p class="text-[10px] text-[#6B6560] uppercase tracking-wide font-bold">' + escapeHtml(m.outlet) + ' · ' + escapeHtml(m.date) + '</p>' +
       '<p class="font-semibold text-[13px] mt-1 leading-snug">' + escapeHtml(m.title) + '</p>' +
+      '<div class="flex flex-wrap gap-1 mt-2">' + tagsHtml + '</div>' +
       '</div>';
     container.appendChild(a);
   });
