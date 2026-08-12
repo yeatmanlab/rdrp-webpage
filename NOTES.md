@@ -58,9 +58,13 @@ do from here:
   dropdown (`setupMobileNav`, toggled below the `lg` breakpoint on both pages).
 - Section order on `rdrp.html` deliberately introduces ROAR (`#roar`) before ROAR@Home
   (`#research`) before Parents (`#parents`), so the story reads mission → what ROAR is →
-  how to use it at home → parent resources, before Figures/Team/Publications/Media.
+  how to use it at home → parent resources, before Team/Publications/Media.
   `#media` (In the Media) is its own section on both pages, not nested under
   `#publications` — `renderMedia()` just targets `#media-list` wherever it lives.
+- The figure slider has no section of its own: it sits at the top of `#publications`,
+  directly under that section's `Publications` heading, on both pages. There is no
+  `#figures` id anymore, and nothing links to one. `renderFigures` still just targets the
+  slider/dots container ids, so it doesn't care where the markup lives.
 - `assets/logos/`, `assets/people/`, `assets/figures/` — real logos, team headshots, and
   brain-imaging figures, all sourced from the lab's own sites or PubMed Central (open
   access), then resized/optimized locally.
@@ -79,7 +83,7 @@ do from here:
   with PubMed/PMC links via NCBI's E-utilities API for anything missing an official link.
   `citedBy` is a snapshot (dated in the file's own header comment) — it will drift and
   there's no live refresh.
-- **Figures**: 8 real figures pulled from open-access PMC versions of lab papers,
+- **Figures**: 11 real figures per page pulled from open-access PMC versions of lab papers,
   selected for visual range across 2012–2026, not citation count.
 - **Coin-face logo marks**: `rdrp-round.svg` is hand-built — the real Stanford seal
   (cropped from the lab's own seal artwork) centered in a ring with "Reading & Dyslexia

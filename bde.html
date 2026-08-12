@@ -47,7 +47,7 @@
   .side-panel:hover{ filter:brightness(1.06); }
 
   .avatar-fallback{ font-weight:700; background-color:var(--accent); }
-  .link-chip{ font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:var(--accent); border:1px solid rgba(var(--accent-rgb),.35); border-radius:9999px; padding:2px 10px; }
+  .link-chip{ font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:var(--accent); border:1px solid rgba(var(--accent-rgb),.35); border-radius:9999px; padding:4px 10px; }
   .link-chip:hover{ background-color:rgba(var(--accent-rgb),.08); }
   .cite-badge{ font-size:11px; font-weight:700; color:#6B6560; background:#F5F4F0; border-radius:9999px; padding:2px 10px; white-space:nowrap; }
   details > summary::-webkit-details-marker{ display:none; }
@@ -104,7 +104,7 @@
   .pub-card-figure{ width:100%; max-height:220px; object-fit:contain; border-radius:.5rem; margin-bottom:8px; display:block; background:#F5F4F0; }
   .pub-card-summary{ font-size:12px; line-height:1.5; color:#2E2D29; }
 
-  .figure-slider{ position:relative; height:560px; }
+  .figure-slider{ position:relative; height:640px; }
   @media (min-width:768px){ .figure-slider{ height:400px; } }
   .figure-slide{ position:absolute; inset:0; display:flex; flex-direction:column; opacity:0; pointer-events:none; transform:translateX(16px); transition:opacity .6s ease, transform .6s ease; }
   @media (min-width:768px){ .figure-slide{ flex-direction:row; } }
@@ -114,9 +114,13 @@
   @media (min-width:768px){ .figure-slide-img{ width:50%; height:100%; } }
   .figure-slide-img img{ max-width:100%; max-height:100%; object-fit:contain; }
   .figure-slide-info{ padding:24px 28px; display:flex; flex-direction:column; justify-content:center; color:#2E2D29; }
+  @media (max-width:767px){ .figure-slide-info{ flex:1; } }
   @media (min-width:768px){ .figure-slide-info{ width:50%; padding:32px 40px; } }
-  .figure-dot{ width:8px; height:8px; border-radius:9999px; background:#DAD7CB; cursor:pointer; border:none; padding:0; transition:background-color .2s, transform .2s; }
-  .figure-dot.active{ background:var(--accent); transform:scale(1.35); }
+  /* 8px dot, but a 24px hit area (padding + negative margin keeps the visual spacing identical). */
+  .figure-dot{ width:8px; height:8px; border-radius:9999px; background-color:#DAD7CB; cursor:pointer; border:none;
+    box-sizing:content-box; padding:8px; margin:-8px; background-clip:content-box; transition:background-color .2s, transform .2s; }
+  /* background-color, not the `background` shorthand — the shorthand would reset background-clip. */
+  .figure-dot.active{ background-color:var(--accent); transform:scale(1.35); }
 </style>
 </head>
 <body class="text-[#2E2D29] bg-white antialiased">
@@ -222,7 +226,7 @@
         <p class="text-xs text-[#6B6560] mt-4">Currently funded by NIH NICHD R01HD116845, 2025–2030</p>
         <div class="flex flex-wrap gap-2 mt-3">
           <a href="https://edneuro.stanford.edu/wp-content/uploads/2020/10/OBrienYeatman2020desc.13039.pdf" target="_blank" rel="noopener" class="link-chip">O'Brien &amp; Yeatman, 2020</a>
-          <a href="http://www.annualreviews.org/eprint/WRUBGP3PSYAJMVKMKA3R/full/10.1146/annurev-vision-093019-113509" target="_blank" rel="noopener" class="link-chip">Yeatman &amp; White, 2021</a>
+          <a href="https://www.annualreviews.org/eprint/WRUBGP3PSYAJMVKMKA3R/full/10.1146/annurev-vision-093019-113509" target="_blank" rel="noopener" class="link-chip">Yeatman &amp; White, 2021</a>
         </div>
       </div>
 
@@ -246,19 +250,6 @@
           <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Rapid%20Online%20Assessment%20of%20Reading%20%28ROAR%29%3A%20evaluation%20of%20an%20online%20tool%20for%20screening%20reading%20skills%20in%20a%20developmental-behavioral%20pediatrics%20clinic" target="_blank" rel="noopener" class="link-chip">Barrington et al., 2023</a>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Figures from the literature -->
-  <section id="figures" class="border-t border-[#DAD7CB]">
-    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
-      <h2 class="font-black text-3xl">Brain Development and Learning</h2>
-      <div class="relative mt-8">
-        <div id="figure-slider" class="figure-slider rounded-2xl overflow-hidden shadow-lg"></div>
-        <button id="figure-prev" class="flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-10 h-10 rounded-full bg-white shadow-lg items-center justify-center text-lg font-bold hover:bg-[#2E2D29] hover:text-white transition-colors" aria-label="Previous figure">‹</button>
-        <button id="figure-next" class="flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-10 h-10 rounded-full bg-white shadow-lg items-center justify-center text-lg font-bold hover:bg-[#2E2D29] hover:text-white transition-colors" aria-label="Next figure">›</button>
-      </div>
-      <div id="figure-dots" class="flex items-center justify-center gap-2 mt-5"></div>
     </div>
   </section>
 
@@ -393,8 +384,13 @@
   <!-- Publications (shared) -->
   <section id="publications" class="border-t border-[#DAD7CB] bg-[#FAF9F6]">
     <div class="max-w-5xl mx-auto px-6 lg:px-10 py-16">
-      <h2 class="font-black text-3xl">Brain Development &amp; Education Lab Publications</h2>
-      <p class="text-[#4D4F53] mt-2">Jason D. Yeatman's complete scholarly record — citation counts via Google Scholar, PDFs / PubMed where available.</p>
+      <h2 class="font-black text-3xl">Publications</h2>
+      <div class="relative mt-8">
+        <div id="figure-slider" class="figure-slider rounded-2xl overflow-hidden shadow-lg"></div>
+        <button id="figure-prev" class="flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-10 h-10 rounded-full bg-white shadow-lg items-center justify-center text-lg font-bold hover:bg-[#2E2D29] hover:text-white transition-colors" aria-label="Previous figure">‹</button>
+        <button id="figure-next" class="flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-10 h-10 rounded-full bg-white shadow-lg items-center justify-center text-lg font-bold hover:bg-[#2E2D29] hover:text-white transition-colors" aria-label="Next figure">›</button>
+      </div>
+      <div id="figure-dots" class="flex items-center justify-center gap-2 mt-5"></div>
       <div id="pubs-stats" class="flex flex-wrap gap-8 mt-6 mb-4"></div>
       <div id="pubs-filters" class="flex flex-wrap gap-2 mb-6"></div>
       <div id="pubs-list"></div>
@@ -403,7 +399,7 @@
 
   <!-- Media (shared) -->
   <section id="media" class="border-t border-[#DAD7CB]">
-    <div class="max-w-5xl mx-auto px-6 lg:px-10 py-16">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
       <h2 class="font-black text-3xl">In the Media</h2>
       <div id="media-filters" class="flex flex-wrap gap-2 mt-6"></div>
       <div id="media-list" class="mt-6"></div>
@@ -467,8 +463,8 @@
     <div class="border-t border-[#DAD7CB] py-6 text-center text-xs text-[#6B6560]">© 2026 Yeatman Lab, Stanford University.</div>
   </footer>
 
-  <script src="shared-data.js?v=21"></script>
-  <script src="site.js?v=27"></script>
+  <script src="shared-data.js?v=22"></script>
+  <script src="site.js?v=29"></script>
   <script>initSite('bde', 'https://dyslexia.stanford.edu/');</script>
 </body>
 </html>

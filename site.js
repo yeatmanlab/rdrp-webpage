@@ -61,11 +61,7 @@ function renderTeam() {
       : '<h3 class="font-bold mt-3 text-sm">' + escapeHtml(p.name) + '</h3>';
     card.innerHTML =
       '<div class="team-photo-wrap relative aspect-square rounded-2xl shadow overflow-hidden">' +
-        '<img src="' + p.photo + '" alt="' + escapeHtml(p.name) + '" ' +
-        'class="w-full h-full object-cover" loading="lazy" ' +
-        'onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';" />' +
-        '<div class="avatar-fallback absolute inset-0 items-center justify-center text-3xl font-bold text-white" style="display:none">' +
-        initials(p.name) + '</div>' +
+        buildAvatarHtml(p) +
         buildTeamExpandHtml(p) +
       '</div>' +
       nameHtml +
@@ -74,6 +70,20 @@ function renderTeam() {
     container.appendChild(card);
     setupTeamExpand(card);
   });
+}
+
+// Photo with an initials avatar as the fallback. When no photo file is listed at all we
+// skip the <img> and show the initials straight away, so a person without a headshot
+// costs no failed request.
+function buildAvatarHtml(p) {
+  const fallbackClasses = 'avatar-fallback absolute inset-0 items-center justify-center text-3xl font-bold text-white';
+  if (!p.photo) {
+    return '<div class="' + fallbackClasses + '" style="display:flex">' + initials(p.name) + '</div>';
+  }
+  return '<img src="' + p.photo + '" alt="' + escapeHtml(p.name) + '" ' +
+    'class="w-full h-full object-cover" loading="lazy" ' +
+    'onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';" />' +
+    '<div class="' + fallbackClasses + '" style="display:none">' + initials(p.name) + '</div>';
 }
 
 function renderAlumni() {
@@ -86,11 +96,7 @@ function renderAlumni() {
     card.tabIndex = 0;
     card.innerHTML =
       '<div class="team-photo-wrap relative aspect-square rounded-2xl shadow overflow-hidden">' +
-        '<img src="' + p.photo + '" alt="' + escapeHtml(p.name) + '" ' +
-        'class="w-full h-full object-cover" loading="lazy" ' +
-        'onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';" />' +
-        '<div class="avatar-fallback absolute inset-0 items-center justify-center text-3xl font-bold text-white" style="display:none">' +
-        initials(p.name) + '</div>' +
+        buildAvatarHtml(p) +
         buildTeamExpandHtml(p) +
       '</div>' +
       '<h3 class="font-bold mt-3 text-sm">' + escapeHtml(p.name) + '</h3>' +
@@ -502,7 +508,7 @@ const MEDIA_FALLBACK_ICON = '<svg width="26" height="26" viewBox="0 0 24 24" fil
 function renderMedia() {
   const container = document.getElementById('media-list');
   if (!container || typeof MEDIA === 'undefined') return;
-  container.className = (container.className || '') + ' grid sm:grid-cols-2 lg:grid-cols-3 gap-4';
+  container.className = (container.className || '') + ' grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4';
 
   const filterBar = document.getElementById('media-filters');
   if (filterBar) {

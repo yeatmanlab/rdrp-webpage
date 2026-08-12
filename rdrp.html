@@ -47,7 +47,7 @@
   .side-panel:hover{ filter:brightness(1.06); }
 
   .avatar-fallback{ font-weight:700; background-color:var(--accent); }
-  .link-chip{ font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:var(--accent); border:1px solid rgba(var(--accent-rgb),.35); border-radius:9999px; padding:2px 10px; }
+  .link-chip{ font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:var(--accent); border:1px solid rgba(var(--accent-rgb),.35); border-radius:9999px; padding:4px 10px; }
   .link-chip:hover{ background-color:rgba(var(--accent-rgb),.08); }
   .cite-badge{ font-size:11px; font-weight:700; color:#6B6560; background:#F5F4F0; border-radius:9999px; padding:2px 10px; white-space:nowrap; }
   details > summary::-webkit-details-marker{ display:none; }
@@ -97,7 +97,7 @@
   .pub-card-figure{ width:100%; max-height:220px; object-fit:contain; border-radius:.5rem; margin-bottom:8px; display:block; background:#F5F4F0; }
   .pub-card-summary{ font-size:12px; line-height:1.5; color:#2E2D29; }
 
-  .figure-slider{ position:relative; height:560px; }
+  .figure-slider{ position:relative; height:640px; }
   @media (min-width:768px){ .figure-slider{ height:400px; } }
   .figure-slide{ position:absolute; inset:0; display:flex; flex-direction:column; opacity:0; pointer-events:none; transform:translateX(16px); transition:opacity .6s ease, transform .6s ease; }
   @media (min-width:768px){ .figure-slide{ flex-direction:row; } }
@@ -107,9 +107,13 @@
   @media (min-width:768px){ .figure-slide-img{ width:50%; height:100%; } }
   .figure-slide-img img{ max-width:100%; max-height:100%; object-fit:contain; }
   .figure-slide-info{ padding:24px 28px; display:flex; flex-direction:column; justify-content:center; color:#2E2D29; }
+  @media (max-width:767px){ .figure-slide-info{ flex:1; } }
   @media (min-width:768px){ .figure-slide-info{ width:50%; padding:32px 40px; } }
-  .figure-dot{ width:8px; height:8px; border-radius:9999px; background:#DAD7CB; cursor:pointer; border:none; padding:0; transition:background-color .2s, transform .2s; }
-  .figure-dot.active{ background:var(--accent); transform:scale(1.35); }
+  /* 8px dot, but a 24px hit area (padding + negative margin keeps the visual spacing identical). */
+  .figure-dot{ width:8px; height:8px; border-radius:9999px; background-color:#DAD7CB; cursor:pointer; border:none;
+    box-sizing:content-box; padding:8px; margin:-8px; background-clip:content-box; transition:background-color .2s, transform .2s; }
+  /* background-color, not the `background` shorthand — the shorthand would reset background-clip. */
+  .figure-dot.active{ background-color:var(--accent); transform:scale(1.35); }
 </style>
 </head>
 <body class="text-[#2E2D29] bg-white antialiased">
@@ -365,17 +369,17 @@
       <p class="text-[#4D4F53] mt-2 max-w-2xl">A starting point for families navigating a dyslexia diagnosis or wondering whether one fits.</p>
 
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-        <a href="http://www.readingrockets.org/" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
+        <a href="https://www.readingrockets.org/" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
           <div class="w-9 h-9 rounded-full tint-14 flex items-center justify-center mb-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-text"><path d="M12 6.8C10.4 5.4 7.8 4.6 4 4.6v13.8c3.8 0 6.4.8 8 2.2 1.6-1.4 4.2-2.2 8-2.2V4.6c-3.8 0-6.4.8-8 2.2z"></path></svg></div>
           <h3 class="font-bold text-sm">Reading Rockets</h3>
           <p class="text-xs text-[#6B6560] mt-1">Intervention strategies &amp; classroom resources</p>
         </a>
-        <a href="http://www.dyslexicadvantage.org/" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
+        <a href="https://www.dyslexicadvantage.org/" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
           <div class="w-9 h-9 rounded-full tint-14 flex items-center justify-center mb-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-text"><circle cx="12" cy="8.5" r="4.5"></circle><path d="M8.2 12.5 6.5 20l5.5-3 5.5 3-1.7-7.5"></path></svg></div>
           <h3 class="font-bold text-sm">Dyslexic Advantage</h3>
           <p class="text-xs text-[#6B6560] mt-1">Reframing dyslexia's strengths, reducing stigma</p>
         </a>
-        <a href="http://www.decodingdyslexia.net/" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
+        <a href="https://www.decodingdyslexia.net/" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
           <div class="w-9 h-9 rounded-full tint-14 flex items-center justify-center mb-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-text"><path d="M4 10v4h2.5l5.5 3.5v-11L6.5 10H4z"></path><path d="M14 8.5a4 4 0 0 1 0 7"></path></svg></div>
           <h3 class="font-bold text-sm">Decoding Dyslexia</h3>
           <p class="text-xs text-[#6B6560] mt-1">A parent-run, grassroots advocacy movement</p>
@@ -385,12 +389,12 @@
           <h3 class="font-bold text-sm">Children's Health Council</h3>
           <p class="text-xs text-[#6B6560] mt-1">Evaluation, coaching &amp; clinical services</p>
         </a>
-        <a href="http://www.fcrr.org/index.shtml" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
+        <a href="https://fcrr.org/" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
           <div class="w-9 h-9 rounded-full tint-14 flex items-center justify-center mb-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-text"><path d="M4 21V10l8-5 8 5v11"></path><path d="M4 21h16"></path><path d="M9 21v-6h6v6"></path></svg></div>
           <h3 class="font-bold text-sm">Florida Center for Reading Research</h3>
           <p class="text-xs text-[#6B6560] mt-1">Research-backed student activities</p>
         </a>
-        <a href="http://modules.ilabs.uw.edu/module/foundations-of-literacy/" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
+        <a href="https://modules.ilabs.uw.edu/module/foundations-of-literacy/" target="_blank" rel="noopener" class="block rounded-2xl bg-white p-5 hover:shadow-md transition-shadow">
           <div class="w-9 h-9 rounded-full tint-14 flex items-center justify-center mb-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent-text"><path d="M12 4 3 8.5 12 13l9-4.5L12 4z"></path><path d="M7 10.8v4.4c0 1.4 2.3 2.6 5 2.6s5-1.2 5-2.6v-4.4"></path></svg></div>
           <h3 class="font-bold text-sm">Foundations of Literacy</h3>
           <p class="text-xs text-[#6B6560] mt-1">Free I-LABS training module</p>
@@ -409,19 +413,6 @@
     </div>
   </section>
 
-  <!-- Figures from the literature -->
-  <section id="figures" class="border-t border-[#DAD7CB]">
-    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
-      <h2 class="font-black text-3xl">Reading, Dyslexia &amp; ROAR</h2>
-      <div class="relative mt-8">
-        <div id="rdrp-figure-slider" class="figure-slider rounded-2xl overflow-hidden shadow-lg"></div>
-        <button id="rdrp-figure-prev" class="flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-10 h-10 rounded-full bg-white shadow-lg items-center justify-center text-lg font-bold hover:bg-[#2E2D29] hover:text-white transition-colors" aria-label="Previous figure">‹</button>
-        <button id="rdrp-figure-next" class="flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-10 h-10 rounded-full bg-white shadow-lg items-center justify-center text-lg font-bold hover:bg-[#2E2D29] hover:text-white transition-colors" aria-label="Next figure">›</button>
-      </div>
-      <div id="rdrp-figure-dots" class="flex items-center justify-center gap-2 mt-5"></div>
-    </div>
-  </section>
-
   <!-- Team (shared) -->
   <section id="team" class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
     <h2 class="font-black text-3xl">Meet the Lab</h2>
@@ -435,8 +426,13 @@
   <!-- Publications (shared) -->
   <section id="publications" class="border-t border-[#DAD7CB] bg-[#FAF9F6]">
     <div class="max-w-5xl mx-auto px-6 lg:px-10 py-16">
-      <h2 class="font-black text-3xl">Reading &amp; Dyslexia Research Program Publications</h2>
-      <p class="text-[#4D4F53] mt-2">Jason D. Yeatman's complete scholarly record — citation counts via Google Scholar, PDFs / PubMed where available.</p>
+      <h2 class="font-black text-3xl">Publications</h2>
+      <div class="relative mt-8">
+        <div id="rdrp-figure-slider" class="figure-slider rounded-2xl overflow-hidden shadow-lg"></div>
+        <button id="rdrp-figure-prev" class="flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-10 h-10 rounded-full bg-white shadow-lg items-center justify-center text-lg font-bold hover:bg-[#2E2D29] hover:text-white transition-colors" aria-label="Previous figure">‹</button>
+        <button id="rdrp-figure-next" class="flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-10 h-10 rounded-full bg-white shadow-lg items-center justify-center text-lg font-bold hover:bg-[#2E2D29] hover:text-white transition-colors" aria-label="Next figure">›</button>
+      </div>
+      <div id="rdrp-figure-dots" class="flex items-center justify-center gap-2 mt-5"></div>
       <div id="pubs-stats" class="flex flex-wrap gap-8 mt-6 mb-4"></div>
       <div id="pubs-filters" class="flex flex-wrap gap-2 mb-6"></div>
       <div id="pubs-list"></div>
@@ -445,7 +441,7 @@
 
   <!-- Media (shared) -->
   <section id="media" class="border-t border-[#DAD7CB]">
-    <div class="max-w-5xl mx-auto px-6 lg:px-10 py-16">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
       <h2 class="font-black text-3xl">In the Media</h2>
       <div id="media-filters" class="flex flex-wrap gap-2 mt-6"></div>
       <div id="media-list" class="mt-6"></div>
@@ -509,8 +505,8 @@
     <div class="border-t border-[#DAD7CB] py-6 text-center text-xs text-[#6B6560]">© 2026 Yeatman Lab, Stanford University.</div>
   </footer>
 
-  <script src="shared-data.js?v=21"></script>
-  <script src="site.js?v=27"></script>
+  <script src="shared-data.js?v=22"></script>
+  <script src="site.js?v=29"></script>
   <script>initSite('rdrp', 'https://edneuro.stanford.edu/');</script>
 </body>
 </html>
