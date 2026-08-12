@@ -136,23 +136,6 @@
   .pubfig-arrow-prev{ left:-16px; }
   .pubfig-arrow-next{ right:-16px; }
 
-  .figure-slider{ position:relative; height:640px; }
-  @media (min-width:768px){ .figure-slider{ height:400px; } }
-  .figure-slide{ position:absolute; inset:0; display:flex; flex-direction:column; opacity:0; pointer-events:none; transform:translateX(16px); transition:opacity .6s ease, transform .6s ease; }
-  @media (min-width:768px){ .figure-slide{ flex-direction:row; } }
-  .figure-slide.active{ opacity:1; pointer-events:auto; transform:translateX(0); }
-  .figure-slide.figure-slide-exit{ opacity:0; transform:translateX(-16px); }
-  .figure-slide-img{ background:#F5F4F0; display:flex; align-items:center; justify-content:center; padding:20px; height:260px; }
-  @media (min-width:768px){ .figure-slide-img{ width:50%; height:100%; } }
-  .figure-slide-img img{ max-width:100%; max-height:100%; object-fit:contain; }
-  .figure-slide-info{ padding:24px 28px; display:flex; flex-direction:column; justify-content:center; color:#2E2D29; }
-  @media (max-width:767px){ .figure-slide-info{ flex:1; } }
-  @media (min-width:768px){ .figure-slide-info{ width:50%; padding:32px 40px; } }
-  /* 8px dot, but a 24px hit area (padding + negative margin keeps the visual spacing identical). */
-  .figure-dot{ width:8px; height:8px; border-radius:9999px; background-color:#DAD7CB; cursor:pointer; border:none;
-    box-sizing:content-box; padding:8px; margin:-8px; background-clip:content-box; transition:background-color .2s, transform .2s; }
-  /* background-color, not the `background` shorthand — the shorthand would reset background-clip. */
-  .figure-dot.active{ background-color:var(--accent); transform:scale(1.35); }
 </style>
 </head>
 <body class="text-[#2E2D29] bg-white antialiased">
@@ -495,7 +478,7 @@
   </footer>
 
   <script src="shared-data.js?v=23"></script>
-  <script src="site.js?v=32"></script>
+  <script src="site.js?v=33"></script>
   <script>initSite('bde', 'https://dyslexia.stanford.edu/');</script>
 </body>
 </html>
