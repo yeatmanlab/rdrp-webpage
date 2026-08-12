@@ -471,6 +471,90 @@ function renderFigures() {
   renderFigureSlider(typeof RDRP_FIGURES === 'undefined' ? null : RDRP_FIGURES, { slider: 'rdrp-figure-slider', prev: 'rdrp-figure-prev', next: 'rdrp-figure-next', dots: 'rdrp-figure-dots' });
 }
 
+// Pull the paper title out of a full citation: "Authors (2026). Title. Journal, vol, pages."
+// Titles can end in ? or ! as well as . — two of the 92 do.
+function pubTitleFromCitation(text) {
+  const m = text.match(/\(\d{4}[a-z]?\)\.\s*(.+?)[.?!]\s/);
+  return m ? m[1] : null;
+}
+
+function pubYearFromCitation(text) {
+  const m = text.match(/\((\d{4})[a-z]?\)/);
+  return m ? m[1] : '';
+}
+
+// A horizontally swipeable strip of every publication in this page's program that has a
+// figure, newest first. Each card shows year + title; hovering (or focusing) reveals the
+// full summary, so long academic summaries never get truncated mid-clause.
+function renderPubFigureStrip(programTag) {
+  const strip = document.getElementById('pubfig-strip');
+  if (!strip || typeof PUBLICATIONS === 'undefined') return;
+
+  const items = PUBLICATIONS
+    .filter(function (p) { return p.figure && (p.tags || []).indexOf(programTag) !== -1; })
+    .slice()
+    .sort(function (a, b) { return (b.year || 0) - (a.year || 0); });
+  if (!items.length) return;
+
+  items.forEach(function (p) {
+    const href = p.url || p.scholarUrl || p.pubmedUrl || p.pdf;
+    const card = document.createElement(href ? 'a' : 'div');
+    card.className = 'pubfig-card';
+    if (href) { card.href = href; card.target = '_blank'; card.rel = 'noopener'; }
+    card.tabIndex = 0;
+    const title = pubTitleFromCitation(p.text) || p.text;
+    // Downscaled copy for the card; the full-size figure stays for the publication hover card.
+    const thumb = 'assets/figures/thumbs/' + p.figure.split('/').pop();
+    card.innerHTML =
+      '<div class="pubfig-fig"><img data-src="' + thumb + '" alt="" /></div>' +
+      '<div class="pubfig-body">' +
+        '<p class="pubfig-year">' + escapeHtml(pubYearFromCitation(p.text)) + '</p>' +
+        '<p class="pubfig-title">' + escapeHtml(title) + '</p>' +
+      '</div>' +
+      (p.summary ? '<div class="pubfig-over"><p>' + escapeHtml(p.summary) + '</p></div>' : '');
+    strip.appendChild(card);
+  });
+
+  // loading="lazy" doesn't help here: every card sits inside the vertical viewport, so the
+  // browser would fetch all 48-65 figures at once. Observe against the strip's own scroll
+  // box instead, so only what's near the horizontal viewport loads.
+  const imgs = strip.querySelectorAll('.pubfig-fig img[data-src]');
+  const load = function (img) {
+    if (img.dataset.src) { img.src = img.dataset.src; delete img.dataset.src; }
+  };
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        load(e.target);
+        io.unobserve(e.target);
+      });
+    }, { root: strip, rootMargin: '0px 600px' });
+    imgs.forEach(function (img) { io.observe(img); });
+  } else {
+    imgs.forEach(load);
+  }
+
+  const step = function () {
+    const c = strip.querySelector('.pubfig-card');
+    return c ? c.getBoundingClientRect().width + 16 : 280;
+  };
+  const prev = document.getElementById('pubfig-prev');
+  const next = document.getElementById('pubfig-next');
+  if (prev) prev.addEventListener('click', function () { strip.scrollBy({ left: -step() * 2, behavior: 'smooth' }); });
+  if (next) next.addEventListener('click', function () { strip.scrollBy({ left: step() * 2, behavior: 'smooth' }); });
+
+  // Grey out an arrow once you can't travel any further that way.
+  const syncArrows = function () {
+    const max = strip.scrollWidth - strip.clientWidth - 2;
+    if (prev) prev.classList.toggle('is-off', strip.scrollLeft <= 2);
+    if (next) next.classList.toggle('is-off', strip.scrollLeft >= max);
+  };
+  strip.addEventListener('scroll', syncArrows);
+  window.addEventListener('resize', syncArrows);
+  syncArrows();
+}
+
 // The hero buttons just activate the matching permanent program pill (added
 // alongside "All" in the filter bar) so there's one consistent way to filter,
 // highlight what's active, and get back to "All" - no separate clear control.
@@ -705,7 +789,7 @@ function initSite(currentView, otherPageUrl) {
   renderAlumni();
   renderPublications();
   renderMedia();
-  renderFigures();
+  renderPubFigureStrip(currentView === 'rdrp' ? 'Reading & Dyslexia Research Program' : 'Brain Development & Education Lab');
   setupHeroPubsButtons();
   setupResourceSlider();
   setupCoin(currentView, otherPageUrl);

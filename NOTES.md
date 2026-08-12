@@ -61,10 +61,29 @@ do from here:
   how to use it at home → parent resources, before Team/Publications/Media.
   `#media` (In the Media) is its own section on both pages, not nested under
   `#publications` — `renderMedia()` just targets `#media-list` wherever it lives.
-- The figure slider has no section of its own: it sits at the top of `#publications`,
+- The figure strip has no section of its own: it sits at the top of `#publications`,
   directly under that section's `Publications` heading, on both pages. There is no
-  `#figures` id anymore, and nothing links to one. `renderFigures` still just targets the
-  slider/dots container ids, so it doesn't care where the markup lives.
+  `#figures` id anymore, and nothing links to one.
+- `renderPubFigureStrip(programTag)` builds that strip from every `PUBLICATIONS` entry
+  that has a `figure` and carries the page's program tag — 48 cards on rdrp, 65 on bde,
+  newest first. Card titles are parsed out of the citation string by
+  `pubTitleFromCitation` (the `text` field is a full citation; there is no short-title
+  field). Each card shows year + title, and reveals the full `summary` on hover/focus,
+  because these summaries average ~460 characters and clamping them to two lines cut
+  every one mid-clause.
+- Images are deliberately NOT `loading="lazy"`: in a horizontal strip every card sits
+  inside the vertical viewport, so the browser would fetch all 48-65 figures at once
+  (7.6 MB / 11.8 MB). An IntersectionObserver rooted on the strip loads ~6 up front and
+  more as you scroll. `overflow-anchor:none` stops scroll-snap walking the start
+  position forward as those images arrive.
+- `assets/figures/thumbs/` holds card-sized copies, all exactly 560x373 (3:2), built by
+  `tools/fit-figure-thumbs.py`. Regenerate with `python3 tools/fit-figure-thumbs.py`
+  (optionally passing filenames to redo only some). It trims each figure's background
+  margin, then cuts to the box ratio **at a background gutter** rather than mid-panel, so
+  cards never show half a plot or a clipped axis label, and pads any small remainder in
+  the figure's own background colour. Wide figures keep their left edge and tall ones
+  their top, so panel "a" — conventionally the headline result — survives. Full-size
+  originals stay in place and still feed the publication rows' hover cards.
 - `assets/logos/`, `assets/people/`, `assets/figures/` — real logos, team headshots, and
   brain-imaging figures, all sourced from the lab's own sites or PubMed Central (open
   access), then resized/optimized locally.

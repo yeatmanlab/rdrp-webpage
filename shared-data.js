@@ -393,9 +393,13 @@ const MEDIA = [
   { title: "Brain Scientists Seek Developmental Sweet Spot for Learning to Read", outlet: "Education Week", date: "October 8, 2012", url: "https://www.edweek.org/leadership/brain-scientists-seek-developmental-sweet-spot-for-learning-to-read/2012/10", image: "assets/media/edweek-2012-oct.jpg", tags: ["Brain Science", "Reading & Literacy"] },
 ];
 
-// A curated set of real figures from the lab's brain-imaging papers, for the BDE Lab
-// figure collage. Images are sourced from PubMed Central (open access). Selected for
-// visual range across the lab's 2012–2026 body of work, not by citation count.
+// RETIRED — not rendered anywhere as of the publication-strip change. FIGURES and
+// RDRP_FIGURES were the hand-curated 11-item sets behind the old one-slide-at-a-time
+// figure carousel. The strip at the top of #publications now builds itself from every
+// PUBLICATIONS entry that has a figure, filtered by program tag, so these are unused.
+// Kept because the lay-audience `title`/`description` text was written by hand and has
+// no equivalent in PUBLICATIONS (which only carries full citations and academic
+// summaries) — useful if a curated highlight reel is ever wanted again.
 const FIGURES = [
   { image: "assets/figures/tract-profiles.jpg", year: 2012,
     title: "Tract Profiles of White Matter Properties",
