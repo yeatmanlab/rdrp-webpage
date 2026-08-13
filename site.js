@@ -270,8 +270,14 @@ function renderPublications() {
   years.forEach(function (year, idx) {
     const details = document.createElement('details');
     details.className = 'border-b border-[#EDE9E0] py-3';
-    details.dataset.defaultOpen = '1';
-    details.setAttribute('open', '');
+    // Only the newest year starts expanded. With all 18 open the section ran ~14,500px —
+    // 58% of the whole page — so the thing most worth featuring was the least scannable.
+    // Collapsed, you see 18 year headers with counts and open what you want.
+    // applyPubsFilter reads defaultOpen to restore this when the filter returns to "all",
+    // and force-opens any year that contains matches while a filter is active.
+    const openByDefault = idx === 0;
+    details.dataset.defaultOpen = openByDefault ? '1' : '0';
+    if (openByDefault) details.setAttribute('open', '');
 
     const summary = document.createElement('summary');
     summary.className = 'cursor-pointer font-bold text-lg font-serif py-1 flex items-center gap-3';
