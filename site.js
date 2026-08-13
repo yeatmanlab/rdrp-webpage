@@ -11,7 +11,7 @@ const PUBS_TAG_ORDER = [
   "ROAR & Reading Assessment", "Visual Word Form Area",
   "Clinical Populations",
   "Open Source Software and Computational Methods",
-  "Reading Intervention & Neuroplasticity", "Education, Equity & Policy",
+  "Brain Plasticity & Learning", "Education, Equity & Policy",
 ];
 
 // Surfaces a person's most recent papers by matching their surname(s) against
