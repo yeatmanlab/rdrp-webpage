@@ -56,11 +56,24 @@ do from here:
 - `site.js` — rendering logic (`renderTeam`, `renderPublications`, `renderMedia`,
   `renderFigures`) plus the coin-flip-then-navigate behavior and the mobile nav
   dropdown (`setupMobileNav`, toggled below the `lg` breakpoint on both pages).
-- Section order on `rdrp.html` deliberately introduces ROAR (`#roar`) before ROAR@Home
-  (`#research`) before Parents (`#parents`), so the story reads mission → what ROAR is →
-  how to use it at home → parent resources, before Team/Publications/Media.
+- **The two pages deliberately diverge in section order**, because their audiences do.
+  - `rdrp.html`: hero → mission → ROAR (`#roar`) → ROAR@Home (`#research`) → Parents →
+    **Publications** → People → Media → Involved. ROAR stays first because this page's
+    arrivals are teachers and parents looking for the screener; putting 136 papers ahead
+    of it would bury the practical content. Publications sits above People (screen 3.6,
+    was 7.9).
+  - `bde.html`: hero → Research Focus (`#research`) → **Publications** → People →
+    Software → ROAR → Media → Involved. A research audience, so Publications leads
+    directly off the research statement (screen 1.8).
+  - The header nav and the mobile panel are kept in page order on each page, so the two
+    nav lists differ too. Don't "unify" them without also unifying the section order.
   `#media` (In the Media) is its own section on both pages, not nested under
   `#publications` — `renderMedia()` just targets `#media-list` wherever it lives.
+- Known minor point on `rdrp.html`: Parents and Publications are now adjacent and both use
+  the cream `bg-[#FAF9F6]`, so they read as one long cream band separated by a 1px rule.
+  Neither can go white: Parents' cards are `bg-white` (they'd vanish) and publication rows
+  highlight with `hover:bg-white` (the hover would vanish). Fixing it properly means
+  inverting one section's card colours, not just swapping a background.
 - The figure strip has no section of its own: it sits at the top of `#publications`,
   directly under that section's `Publications` heading, on both pages. There is no
   `#figures` id anymore, and nothing links to one.

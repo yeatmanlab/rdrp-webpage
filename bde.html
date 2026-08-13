@@ -199,10 +199,10 @@
       </a>
       <nav class="hidden lg:flex items-center gap-3 xl:gap-8 text-sm font-semibold text-[#4D4F53] whitespace-nowrap">
         <a href="#research" class="hover:text-[#2E2D29]">Research</a>
+        <a href="#publications" class="hover:text-[#2E2D29]">Publications</a>
         <a href="#team" class="hover:text-[#2E2D29]">People</a>
         <a href="#software" class="hover:text-[#2E2D29]">Software</a>
         <a href="#roar" class="hover:text-[#2E2D29]">ROAR</a>
-        <a href="#publications" class="hover:text-[#2E2D29]">Publications</a>
         <a href="#media" class="hover:text-[#2E2D29]">Media</a>
       </nav>
       <div class="flex items-center gap-3 shrink-0">
@@ -222,10 +222,10 @@
     <div id="mobile-nav-panel" class="hidden lg:hidden absolute inset-x-0 top-full bg-white border-b border-[#DAD7CB] shadow-lg">
       <nav class="flex flex-col px-6 py-2 text-sm font-semibold text-[#4D4F53]">
         <a href="#research" class="py-3 border-b border-[#EDE9E0] hover:text-[#2E2D29]">Research</a>
+        <a href="#publications" class="py-3 border-b border-[#EDE9E0] hover:text-[#2E2D29]">Publications</a>
         <a href="#team" class="py-3 border-b border-[#EDE9E0] hover:text-[#2E2D29]">People</a>
         <a href="#software" class="py-3 border-b border-[#EDE9E0] hover:text-[#2E2D29]">Software</a>
         <a href="#roar" class="py-3 border-b border-[#EDE9E0] hover:text-[#2E2D29]">ROAR</a>
-        <a href="#publications" class="py-3 border-b border-[#EDE9E0] hover:text-[#2E2D29]">Publications</a>
         <a href="#media" class="py-3 hover:text-[#2E2D29]">Media</a>
       </nav>
     </div>
@@ -315,6 +315,23 @@
           <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Rapid%20Online%20Assessment%20of%20Reading%20%28ROAR%29%3A%20evaluation%20of%20an%20online%20tool%20for%20screening%20reading%20skills%20in%20a%20developmental-behavioral%20pediatrics%20clinic" target="_blank" rel="noopener" class="link-chip">Barrington et al., 2023</a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- Publications (shared) -->
+  <section id="publications" class="border-t border-[#DAD7CB] bg-[#FAF9F6]">
+    <div class="max-w-5xl mx-auto px-6 lg:px-10 py-16">
+      <h2 class="font-black text-3xl">Publications</h2>
+      <div class="relative mt-8">
+        <div id="pubfig-strip" class="pubfig-strip"></div>
+        <button id="pubfig-prev" class="pubfig-arrow pubfig-arrow-prev" aria-label="Scroll figures left">&lsaquo;</button>
+        <button id="pubfig-next" class="pubfig-arrow pubfig-arrow-next" aria-label="Scroll figures right">&rsaquo;</button>
+      </div>
+      <div class="pubfig-rail" aria-hidden="true"><div id="pubfig-rail-thumb" class="pubfig-rail-thumb"></div></div>
+      <div id="pubs-stats" class="flex flex-wrap gap-8 mt-6 mb-4"></div>
+      <div id="pubs-filters" class="flex flex-wrap gap-2 mb-6"></div>
+      <div id="pubs-years" class="pubs-years"></div>
+      <div id="pubs-list"></div>
     </div>
   </section>
 
@@ -446,22 +463,6 @@
     </div>
   </section>
 
-  <!-- Publications (shared) -->
-  <section id="publications" class="border-t border-[#DAD7CB] bg-[#FAF9F6]">
-    <div class="max-w-5xl mx-auto px-6 lg:px-10 py-16">
-      <h2 class="font-black text-3xl">Publications</h2>
-      <div class="relative mt-8">
-        <div id="pubfig-strip" class="pubfig-strip"></div>
-        <button id="pubfig-prev" class="pubfig-arrow pubfig-arrow-prev" aria-label="Scroll figures left">&lsaquo;</button>
-        <button id="pubfig-next" class="pubfig-arrow pubfig-arrow-next" aria-label="Scroll figures right">&rsaquo;</button>
-      </div>
-      <div class="pubfig-rail" aria-hidden="true"><div id="pubfig-rail-thumb" class="pubfig-rail-thumb"></div></div>
-      <div id="pubs-stats" class="flex flex-wrap gap-8 mt-6 mb-4"></div>
-      <div id="pubs-filters" class="flex flex-wrap gap-2 mb-6"></div>
-      <div id="pubs-years" class="pubs-years"></div>
-      <div id="pubs-list"></div>
-    </div>
-  </section>
 
   <!-- Media (shared) -->
   <section id="media" class="border-t border-[#DAD7CB]">
