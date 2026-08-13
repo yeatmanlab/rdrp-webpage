@@ -474,10 +474,11 @@ function renderPubFigureStrip(programTag) {
     const c = strip.querySelector('.pubfig-card');
     return c ? c.getBoundingClientRect().width + 16 : 280;
   };
+  const glide = makeStripGlider(strip);
   const prev = document.getElementById('pubfig-prev');
   const next = document.getElementById('pubfig-next');
-  if (prev) prev.addEventListener('click', function () { strip.scrollBy({ left: -step() * 2, behavior: 'smooth' }); });
-  if (next) next.addEventListener('click', function () { strip.scrollBy({ left: step() * 2, behavior: 'smooth' }); });
+  if (prev) prev.addEventListener('click', function () { glide.by(-step() * 2, 760); });
+  if (next) next.addEventListener('click', function () { glide.by(step() * 2, 760); });
 
   // Grey out an arrow once you can't travel any further that way.
   const syncArrows = function () {
@@ -489,13 +490,63 @@ function renderPubFigureStrip(programTag) {
   window.addEventListener('resize', syncArrows);
   syncArrows();
 
-  setupPubFigureStripMotion(strip, step, [prev, next]);
+  setupPubFigureStripMotion(strip, step, [prev, next], glide);
+}
+
+// Native scrollBy({behavior:'smooth'}) is short and hard-eased, and scroll-snap re-settles
+// after it lands, so a timed step reads as two small jerks. This drives scrollLeft itself
+// over a longer eased curve, with snap suspended while it runs.
+function makeStripGlider(strip) {
+  let raf = null, snapWas = null;
+
+  const easeInOutCubic = function (t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  };
+
+  const releaseSnap = function () {
+    if (snapWas !== null) { strip.style.scrollSnapType = snapWas; snapWas = null; }
+  };
+
+  const stop = function () {
+    if (raf) { cancelAnimationFrame(raf); raf = null; }
+    releaseSnap();
+  };
+
+  const to = function (target, duration) {
+    const max = strip.scrollWidth - strip.clientWidth;
+    const end = Math.max(0, Math.min(max, target));
+    const from = strip.scrollLeft;
+    const delta = end - from;
+    if (Math.abs(delta) < 1) return;
+
+    if (raf) cancelAnimationFrame(raf);
+    if (snapWas === null) snapWas = strip.style.scrollSnapType || '';
+    strip.style.scrollSnapType = 'none';
+
+    const t0 = performance.now();
+    const frame = function (now) {
+      const p = Math.min(1, (now - t0) / duration);
+      strip.scrollLeft = from + delta * easeInOutCubic(p);
+      if (p < 1) { raf = requestAnimationFrame(frame); return; }
+      raf = null;
+      strip.scrollLeft = end;   // land exactly on the card boundary before snap returns
+      releaseSnap();
+    };
+    raf = requestAnimationFrame(frame);
+  };
+
+  return {
+    to: to,
+    by: function (dx, duration) { to(strip.scrollLeft + dx, duration); },
+    stop: stop,
+    get busy() { return raf !== null; }
+  };
 }
 
 // Cards settle into place the first time the strip scrolls into view, then it steps one
 // card along every 4s. The auto-advance yields to the reader: hovering a card reveals its
 // summary, so anything that looks like reading or manual navigation pauses it.
-function setupPubFigureStripMotion(strip, step, arrows) {
+function setupPubFigureStripMotion(strip, step, arrows, glide) {
   const cards = [].slice.call(strip.querySelectorAll('.pubfig-card'));
   if (!cards.length) return;
 
@@ -518,9 +569,14 @@ function setupPubFigureStripMotion(strip, step, arrows) {
   const tick = function () {
     // `engaged` covers the whole time a pointer rests on the strip (a card's summary is
     // showing then); `held` is the cool-down after a scroll, swipe, or arrow click.
-    if (engaged || Date.now() < held) return;
-    if (atEnd()) strip.scrollTo({ left: 0, behavior: 'smooth' });
-    else strip.scrollBy({ left: step(), behavior: 'smooth' });
+    if (engaged || Date.now() < held || glide.busy) return;
+    if (!atEnd()) { glide.by(step(), 1150); return; }
+    // Racing ~12,000px back to the first card would be a blur, so cross-fade instead.
+    strip.classList.add('is-rewinding');
+    setTimeout(function () {
+      strip.scrollLeft = 0;
+      strip.classList.remove('is-rewinding');
+    }, 420);
   };
   const play = function () { if (!reduceMotion && !timer && inView && !document.hidden) timer = setInterval(tick, AUTO_MS); };
   const pause = function () { if (timer) { clearInterval(timer); timer = null; } };
@@ -530,8 +586,9 @@ function setupPubFigureStripMotion(strip, step, arrows) {
   strip.addEventListener('mouseleave', function () { engaged = false; holdOff(); });
   strip.addEventListener('focusin', function () { engaged = true; });
   strip.addEventListener('focusout', function () { engaged = false; holdOff(); });
+  // A hand on the strip wins immediately: kill any glide in flight so it isn't fought.
   ['pointerdown', 'wheel', 'touchstart', 'keydown'].forEach(function (ev) {
-    strip.addEventListener(ev, holdOff, { passive: true });
+    strip.addEventListener(ev, function () { glide.stop(); holdOff(); }, { passive: true });
   });
   (arrows || []).forEach(function (btn) {
     if (btn) btn.addEventListener('click', holdOff);
@@ -551,7 +608,7 @@ function setupPubFigureStripMotion(strip, step, arrows) {
   const io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       inView = e.isIntersecting;
-      if (!inView) { pause(); return; }
+      if (!inView) { pause(); glide.stop(); return; }
       if (!entered) {
         entered = true;
         requestAnimationFrame(function () { strip.classList.remove('is-dealing'); });

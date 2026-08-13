@@ -77,13 +77,21 @@ do from here:
   populating on arrival rather than having always been there. Only the first 8 get a
   stagger delay — the rest are off-screen to the right anyway. The offset is Y-only:
   an X shift would change `scrollWidth`, and the strip clips `overflow-y`.
+- `makeStripGlider` drives `scrollLeft` from a rAF loop over an easeInOutCubic curve
+  instead of using `scrollBy({behavior:'smooth'})`. The native version threw a card's
+  width across in ~430ms with a hard ease, and `scroll-snap` then re-settled after it
+  landed, so each timed step read as two small jerks. A step is now 1150ms nominal
+  (~1017ms of actual pixel movement), ramping 0.4px → 5px → 0.4px per frame, with
+  `scroll-snap-type` suspended for the duration and the final position set exactly on the
+  card boundary before snap is handed back. Arrows use the same glider at 760ms.
 - The strip then steps one card every 4s, and yields to the reader. Because hovering a
   card reveals its summary, an `engaged` flag suppresses advancing for the entire time a
   pointer or focus rests on the strip (not just on enter), and a 9s `held` cool-down
   covers manual scrolls, swipes, keys, and arrow clicks. The timer only runs while the
   strip is on screen and the tab is visible, and restarts on `visibilitychange`.
-  At the end it smooth-scrolls back to the first card. `prefers-reduced-motion: reduce`
-  disables both the deal and the auto-advance.
+  At the end it cross-fades back to the first card (`.is-rewinding`) rather than gliding
+  ~12,000px, which would just be a blur. `prefers-reduced-motion: reduce` disables the
+  deal, the auto-advance, and the rewind fade.
 - Images are deliberately NOT `loading="lazy"`: in a horizontal strip every card sits
   inside the vertical viewport, so the browser would fetch all 48-65 figures at once
   (7.6 MB / 11.8 MB). An IntersectionObserver rooted on the strip loads ~6 up front and

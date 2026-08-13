@@ -109,9 +109,14 @@
   /* Cards settle into place the first time the strip is seen. Y-only offset: an X shift
      would change the scroll width, and the strip clips overflow-y. */
   .pubfig-strip.is-dealing .pubfig-card{ opacity:0; transform:translateY(12px) scale(.94) rotate(-1.2deg); }
+  /* Wrapping from the last card back to the first cross-fades rather than racing
+     ~12,000px across, which would just be a blur. */
+  .pubfig-strip{ transition:opacity .28s ease; }
+  .pubfig-strip.is-rewinding{ opacity:0; }
   @media (prefers-reduced-motion: reduce){
     .pubfig-strip.is-dealing .pubfig-card{ opacity:1; transform:none; }
     .pubfig-card{ transition:box-shadow .18s ease, border-color .18s ease; }
+    .pubfig-strip, .pubfig-strip.is-rewinding{ transition:none; opacity:1; }
   }
   @media (min-width:640px){ .pubfig-card{ flex:0 0 260px; } }
   .pubfig-card:hover, .pubfig-card:focus-visible{ box-shadow:0 8px 22px rgba(0,0,0,.13); border-color:#C9C5B8; outline:none; }
@@ -528,7 +533,7 @@
   </footer>
 
   <script src="shared-data.js?v=23"></script>
-  <script src="site.js?v=34"></script>
+  <script src="site.js?v=35"></script>
   <script>initSite('rdrp', 'https://edneuro.stanford.edu/');</script>
 </body>
 </html>
