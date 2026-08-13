@@ -5,12 +5,13 @@ const TEAM_TAG_ORDER = ["Faculty", "Postdoc", "Student", "Staff", "Neuroimaging"
 const PROGRAM_TAG_ORDER = ["Reading & Dyslexia Research Program", "Brain Development & Education Lab"];
 
 const PUBS_TAG_ORDER = [
-  "White Matter & Tractometry", "Reading Development & Individual Differences",
+  "White Matter", "Reading Development & Individual Differences",
   "Vision Science, Attention & Electrophysiology", "Dyslexia & Reading Difficulties",
-  "ROAR & Reading Assessment", "Visual Word Form Area & Word-Selective Cortex",
-  "Clinical Populations & Neurological Conditions", "Reading Intervention & Neuroplasticity",
+  "ROAR & Reading Assessment", "Visual Word Form Area",
+  "Clinical Populations & Neurological Conditions",
+  "Open Source Software and Computational Methods",
+  "Reading Intervention & Neuroplasticity",
   "Brain Development in Infancy & Childhood", "Education, Equity & Policy",
-  "Computational Methods & AI", "Open-Source Neuroimaging Software",
 ];
 
 // Surfaces a person's most recent papers by matching their surname(s) against
