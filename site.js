@@ -6,7 +6,7 @@ const PROGRAM_TAG_ORDER = ["Reading & Dyslexia Research Program", "Brain Develop
 
 const PUBS_TAG_ORDER = [
   "White Matter", "Reading Development & Individual Differences",
-  "Vision Science, Attention & Electrophysiology", "Dyslexia & Reading Difficulties",
+  "Vision Science", "Dyslexia & Reading Difficulties",
   "ROAR & Reading Assessment", "Visual Word Form Area",
   "Clinical Populations & Neurological Conditions",
   "Open Source Software and Computational Methods",
