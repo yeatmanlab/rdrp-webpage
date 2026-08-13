@@ -80,12 +80,31 @@ do from here:
   directly under that section's `Publications` heading, on both pages. There is no
   `#figures` id anymore, and nothing links to one.
 - `renderPubFigureStrip(programTag)` builds that strip from every `PUBLICATIONS` entry
-  that has a `figure` and carries the page's program tag — 48 cards on rdrp, 65 on bde,
-  newest first. Card titles are parsed out of the citation string by
+  that has a `figure` and carries the page's program tag — 49 cards on rdrp, 65 on bde,
+  newest first (92 of the 136 papers have a figure). Those counts move whenever a paper's
+  program tags change, so don't treat them as fixed. Card titles are parsed out of the citation string by
   `pubTitleFromCitation` (the `text` field is a full citation; there is no short-title
   field). Each card shows year + title, and reveals the full `summary` on hover/focus,
   because these summaries average ~460 characters and clamping them to two lines cut
   every one mid-clause.
+- Publication **topic tags** live only in `shared-data.js`; `PUBS_TAG_ORDER` in `site.js`
+  controls which ones become pills and in what order. Both must be edited together — a tag
+  missing from `PUBS_TAG_ORDER` silently gets no pill, and a name mismatch between the two
+  files does the same. Current vocabulary, with counts, kept in descending order because
+  that is how the pill row reads:
+  White Matter (56) · Reading Development & Dyslexia (48) · Vision Science (23) ·
+  Brain Development (22) · ROAR & Reading Assessment (17) · Visual Word Form Area (14) ·
+  Brain Plasticity & Learning (14) · Clinical Populations (13) ·
+  Open Source Software and Computational Methods (12) · Education, Equity & Policy (8).
+  - Every paper carries at least one topic tag; the pills are the only way to narrow the
+    list by subject, so an untagged paper is reachable only by year.
+  - The two **program** tags (`Reading & Dyslexia Research Program`, `Brain Development &
+    Education Lab`) are not topic tags. They also drive the figure strip, so adding one to
+    a paper that has a `figure` adds a card to that page's strip.
+  - `Brain Development` means age-related change in the brain — maturation trajectories,
+    myelination rates, brain-age, lifespan change. Experience-driven change belongs under
+    `Brain Plasticity & Learning`, and papers that merely recruit children get neither.
+
 - `#pubs-years` is the "Jump to" year index above the publication list, built by
   `buildPubYearStrip`. Chips select a year and open it — they don't filter — so they
   compose with the topic pills rather than competing with them. It replaced 17 stacked
