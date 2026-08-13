@@ -72,9 +72,15 @@ do from here:
   because these summaries average ~460 characters and clamping them to two lines cut
   every one mid-clause.
 - `#pubs-years` is the "Jump to" year index above the publication list, built by
-  `buildPubYearStrip`. Chips scroll to a year and open it — they don't filter — so they
+  `buildPubYearStrip`. Chips select a year and open it — they don't filter — so they
   compose with the topic pills rather than competing with them. It replaced 17 stacked
-  collapsed year rows (1,037px) with one 44px line. Year counts are deliberately omitted
+  collapsed year rows (1,037px) with one 44px line.
+  - A closed year renders nothing: `#pubs-list details:not([open]){ display:none; }`.
+    The chip strip is the index, so an empty header row per closed year was the very
+    problem the strip exists to solve. All 18 groups and 136 entries stay in the DOM.
+  - Selection is therefore exclusive — opening a year closes the others, since several
+    open years would rebuild the long list the chips replace. `Expand all` is how you
+    see everything at once. Year counts are deliberately omitted
   from the chips: each year's own heading already shows "(12)", and dropping them is what
   fits all 18 chips on a single line in the 944px column.
   - The `Expand all` / `Collapse all` toggle only acts on years the topic filter has left

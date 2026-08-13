@@ -127,6 +127,11 @@
     color:var(--accent); border:1.5px solid var(--accent); background:rgba(var(--accent-rgb),.06);
     border-radius:9999px; padding:4px 10px; cursor:pointer; transition:background-color .15s, color .15s; }
   .pub-year-all:hover{ background:var(--accent); color:#fff; }
+  /* A collapsed year renders nothing at all — the chip strip above IS the index, so an
+     empty 61px header row per closed year was the "page of dropdowns" problem itself.
+     applyPubsFilter still uses inline display for filtering, which composes: clearing it
+     back to '' lets this rule decide. */
+  #pubs-list details:not([open]){ display:none; }
 
   .pubfig-strip{ display:flex; gap:16px; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x proximity; overflow-anchor:none;
     padding:4px 2px 6px; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
@@ -525,7 +530,7 @@
   </footer>
 
   <script src="shared-data.js?v=23"></script>
-  <script src="site.js?v=42"></script>
+  <script src="site.js?v=43"></script>
   <script>initSite('bde', 'https://dyslexia.stanford.edu/');</script>
 </body>
 </html>

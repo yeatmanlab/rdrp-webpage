@@ -339,13 +339,16 @@ function buildPubYearStrip(container, years, byYear) {
     chip.textContent = String(year);
     chip.setAttribute('aria-label', year + ' — ' + byYear[year].length + ' publications');
     chip.addEventListener('click', function () {
-      const d = container.querySelector('details[data-year="' + year + '"]');
-      if (!d) return;
-      d.open = true;
+      const target = container.querySelector('details[data-year="' + year + '"]');
+      if (!target) return;
+      // One year at a time. Closed years render nothing now, so leaving several open would
+      // just rebuild the long list the chips exist to replace.
+      [].slice.call(container.querySelectorAll('details')).forEach(function (d) { d.open = (d === target); });
+      markActiveYearChip(String(year));
+      syncPubYearChips();
       // Land the year heading just below the header and this strip, both of which stick.
       const offset = stickyOffset() + strip.getBoundingClientRect().height + 10;
-      window.scrollTo({ top: d.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
-      markActiveYearChip(String(year));
+      window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
     });
     strip.appendChild(chip);
   });
@@ -409,7 +412,9 @@ function scheduleYearSpy() {
     const line = stickyOffset() + strip.getBoundingClientRect().height + 16;
     let current = null;
     [].slice.call(container.querySelectorAll('details')).forEach(function (d) {
-      if (d.style.display === 'none') return;
+      // Closed years are display:none, so their rect collapses to 0 and would otherwise
+      // always test as "above the line". Only open, filter-visible years can be current.
+      if (!d.open || d.style.display === 'none') return;
       if (d.getBoundingClientRect().top <= line) current = d.dataset.year;
     });
     if (current) markActiveYearChip(current);
