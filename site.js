@@ -8,10 +8,10 @@ const PROGRAM_TAG_ORDER = ["Reading & Dyslexia Research Program", "Brain Develop
 const PUBS_TAG_ORDER = [
   "White Matter", "Reading Development & Dyslexia",
   "Vision Science", "Brain Development",
-  "ROAR & Reading Assessment", "Visual Word Form Area",
+  "ROAR & Reading Assessment",
+  "Visual Word Form Area", "Brain Plasticity & Learning",
   "Clinical Populations",
-  "Open Source Software and Computational Methods",
-  "Brain Plasticity & Learning", "Education, Equity & Policy",
+  "Open Source Software and Computational Methods", "Education, Equity & Policy",
 ];
 
 // Surfaces a person's most recent papers by matching their surname(s) against
