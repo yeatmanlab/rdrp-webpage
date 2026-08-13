@@ -71,6 +71,19 @@ do from here:
   field). Each card shows year + title, and reveals the full `summary` on hover/focus,
   because these summaries average ~460 characters and clamping them to two lines cut
   every one mid-clause.
+- `setupPubFigureStripMotion` handles the strip's motion. Cards are held at
+  `opacity:0` behind the `.is-dealing` class from render, and settle into place with a
+  70ms-per-card stagger the first time the strip scrolls into view, so it reads as
+  populating on arrival rather than having always been there. Only the first 8 get a
+  stagger delay — the rest are off-screen to the right anyway. The offset is Y-only:
+  an X shift would change `scrollWidth`, and the strip clips `overflow-y`.
+- The strip then steps one card every 4s, and yields to the reader. Because hovering a
+  card reveals its summary, an `engaged` flag suppresses advancing for the entire time a
+  pointer or focus rests on the strip (not just on enter), and a 9s `held` cool-down
+  covers manual scrolls, swipes, keys, and arrow clicks. The timer only runs while the
+  strip is on screen and the tab is visible, and restarts on `visibilitychange`.
+  At the end it smooth-scrolls back to the first card. `prefers-reduced-motion: reduce`
+  disables both the deal and the auto-advance.
 - Images are deliberately NOT `loading="lazy"`: in a horizontal strip every card sits
   inside the vertical viewport, so the browser would fetch all 48-65 figures at once
   (7.6 MB / 11.8 MB). An IntersectionObserver rooted on the strip loads ~6 up front and

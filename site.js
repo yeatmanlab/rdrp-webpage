@@ -488,6 +488,78 @@ function renderPubFigureStrip(programTag) {
   strip.addEventListener('scroll', syncArrows);
   window.addEventListener('resize', syncArrows);
   syncArrows();
+
+  setupPubFigureStripMotion(strip, step, [prev, next]);
+}
+
+// Cards settle into place the first time the strip scrolls into view, then it steps one
+// card along every 4s. The auto-advance yields to the reader: hovering a card reveals its
+// summary, so anything that looks like reading or manual navigation pauses it.
+function setupPubFigureStripMotion(strip, step, arrows) {
+  const cards = [].slice.call(strip.querySelectorAll('.pubfig-card'));
+  if (!cards.length) return;
+
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const AUTO_MS = 4000;
+  const RESUME_MS = 9000;   // after the visitor drives it themselves, wait before taking over again
+
+  // Only the cards that can actually be seen need staggering; the rest are off to the right.
+  const dealt = Math.min(cards.length, 8);
+  if (!reduceMotion) {
+    strip.classList.add('is-dealing');
+    cards.forEach(function (c, i) {
+      if (i < dealt) c.style.transitionDelay = (i * 70) + 'ms';
+    });
+  }
+
+  let timer = null, held = 0, entered = false, inView = false, engaged = false;
+
+  const atEnd = function () { return strip.scrollLeft >= strip.scrollWidth - strip.clientWidth - 4; };
+  const tick = function () {
+    // `engaged` covers the whole time a pointer rests on the strip (a card's summary is
+    // showing then); `held` is the cool-down after a scroll, swipe, or arrow click.
+    if (engaged || Date.now() < held) return;
+    if (atEnd()) strip.scrollTo({ left: 0, behavior: 'smooth' });
+    else strip.scrollBy({ left: step(), behavior: 'smooth' });
+  };
+  const play = function () { if (!reduceMotion && !timer && inView && !document.hidden) timer = setInterval(tick, AUTO_MS); };
+  const pause = function () { if (timer) { clearInterval(timer); timer = null; } };
+  const holdOff = function () { held = Date.now() + RESUME_MS; };
+
+  strip.addEventListener('mouseenter', function () { engaged = true; });
+  strip.addEventListener('mouseleave', function () { engaged = false; holdOff(); });
+  strip.addEventListener('focusin', function () { engaged = true; });
+  strip.addEventListener('focusout', function () { engaged = false; holdOff(); });
+  ['pointerdown', 'wheel', 'touchstart', 'keydown'].forEach(function (ev) {
+    strip.addEventListener(ev, holdOff, { passive: true });
+  });
+  (arrows || []).forEach(function (btn) {
+    if (btn) btn.addEventListener('click', holdOff);
+  });
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) pause(); else play();
+  });
+
+  if (!('IntersectionObserver' in window)) {
+    strip.classList.remove('is-dealing');
+    inView = true;
+    play();
+    return;
+  }
+
+  // Deal on the first look; only run the timer while the strip is actually on screen.
+  const io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      inView = e.isIntersecting;
+      if (!inView) { pause(); return; }
+      if (!entered) {
+        entered = true;
+        requestAnimationFrame(function () { strip.classList.remove('is-dealing'); });
+      }
+      play();
+    });
+  }, { threshold: 0.2 });
+  io.observe(strip);
 }
 
 // The hero buttons just activate the matching permanent program pill (added

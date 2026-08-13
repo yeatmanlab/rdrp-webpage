@@ -111,7 +111,15 @@
   .pubfig-strip::-webkit-scrollbar-thumb{ background:#C9C5B8; border-radius:9999px; }
   .pubfig-card{ flex:0 0 76vw; max-width:280px; scroll-snap-align:start; position:relative;
     background:#fff; border:1px solid #DAD7CB; border-radius:1rem; overflow:hidden;
-    text-decoration:none; color:inherit; transition:box-shadow .18s ease, border-color .18s ease; }
+    text-decoration:none; color:inherit;
+    transition:box-shadow .18s ease, border-color .18s ease, opacity .5s ease, transform .55s cubic-bezier(.22,1,.36,1); }
+  /* Cards settle into place the first time the strip is seen. Y-only offset: an X shift
+     would change the scroll width, and the strip clips overflow-y. */
+  .pubfig-strip.is-dealing .pubfig-card{ opacity:0; transform:translateY(12px) scale(.94) rotate(-1.2deg); }
+  @media (prefers-reduced-motion: reduce){
+    .pubfig-strip.is-dealing .pubfig-card{ opacity:1; transform:none; }
+    .pubfig-card{ transition:box-shadow .18s ease, border-color .18s ease; }
+  }
   @media (min-width:640px){ .pubfig-card{ flex:0 0 260px; } }
   .pubfig-card:hover, .pubfig-card:focus-visible{ box-shadow:0 8px 22px rgba(0,0,0,.13); border-color:#C9C5B8; outline:none; }
   /* Thumbs are pre-cropped to exactly this box ratio, so the figure fills it edge to edge. */
@@ -478,7 +486,7 @@
   </footer>
 
   <script src="shared-data.js?v=23"></script>
-  <script src="site.js?v=33"></script>
+  <script src="site.js?v=34"></script>
   <script>initSite('bde', 'https://dyslexia.stanford.edu/');</script>
 </body>
 </html>
