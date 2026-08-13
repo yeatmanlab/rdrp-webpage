@@ -50,6 +50,13 @@ do from here:
   BDE = academic/funding/software).
 - `yeatman.html` — Jason Yeatman's bio, teaching/mentorship philosophy, and courses.
   Linked from his card in the Team section on both homepages.
+- `parents.html` — Resources for Parents. Used to be the `#parents` section inside
+  `rdrp.html`; it's a page now because families arriving for it shouldn't have to scroll
+  past a research program to reach it, and because a linkable URL is what gets passed
+  around by teachers and clinicians. Four things point at it, all on `rdrp.html`: the
+  desktop nav, the mobile nav, the `Resources for Parents →` button under Why This
+  Research Matters, and the footer's Explore list. There is no `#parents` anchor left
+  anywhere — if you re-add one, fix all four.
 - `shared-data.js` — the single source of truth for `PEOPLE`, `PUBLICATIONS`, `MEDIA`,
   and `FIGURES`. Both homepages render Team/Publications/Media from this file via
   `site.js`, so they never drift out of sync with each other.
@@ -57,11 +64,11 @@ do from here:
   `renderFigures`) plus the coin-flip-then-navigate behavior and the mobile nav
   dropdown (`setupMobileNav`, toggled below the `lg` breakpoint on both pages).
 - **The two pages deliberately diverge in section order**, because their audiences do.
-  - `rdrp.html`: hero → mission → ROAR (`#roar`) → ROAR@Home (`#research`) → Parents →
+  - `rdrp.html`: hero → mission → ROAR (`#roar`) → ROAR@Home (`#research`) →
     **Publications** → People → Media → Involved. ROAR stays first because this page's
     arrivals are teachers and parents looking for the screener; putting 136 papers ahead
-    of it would bury the practical content. Publications sits above People (screen 3.6,
-    was 7.9).
+    of it would bury the practical content. Publications sits above People (screen 3.4,
+    was 7.9). Parents lives on its own page and so is a nav item without a section.
   - `bde.html`: hero → Research Focus (`#research`) → **Publications** → People →
     Software → ROAR → Media → Involved. A research audience, so Publications leads
     directly off the research statement (screen 1.8).
@@ -69,11 +76,6 @@ do from here:
     nav lists differ too. Don't "unify" them without also unifying the section order.
   `#media` (In the Media) is its own section on both pages, not nested under
   `#publications` — `renderMedia()` just targets `#media-list` wherever it lives.
-- Known minor point on `rdrp.html`: Parents and Publications are now adjacent and both use
-  the cream `bg-[#FAF9F6]`, so they read as one long cream band separated by a 1px rule.
-  Neither can go white: Parents' cards are `bg-white` (they'd vanish) and publication rows
-  highlight with `hover:bg-white` (the hover would vanish). Fixing it properly means
-  inverting one section's card colours, not just swapping a background.
 - The figure strip has no section of its own: it sits at the top of `#publications`,
   directly under that section's `Publications` heading, on both pages. There is no
   `#figures` id anymore, and nothing links to one.
