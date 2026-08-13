@@ -4,13 +4,14 @@ const TEAM_TAG_ORDER = ["Faculty", "Postdoc", "Student", "Staff", "Neuroimaging"
 
 const PROGRAM_TAG_ORDER = ["Reading & Dyslexia Research Program", "Brain Development & Education Lab"];
 
+// Kept in descending order of paper count, which is also how the pills read left to right.
 const PUBS_TAG_ORDER = [
   "White Matter", "Reading Development & Dyslexia",
-  "Vision Science", "ROAR & Reading Assessment", "Visual Word Form Area",
+  "Vision Science", "Brain Development",
+  "ROAR & Reading Assessment", "Visual Word Form Area",
   "Clinical Populations",
   "Open Source Software and Computational Methods",
-  "Reading Intervention & Neuroplasticity",
-  "Brain Development in Infancy & Childhood", "Education, Equity & Policy",
+  "Reading Intervention & Neuroplasticity", "Education, Equity & Policy",
 ];
 
 // Surfaces a person's most recent papers by matching their surname(s) against
