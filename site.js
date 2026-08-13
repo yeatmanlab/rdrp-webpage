@@ -308,7 +308,111 @@ function renderPublications() {
       positionPubCardOnHover(li);
     });
     details.appendChild(list);
+    details.dataset.year = String(year);
     container.appendChild(details);
+  });
+
+  buildPubYearStrip(container, years, byYear);
+}
+
+// "Jump to" index above the publication list: one chip per year, plus an expand-all
+// toggle. Chips scroll to a year and open it rather than filtering, so they compose with
+// the topic pills instead of competing with them.
+function buildPubYearStrip(container, years, byYear) {
+  const strip = document.getElementById('pubs-years');
+  if (!strip) return;
+
+  strip.innerHTML = '<span class="pubs-years-label">Jump to</span>';
+  const toggle = document.createElement('button');
+  toggle.className = 'pub-year-all';
+  toggle.type = 'button';
+  toggle.textContent = 'Expand all';
+  strip.appendChild(toggle);
+
+  years.forEach(function (year) {
+    const chip = document.createElement('button');
+    chip.className = 'pub-year-chip';
+    chip.type = 'button';
+    chip.dataset.year = String(year);
+    // No count here — each year's own heading already shows "(12)", and dropping it is
+    // what keeps all 18 chips on a single line inside the 944px column.
+    chip.textContent = String(year);
+    chip.setAttribute('aria-label', year + ' — ' + byYear[year].length + ' publications');
+    chip.addEventListener('click', function () {
+      const d = container.querySelector('details[data-year="' + year + '"]');
+      if (!d) return;
+      d.open = true;
+      // Land the year heading just below the header and this strip, both of which stick.
+      const offset = stickyOffset() + strip.getBoundingClientRect().height + 10;
+      window.scrollTo({ top: d.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
+      markActiveYearChip(String(year));
+    });
+    strip.appendChild(chip);
+  });
+
+  toggle.addEventListener('click', function () {
+    const groups = [].slice.call(container.querySelectorAll('details'));
+    const visible = groups.filter(function (d) { return d.style.display !== 'none'; });
+    const expanding = visible.some(function (d) { return !d.open; });
+    visible.forEach(function (d) {
+      d.open = expanding ? true : d.dataset.defaultOpen === '1';
+    });
+    toggle.textContent = expanding ? 'Collapse all' : 'Expand all';
+  });
+
+  syncPubYearChips();
+  window.addEventListener('scroll', scheduleYearSpy, { passive: true });
+}
+
+function stickyOffset() {
+  const header = document.querySelector('body > header') || document.querySelector('header');
+  return header ? header.getBoundingClientRect().height : 62;
+}
+
+function markActiveYearChip(year) {
+  document.querySelectorAll('.pub-year-chip').forEach(function (c) {
+    c.classList.toggle('active', c.dataset.year === year);
+  });
+}
+
+// Hide chips for years the topic filter has emptied out, and reset the expand-all label
+// so it always describes what the button will actually do next.
+function syncPubYearChips() {
+  const container = document.getElementById('pubs-list');
+  const strip = document.getElementById('pubs-years');
+  if (!container || !strip) return;
+  let shown = 0;
+  strip.querySelectorAll('.pub-year-chip').forEach(function (chip) {
+    const d = container.querySelector('details[data-year="' + chip.dataset.year + '"]');
+    const visible = d && d.style.display !== 'none';
+    chip.hidden = !visible;
+    if (visible) shown++;
+  });
+  strip.hidden = shown < 2;   // a single year needs no index
+  const toggle = strip.querySelector('.pub-year-all');
+  if (toggle) {
+    const visible = [].slice.call(container.querySelectorAll('details')).filter(function (d) { return d.style.display !== 'none'; });
+    toggle.textContent = visible.length && visible.every(function (d) { return d.open; }) ? 'Collapse all' : 'Expand all';
+  }
+}
+
+// Highlight whichever year is currently under the strip, so the index reflects position.
+let yearSpyQueued = false;
+function scheduleYearSpy() {
+  if (yearSpyQueued) return;
+  yearSpyQueued = true;
+  requestAnimationFrame(function () {
+    yearSpyQueued = false;
+    const container = document.getElementById('pubs-list');
+    const strip = document.getElementById('pubs-years');
+    if (!container || !strip || strip.hidden) return;
+    const line = stickyOffset() + strip.getBoundingClientRect().height + 16;
+    let current = null;
+    [].slice.call(container.querySelectorAll('details')).forEach(function (d) {
+      if (d.style.display === 'none') return;
+      if (d.getBoundingClientRect().top <= line) current = d.dataset.year;
+    });
+    if (current) markActiveYearChip(current);
   });
 }
 
@@ -361,6 +465,7 @@ function applyPubsFilter(container, tag) {
       if (tag === 'all') d.open = d.dataset.defaultOpen === '1';
       else if (anyMatch) d.open = true;
     });
+    syncPubYearChips();   // drop chips for years this filter emptied out
 
     items.forEach(function (li) {
       if (!willShow(li) || !isOpen(li)) return;

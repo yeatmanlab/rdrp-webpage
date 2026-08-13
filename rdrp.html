@@ -97,6 +97,30 @@
   .pub-card-figure{ width:100%; max-height:220px; object-fit:contain; border-radius:.5rem; margin-bottom:8px; display:block; background:#F5F4F0; }
   .pub-card-summary{ font-size:12px; line-height:1.5; color:#2E2D29; }
 
+  /* Sticky year index for the publication list. Pins under the sticky site header
+     (65px mobile / 61px lg), so any year stays one click away from deep in the list.
+     z-index sits below .pub-card (40) so hover summaries still float over it. */
+  /* Sticky only from lg up: at phone widths the 18 chips wrap to 3 rows (101px), which
+     with the 65px header would permanently eat ~20% of the viewport. There it just sits
+     at the top of the list as a normal index. */
+  .pubs-years{ position:static; z-index:20;
+    display:flex; flex-wrap:wrap; gap:4px; align-items:center;
+    border:1px solid #E4E1D7; background:#fff; border-radius:.75rem;
+    padding:8px 10px; margin-bottom:14px; box-shadow:0 1px 4px rgba(0,0,0,.05); }
+  @media (min-width:1024px){ .pubs-years{ position:sticky; top:61px; } }
+  .pubs-years-label{ font-size:10px; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+    color:#8C8578; margin-right:2px; }
+  .pub-year-chip{ font-size:11px; font-weight:700; color:#6B6560; background:#F0EDE5; border:none;
+    border-radius:9999px; padding:4px 7px; cursor:pointer; transition:background-color .15s, color .15s; }
+  .pub-year-chip:hover{ background:#DFDBCE; color:#2E2D29; }
+  .pub-year-chip.active{ background:var(--accent); color:#fff; }
+  .pub-year-chip[hidden]{ display:none; }
+  .pub-year-chip small{ font-weight:400; opacity:.6; margin-left:2px; }
+  .pub-year-all{ font-size:10px; font-weight:800; letter-spacing:.04em; text-transform:uppercase;
+    color:var(--accent); border:1.5px solid var(--accent); background:rgba(var(--accent-rgb),.06);
+    border-radius:9999px; padding:4px 10px; cursor:pointer; transition:background-color .15s, color .15s; }
+  .pub-year-all:hover{ background:var(--accent); color:#fff; }
+
   .pubfig-strip{ display:flex; gap:16px; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x proximity; overflow-anchor:none;
     padding:4px 2px 6px; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
   .pubfig-strip::-webkit-scrollbar{ display:none; }
@@ -471,6 +495,7 @@
       <div class="pubfig-rail" aria-hidden="true"><div id="pubfig-rail-thumb" class="pubfig-rail-thumb"></div></div>
       <div id="pubs-stats" class="flex flex-wrap gap-8 mt-6 mb-4"></div>
       <div id="pubs-filters" class="flex flex-wrap gap-2 mb-6"></div>
+      <div id="pubs-years" class="pubs-years"></div>
       <div id="pubs-list"></div>
     </div>
   </section>
@@ -542,7 +567,7 @@
   </footer>
 
   <script src="shared-data.js?v=23"></script>
-  <script src="site.js?v=40"></script>
+  <script src="site.js?v=42"></script>
   <script>initSite('rdrp', 'https://edneuro.stanford.edu/');</script>
 </body>
 </html>

@@ -71,6 +71,22 @@ do from here:
   field). Each card shows year + title, and reveals the full `summary` on hover/focus,
   because these summaries average ~460 characters and clamping them to two lines cut
   every one mid-clause.
+- `#pubs-years` is the "Jump to" year index above the publication list, built by
+  `buildPubYearStrip`. Chips scroll to a year and open it — they don't filter — so they
+  compose with the topic pills rather than competing with them. It replaced 17 stacked
+  collapsed year rows (1,037px) with one 44px line. Year counts are deliberately omitted
+  from the chips: each year's own heading already shows "(12)", and dropping them is what
+  fits all 18 chips on a single line in the 944px column.
+  - The `Expand all` / `Collapse all` toggle only acts on years the topic filter has left
+    visible, and "collapse" restores `data-defaultOpen` (newest year only) rather than
+    closing everything.
+  - `syncPubYearChips` hides chips for years a topic filter has emptied, and hides the
+    whole strip when fewer than two years remain. It's called from `applyPubsFilter`.
+  - `scheduleYearSpy` highlights whichever year is currently under the strip.
+  - Sticky only from `lg` up. At phone widths the 18 chips wrap to 3 rows (101px) which,
+    with the 65px header, would permanently consume ~20% of the viewport; there it sits
+    at the top of the list as an ordinary index. `z-index:20` keeps it below `.pub-card`
+    (40) so publication hover summaries still float over it.
 - `setupPubFigureStripMotion` handles the strip's motion. Cards are held at
   `opacity:0` behind the `.is-dealing` class from render, and settle into place with a
   70ms-per-card stagger the first time the strip scrolls into view, so it reads as
