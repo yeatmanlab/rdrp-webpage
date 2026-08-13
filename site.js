@@ -574,7 +574,8 @@ function setupPubFigureStripMotion(strip, step, arrows, glide) {
     // Racing ~12,000px back to the first card would be a blur, so cross-fade instead.
     strip.classList.add('is-rewinding');
     setTimeout(function () {
-      strip.scrollLeft = 0;
+      // If a hand arrived mid-fade, abandon the rewind rather than yanking them back.
+      if (!engaged && Date.now() >= held) strip.scrollLeft = 0;
       strip.classList.remove('is-rewinding');
     }, 420);
   };
@@ -582,8 +583,14 @@ function setupPubFigureStripMotion(strip, step, arrows, glide) {
   const pause = function () { if (timer) { clearInterval(timer); timer = null; } };
   const holdOff = function () { held = Date.now() + RESUME_MS; };
 
-  strip.addEventListener('mouseenter', function () { engaged = true; });
-  strip.addEventListener('mouseleave', function () { engaged = false; holdOff(); });
+  // Only a real mouse resting on the strip counts as `engaged` — that's when a card's
+  // summary is on screen. Touch taps synthesize mouseenter but often never deliver the
+  // matching mouseleave, which would strand `engaged` and kill the advance for the whole
+  // visit; touch instead gets the `held` cool-down below, via touchstart.
+  const isMouse = function (e) { return !e.pointerType || e.pointerType === 'mouse'; };
+  strip.addEventListener('pointerenter', function (e) { if (isMouse(e)) engaged = true; });
+  strip.addEventListener('pointerleave', function (e) { if (isMouse(e)) { engaged = false; holdOff(); } });
+  strip.addEventListener('pointercancel', function () { engaged = false; });
   strip.addEventListener('focusin', function () { engaged = true; });
   strip.addEventListener('focusout', function () { engaged = false; holdOff(); });
   // A hand on the strip wins immediately: kill any glide in flight so it isn't fought.
