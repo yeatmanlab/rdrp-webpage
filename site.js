@@ -309,6 +309,15 @@ function renderPublications() {
     });
     details.appendChild(list);
     details.dataset.year = String(year);
+    // A closed year renders nothing, so letting the last open one close would leave the
+    // list empty with no explanation. Keep at least one year showing. Re-opening fires
+    // another toggle, which returns early, so this can't loop.
+    details.addEventListener('toggle', function () {
+      if (details.open) return;
+      const anyOpen = [].slice.call(container.querySelectorAll('details'))
+        .some(function (d) { return d.open && d.style.display !== 'none'; });
+      if (!anyOpen) details.open = true;
+    });
     container.appendChild(details);
   });
 
@@ -360,6 +369,12 @@ function buildPubYearStrip(container, years, byYear) {
     visible.forEach(function (d) {
       d.open = expanding ? true : d.dataset.defaultOpen === '1';
     });
+    // Only the newest year carries defaultOpen, so if a topic filter has excluded it,
+    // collapsing would close everything and empty the list. Fall back to the newest
+    // year the filter did leave in place.
+    if (!expanding && visible.length && !visible.some(function (d) { return d.open; })) {
+      visible[0].open = true;
+    }
     toggle.textContent = expanding ? 'Collapse all' : 'Expand all';
   });
 
