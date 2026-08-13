@@ -80,9 +80,10 @@ do from here:
     problem the strip exists to solve. All 18 groups and 136 entries stay in the DOM.
   - Selection is therefore exclusive — opening a year closes the others, since several
     open years would rebuild the long list the chips replace. `Expand all` is how you
-    see everything at once. Year counts are deliberately omitted
-  from the chips: each year's own heading already shows "(12)", and dropping them is what
-  fits all 18 chips on a single line in the 944px column.
+    see everything at once.
+  - Year counts are deliberately omitted from the chips: each year's own heading already
+    shows "(12)", and dropping them is what fits all 18 chips on a single line in the
+    944px column. The count is still exposed to screen readers via `aria-label`.
   - The `Expand all` / `Collapse all` toggle only acts on years the topic filter has left
     visible, and "collapse" restores `data-defaultOpen` (newest year only) rather than
     closing everything.
