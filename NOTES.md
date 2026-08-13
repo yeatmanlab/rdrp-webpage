@@ -84,7 +84,15 @@ do from here:
   (~1017ms of actual pixel movement), ramping 0.4px → 5px → 0.4px per frame, with
   `scroll-snap-type` suspended for the duration and the final position set exactly on the
   card boundary before snap is handed back. Arrows use the same glider at 760ms.
-- The strip then steps one card every 4s, and yields to the reader. Because hovering a
+- The summary is a sheet that slides up from the bottom of the card on hover/focus. Its
+  height is its own content, capped at `calc(100% - 32px)` so a slice of the figure always
+  stays visible behind it — at that cap every one of the 48 and 65 summaries fits without
+  scrolling (the longest, 643 chars, needed 241px of a 286px card), leaving 32px of figure
+  at worst and ~92px typically.
+- A slim rail under the strip (`.pubfig-rail`) carries a thumb sized to the visible
+  fraction and positioned by scroll offset, so the strip reads as something you can slide.
+  It replaces the thin native scrollbar, which is now hidden.
+- The strip then steps one card every 3s, and yields to the reader. Because hovering a
   card reveals its summary, an `engaged` flag suppresses advancing for the entire time a
   pointer or focus rests on the strip (not just on enter), and a 9s `held` cool-down
   covers manual scrolls, swipes, keys, and arrow clicks. The timer only runs while the

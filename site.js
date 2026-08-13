@@ -480,11 +480,21 @@ function renderPubFigureStrip(programTag) {
   if (prev) prev.addEventListener('click', function () { glide.by(-step() * 2, 760); });
   if (next) next.addEventListener('click', function () { glide.by(step() * 2, 760); });
 
-  // Grey out an arrow once you can't travel any further that way.
+  // Grey out an arrow once you can't travel any further that way, and keep the rail
+  // thumb tracking the scroll position so the strip reads as something you can slide.
+  const railThumb = document.getElementById('pubfig-rail-thumb');
   const syncArrows = function () {
-    const max = strip.scrollWidth - strip.clientWidth - 2;
+    const travel = strip.scrollWidth - strip.clientWidth;
     if (prev) prev.classList.toggle('is-off', strip.scrollLeft <= 2);
-    if (next) next.classList.toggle('is-off', strip.scrollLeft >= max);
+    if (next) next.classList.toggle('is-off', strip.scrollLeft >= travel - 2);
+    if (railThumb) {
+      const rail = railThumb.parentElement.clientWidth;
+      const frac = strip.clientWidth / strip.scrollWidth;          // how much is on screen
+      const w = Math.max(26, Math.round(rail * frac));
+      const p = travel > 0 ? strip.scrollLeft / travel : 0;
+      railThumb.style.width = w + 'px';
+      railThumb.style.transform = 'translateX(' + Math.round(p * (rail - w)) + 'px)';
+    }
   };
   strip.addEventListener('scroll', syncArrows);
   window.addEventListener('resize', syncArrows);
@@ -551,7 +561,7 @@ function setupPubFigureStripMotion(strip, step, arrows, glide) {
   if (!cards.length) return;
 
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const AUTO_MS = 4000;
+  const AUTO_MS = 3000;
   const RESUME_MS = 9000;   // after the visitor drives it themselves, wait before taking over again
 
   // Only the cards that can actually be seen need staggering; the rest are off to the right.
