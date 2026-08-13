@@ -5,9 +5,8 @@ const TEAM_TAG_ORDER = ["Faculty", "Postdoc", "Student", "Staff", "Neuroimaging"
 const PROGRAM_TAG_ORDER = ["Reading & Dyslexia Research Program", "Brain Development & Education Lab"];
 
 const PUBS_TAG_ORDER = [
-  "White Matter", "Reading Development & Individual Differences",
-  "Vision Science", "Dyslexia & Reading Difficulties",
-  "ROAR & Reading Assessment", "Visual Word Form Area",
+  "White Matter", "Reading Development & Dyslexia",
+  "Vision Science", "ROAR & Reading Assessment", "Visual Word Form Area",
   "Clinical Populations & Neurological Conditions",
   "Open Source Software and Computational Methods",
   "Reading Intervention & Neuroplasticity",
