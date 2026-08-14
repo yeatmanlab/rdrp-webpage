@@ -59,6 +59,12 @@
   .avatar-fallback{ font-weight:700; background-color:var(--accent); }
   .link-chip{ font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:var(--accent); border:1px solid rgba(var(--accent-rgb),.35); border-radius:9999px; padding:4px 10px; }
   .link-chip:hover{ background-color:rgba(var(--accent-rgb),.08); }
+  /* Links inside running prose. Underlined by default: inside a paragraph, colour alone
+     isn't a sufficient affordance (WCAG 1.4.1), and these sit in text a reader is
+     scanning rather than in a row of obvious controls. */
+  .prose-link{ color:var(--accent); text-decoration:underline; text-decoration-thickness:1px;
+    text-underline-offset:2px; }
+  .prose-link:hover{ text-decoration-thickness:2px; color:var(--accent-dark); }
   .cite-badge{ font-size:11px; font-weight:700; color:#6B6560; background:#F5F4F0; border-radius:9999px; padding:2px 10px; white-space:nowrap; }
   details > summary::-webkit-details-marker{ display:none; }
   details summary{ list-style:none; }
@@ -280,7 +286,7 @@
   <!-- Research focus: real, current, funded projects -->
   <section id="research" class="max-w-7xl mx-auto px-6 lg:px-10 pt-14 pb-16">
     <h2 class="font-black text-3xl">Lab Mission</h2>
-    <p class="section-lead mt-4">The overarching goal of our research is to understand the interplay between brain development, education, and learning outcomes — specifically in reading. By combining multimodal neuroimaging with tightly controlled educational interventions, we study how a child's unique pattern of brain development predisposes them to succeed or struggle in a given education program. Education personalized to an individual's neurobiology is a long term vision and our immediate goal is to inspire a <a href="https://doi.org/10.1111/mbe.70017" target="_blank" rel="noopener" class="accent-text underline decoration-1 underline-offset-2 hover:decoration-2">virtuous cycle between education and neuroscience</a>. Research at the intersection of these two disciplines can propel new discoveries regarding how experience sculpts brain development and, hopefully, offer insights into learning differences that are applicable in the classroom.</p>
+    <p class="section-lead mt-4">The overarching goal of our research is to understand the interplay between brain development, education, and learning outcomes — specifically in reading. By combining multimodal neuroimaging with tightly controlled educational interventions, we study how a child's unique pattern of brain development predisposes them to succeed or struggle in a given education program. Education personalized to an individual's neurobiology is a long-term vision and our immediate goal is to inspire a <a href="https://doi.org/10.1111/mbe.70017" target="_blank" rel="noopener" class="prose-link">virtuous cycle between education and neuroscience</a>. Research at the intersection of these two disciplines can propel new discoveries regarding how experience sculpts brain development and, hopefully, offer insights into learning differences that are applicable in the classroom.</p>
 
     <div class="grid md:grid-cols-2 gap-6 mt-8">
       <div class="rounded-3xl tint-8 p-8">
@@ -377,7 +383,7 @@
             <a href="https://github.com/tractometry/pyAFQ" target="_blank" rel="noopener" class="link-chip">GitHub</a>
             <a href="https://tractometry.org/pyAFQ/" target="_blank" rel="noopener" class="link-chip">Documentation &amp; Tutorials</a>
           </div>
-          <p class="text-xs text-[#6B6560] mt-4">Cite: <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12373284/" target="_blank" rel="noopener" class="accent-text hover:underline">Kruper et al., 2025, PLoS Comp. Biology</a> · <a href="https://edneuro.stanford.edu/wp-content/uploads/2021/09/reliability-of-human-brain-white-matter-tractometry.pdf" target="_blank" rel="noopener" class="accent-text hover:underline">Kruper et al., 2021, Aperture</a></p>
+          <p class="text-xs text-[#6B6560] mt-4">Cite: <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12373284/" target="_blank" rel="noopener" class="prose-link">Kruper et al., 2025, PLoS Comp. Biology</a> · <a href="https://edneuro.stanford.edu/wp-content/uploads/2021/09/reliability-of-human-brain-white-matter-tractometry.pdf" target="_blank" rel="noopener" class="prose-link">Kruper et al., 2021, Aperture</a></p>
         </div>
       </div>
       <div class="rounded-3xl bg-white shadow-md p-8">
@@ -412,7 +418,7 @@
         <h3 class="font-serif font-bold text-xl">Swipes for Science</h3>
         <a href="https://github.com/yeatmanlab/SwipesForScience" target="_blank" rel="noopener" class="link-chip">GitHub</a>
       </div>
-      <p class="text-sm text-[#4D4F53] mt-2 max-w-3xl">A citizen-science game template that turns tedious manual quality-checking of brain scans into a quick swiping game, so any lab can crowdsource data annotation without writing app code. <strong>Braindr</strong>, the original live instance built on it, crowdsourced tens of thousands of real pass/fail ratings on individual brain slices from citizen scientists — like the gold-standard examples below. The same approach has since scaled into <strong>BrainSwipes</strong>, now used for quality control on two of the largest studies in the field, the NIH's <a href="https://abcdstudy.org/" target="_blank" rel="noopener" class="accent-text hover:underline">ABCD Study</a> and <a href="https://hbcdstudy.org/" target="_blank" rel="noopener" class="accent-text hover:underline">HBCD Study</a>. Try the same pass/fail interaction on the left, and see Braindr's actual live participant leaderboard on the right.</p>
+      <p class="text-sm text-[#4D4F53] mt-2 max-w-3xl">A citizen-science game template that turns tedious manual quality-checking of brain scans into a quick swiping game, so any lab can crowdsource data annotation without writing app code. <strong>Braindr</strong>, the original live instance built on it, crowdsourced tens of thousands of real pass/fail ratings on individual brain slices from citizen scientists — like the gold-standard examples below. The same approach has since scaled into <strong>BrainSwipes</strong>, now used for quality control on two of the largest studies in the field, the NIH's <a href="https://abcdstudy.org/" target="_blank" rel="noopener" class="prose-link">ABCD Study</a> and <a href="https://hbcdstudy.org/" target="_blank" rel="noopener" class="prose-link">HBCD Study</a>. Try the same pass/fail interaction on the left, and see Braindr's actual live participant leaderboard on the right.</p>
       <div class="mt-6 grid md:grid-cols-2 gap-6">
         <div>
           <div class="flex items-baseline justify-between gap-2 mb-2">
@@ -540,8 +546,8 @@
     <div class="border-t border-[#DAD7CB] py-6 text-center text-xs text-[#6B6560]">© 2026 Yeatman Lab, Stanford University.</div>
   </footer>
 
-  <script src="shared-data.js?v=36"></script>
-  <script src="site.js?v=56"></script>
+  <script src="shared-data.js?v=37"></script>
+  <script src="site.js?v=57"></script>
   <script>initSite('bde', 'https://dyslexia.stanford.edu/');</script>
 </body>
 </html>
