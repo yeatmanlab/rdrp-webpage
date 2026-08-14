@@ -79,6 +79,9 @@
     border-radius:1.25rem; background:#FAF9F6; border:1px solid #E4E1D7; overflow:hidden;
     transition:box-shadow .3s ease, border-color .3s ease; }
   @media (min-width:1024px){ .cycle{ aspect-ratio:auto; height:100%; min-height:300px; } }
+  /* Stacked, the figure would otherwise run the full column width — 962x722 at 1010px,
+     which bloats the photos to 332px each. Cap it and centre it instead. */
+  @media (max-width:1023px){ .cycle{ max-width:560px; margin-inline:auto; } }
   .cycle:hover, .cycle:focus{ box-shadow:0 10px 30px rgba(0,0,0,.13); border-color:#C9C5B8; outline:none; }
   .cycle-svg{ position:absolute; inset:0; width:100%; height:100%; color:var(--accent); }
   .cyc-photo{ transition:transform .45s cubic-bezier(.22,.68,0,1);
@@ -365,6 +368,7 @@
           </defs>
 
           <g class="cyc-photo">
+            <circle cx="315" cy="85" r="69" fill="#F1EFE8" />
             <image href="assets/figures/mission/brain-tracts.png" x="246" y="16" width="138" height="138" preserveAspectRatio="xMidYMid meet" />
           </g>
           <g class="cyc-photo" filter="url(#cyc-shadow)">
@@ -651,8 +655,8 @@
     <div class="border-t border-[#DAD7CB] py-6 text-center text-xs text-[#6B6560]">© 2026 Yeatman Lab, Stanford University.</div>
   </footer>
 
-  <script src="shared-data.js?v=52"></script>
-  <script src="site.js?v=72"></script>
+  <script src="shared-data.js?v=54"></script>
+  <script src="site.js?v=74"></script>
   <script>initSite('bde', 'https://dyslexia.stanford.edu/');</script>
 </body>
 </html>

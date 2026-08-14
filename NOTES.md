@@ -114,7 +114,13 @@ do from here:
     drift off the circles.
   - From `lg` up the figure takes its height from the mission paragraph (`height:100%` in a
     stretch row), so the two columns end level. Below `lg` it's stacked and nothing sets the row
-    height, so it falls back to an explicit `aspect-ratio:4/3`.
+    height, so it falls back to an explicit `aspect-ratio:4/3` **plus a 560px cap**. Without the
+    cap it ran the full column width — 962x722 at a 1010px viewport, which blows the photos up
+    to 332px each. The cap doesn't bind at phone widths (327px at 390).
+  - The brain sits on a `#F1EFE8` disc — one step darker than the card, no accent tint. It gives
+    the tractography the same node identity the classroom photo's circle has, and it absorbs the
+    render's slight overhang past the disc edge. A hairline ring was the alternative and was
+    rejected for exactly that reason: a thin line turns the overhang into a visible mistake.
   - Label geometry was measured, not guessed: circle-to-rect clearance is computed from the
     circle's centre to the nearest rect point, because bounding boxes overlap on a circle
     long before the ink does. The centre pill overlapped both photos by 19px until the nodes
