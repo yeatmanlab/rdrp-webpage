@@ -94,25 +94,38 @@ do from here:
     match, change these three together, not just this one.
 
 - The **virtuous-cycle figure** beside the Lab Mission (`.cycle` in `bde.html`) is slide 2
-  of Jason's "virtuous cycle" deck rebuilt for the web — the same diagram the Yeatman &
-  Yablonski 2025 manuscript figure is built on. Assets came out of the `.pptx`:
+  of Jason's deck rebuilt for the web — the same diagram the Yeatman & Yablonski 2025
+  manuscript figure is built on. Photos came out of the `.pptx`:
   `assets/figures/mission/brain-tracts.png` (transparent tractography render, cropped to its
   own alpha bbox then padded to a centred square so it sits concentrically in a circular
   mask) and `classroom.jpg` (centre crop biased 28% up, because the faces sit above centre).
-  The ROAR mark is the repo's existing `assets/logos/roar-icon.png` — the slide's copy was
-  byte-for-byte the same art, so it wasn't re-added.
-  - **Wordless at rest, by design.** Two photographs and two arrows already say "these feed
-    each other", and the mission paragraph beside it supplies the words. Hover — or *tap*,
-    see below — fades a scrim over the figure and names each direction.
-  - The two curved arrows are inline SVG paths on a `0 0 100 100` viewBox, not the slide's
-    EMF. An EMF won't render in a browser at all, and percentage geometry keeps the arrows
-    locked to the circles at every figure size.
+  - **The arrows are the slide's own vector art, not an approximation.** The shaft bezier and
+    the swept arrowhead were parsed out of the EMF the `.pptx` ships (`image6.emf`: local
+    space 2906x1342, pen width 53) and re-emitted as SVG paths. A stroked quarter-circle with
+    a triangle `marker-end` was the first attempt and read as clunky — the real arrow is a
+    much shallower arc with a concave head. Each arrow is one `<use>` of the same `<g>`,
+    placed by mapping its local chord `(25,1324)->(2870,170)` onto each leg of the cycle:
+    `translate(tip) rotate(chordAngle - (-22.1)) scale(chordLen/3070) translate(-25 -1324)`.
+    Re-deriving those two transforms is the price of changing the layout.
+  - **4:3, and the viewBox is `0 0 400 300` to match.** A square box couldn't hold the three
+    labels, and a viewBox whose aspect differs from the box's would stretch the arrows.
+    Circles are sized off the figure's **height** for the same reason — a % of width balloons
+    them in a wide box.
+  - Label geometry was measured, not guessed: circle-to-rect clearance is computed from the
+    circle's centre to the nearest rect point, because bounding boxes overlap on a circle
+    long before the ink does. The centre pill overlapped both photos by 19px until the nodes
+    went 50%->46% and the pill 38%->27%; it now clears both by 18px.
+  - The two labels are near-square (~1.8:1 and 2.2:1) rather than wide-and-flat. A fixed
+    amount of text has a roughly fixed area, so narrowing the box from 45% to 30% trades
+    width for lines — which is what paid for 14px type instead of 11px.
+  - Labels are **desktop-only**. Below `lg` they're hidden and hover/tap reveals the same
+    words as a scrim, because there is no room for them at phone width.
   - Reveal is `:hover, :focus`, **not `:focus-visible`**. A touch screen has no hover; a tap
-    fires focus. `:focus-visible` would have left the labels unreachable on a phone. The
-    `.pubfig-card` rules nearby still use `:focus-visible` on purpose — different job.
-  - The grid track is a definite `360px`/`400px`, never `auto`. `.cycle`'s children are all
-    absolutely positioned, so its content width is 0; in an `auto` track `width:100%`
-    resolved to the 2px of border and the figure vanished.
+    fires focus. `:focus-visible` would leave the labels unreachable on a phone. The
+    `.pubfig-card` rules nearby keep `:focus-visible` on purpose — different job.
+  - The grid track was `auto` once and the figure collapsed to 2x2px: `.cycle`'s children are
+    all absolutely positioned, so its content width is 0 and `width:100%` resolved to the 2px
+    of border. It's `lg:grid-cols-2` now — definite tracks only.
 
 - The figure strip has no section of its own: it sits at the top of `#publications`,
   directly under that section's `Yeatman Lab Publications` heading, on both pages. There is no

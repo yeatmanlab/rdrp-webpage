@@ -66,44 +66,59 @@
     text-underline-offset:2px; }
   .prose-link:hover{ text-decoration-thickness:2px; color:var(--accent-dark); }
 
-  /* The virtuous-cycle figure beside the mission — the lab's own slide, rebuilt for the web.
-     At rest it is wordless on purpose: two photographs and two arrows already say "these
-     two things feed each other", and the mission paragraph next to it supplies the words.
-     Hover or keyboard focus fades a scrim over it and names each direction. */
-  .cycle{ position:relative; aspect-ratio:1/1; width:100%; max-width:400px;
+  /* The virtuous-cycle figure beside the mission — slide 2 of the lab's deck, rebuilt for
+     the web. The two arrows are the slide's own vector art: the shaft bezier and the swept
+     head were parsed straight out of the EMF the .pptx ships (2906x1342 local space, pen
+     width 53), so the sweep matches the original instead of approximating it with a stroked
+     quarter-circle and a triangle marker.
+     4:3, not square — the slide is landscape and the three labels need the width. The SVG
+     viewBox is 400x300 to match, so the arrows can't stretch; the circles are sized off the
+     figure's HEIGHT for the same reason (a % of width would balloon them in a wide box).
+     Labels sit over the arrows as they do on the slide. Below lg there's no room, so
+     they're hidden and hover/tap reveals the same words as a scrim. */
+  .cycle{ position:relative; aspect-ratio:4/3; width:100%;
     border-radius:1.25rem; background:#FAF9F6; border:1px solid #E4E1D7; overflow:hidden;
-    transition:box-shadow .3s ease, border-color .3s ease; cursor:default; }
-  .cycle:hover, .cycle:focus{ box-shadow:0 10px 30px rgba(0,0,0,.13);
-    border-color:#C9C5B8; outline:none; }
-  .cycle-svg{ position:absolute; inset:0; width:100%; height:100%; }
+    transition:box-shadow .3s ease, border-color .3s ease; }
+  .cycle:hover, .cycle:focus{ box-shadow:0 10px 30px rgba(0,0,0,.13); border-color:#C9C5B8; outline:none; }
+  .cycle-svg{ position:absolute; inset:0; width:100%; height:100%; color:var(--accent); }
   .cycle-node{ position:absolute; border-radius:9999px; overflow:hidden;
-    width:43%; aspect-ratio:1/1; box-shadow:0 3px 12px rgba(0,0,0,.16);
+    height:46%; aspect-ratio:1/1; box-shadow:0 3px 14px rgba(0,0,0,.18);
     transition:transform .45s cubic-bezier(.22,.68,0,1); }
   .cycle-node img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .cycle-brain{ top:5%; right:5%; background:rgba(var(--accent-rgb),.07); }
-  .cycle-brain img{ object-fit:contain; padding:5%; box-sizing:border-box; }
-  .cycle-class{ bottom:5%; left:5%; }
-  .cycle:hover .cycle-brain, .cycle:focus .cycle-brain{ transform:scale(1.05) translate(-2%, 2%); }
-  .cycle:hover .cycle-class, .cycle:focus .cycle-class{ transform:scale(1.05) translate(2%, -2%); }
-  .cycle-roar{ position:absolute; width:15%; bottom:6%; right:7%; border-radius:9999px;
-    box-shadow:0 2px 8px rgba(0,0,0,.2); }
-  .cycle-arrow{ fill:none; stroke:var(--accent); stroke-width:2.6; stroke-linecap:round;
-    opacity:.75; transition:opacity .3s ease, stroke-width .3s ease; }
-  .cycle:hover .cycle-arrow, .cycle:focus .cycle-arrow{ opacity:1; stroke-width:3.2; }
+  .cycle-brain{ top:3.5%; right:2.5%; background:rgba(var(--accent-rgb),.07); }
+  .cycle-brain img{ object-fit:contain; padding:4%; box-sizing:border-box; }
+  .cycle-class{ bottom:3.5%; left:2.5%; }
+  .cycle:hover .cycle-brain, .cycle:focus .cycle-brain{ transform:scale(1.04); }
+  .cycle:hover .cycle-class, .cycle:focus .cycle-class{ transform:scale(1.04); }
+
+  .cycle-lbl, .cycle-mid{ display:none; }
+  @media (min-width:1024px){
+    .cycle-lbl{ display:block; position:absolute; width:30%; padding:9px 11px;
+      background:rgba(255,255,255,.92); border:1px solid #E4E1D7; border-radius:.6rem;
+      font-size:14px; line-height:1.35; color:#2E2D29; }
+    .cycle-lbl-a{ left:3%; top:12%; }
+    .cycle-lbl-b{ right:3%; bottom:10%; }
+    .cycle-mid{ display:block; position:absolute; left:36.5%; width:27%; top:50%;
+      transform:translateY(-50%); padding:9px 11px; border-radius:.6rem;
+      background:var(--accent); color:#fff; text-align:center;
+      box-shadow:0 0 0 4px #FAF9F6;
+      font-size:13px; font-weight:800; line-height:1.3; }
+  }
+
   .cycle-cap{ position:absolute; left:0; right:0; bottom:0; padding:9px 12px;
     font-size:10px; font-weight:800; letter-spacing:.07em; text-transform:uppercase;
     color:#8C8578; text-align:center; background:linear-gradient(transparent,#FAF9F6 55%);
     transition:opacity .25s ease; }
-  .cycle:hover .cycle-cap, .cycle:focus .cycle-cap{ opacity:0; }
-  .cycle-over{ position:absolute; inset:0; padding:22px 20px; background:rgba(250,249,246,.955);
-    display:flex; flex-direction:column; justify-content:center; gap:12px; text-align:left;
+  .cycle-over{ position:absolute; inset:0; padding:20px 18px; background:rgba(250,249,246,.955);
+    display:flex; flex-direction:column; justify-content:center; gap:11px; text-align:left;
     opacity:0; pointer-events:none; transition:opacity .3s ease; }
   .cycle:hover .cycle-over, .cycle:focus .cycle-over{ opacity:1; pointer-events:auto; }
-  .cycle-over h3{ font-size:16px; font-weight:900; line-height:1.3; color:var(--accent); }
-  .cycle-leg{ display:flex; gap:10px; align-items:flex-start; font-size:13.5px; line-height:1.5;
+  .cycle:hover .cycle-cap, .cycle:focus .cycle-cap{ opacity:0; }
+  .cycle-over h3{ font-size:14px; font-weight:900; line-height:1.3; color:var(--accent); }
+  .cycle-leg{ display:flex; gap:9px; align-items:flex-start; font-size:12.5px; line-height:1.45;
     color:#2E2D29; }
-  .cycle-leg i{ flex:none; margin-top:2px; font-style:normal; font-weight:900; color:var(--accent); }
-  @media (max-width:1023px){ .cycle{ max-width:340px; } }
+  .cycle-leg i{ flex:none; margin-top:1px; font-style:normal; font-weight:900; color:var(--accent); }
+  @media (min-width:1024px){ .cycle-cap, .cycle-over{ display:none; } }
   .cite-badge{ font-size:11px; font-weight:700; color:#6B6560; background:#F5F4F0; border-radius:9999px; padding:2px 10px; white-space:nowrap; }
   details > summary::-webkit-details-marker{ display:none; }
   details summary{ list-style:none; }
@@ -325,27 +340,27 @@
   <!-- Research focus: real, current, funded projects -->
   <section id="research" class="max-w-7xl mx-auto px-6 lg:px-10 pt-14 pb-16">
     <h2 class="font-black text-3xl">Lab Mission</h2>
-    <div class="grid lg:grid-cols-[minmax(0,1fr)_360px] xl:grid-cols-[minmax(0,1fr)_400px] gap-10 lg:gap-14 items-start mt-4">
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-start mt-4">
       <p class="section-lead">The overarching goal of our research is to understand the interplay between brain development, education, and learning outcomes — specifically in reading. By combining multimodal neuroimaging with tightly controlled educational interventions, we study how a child's unique pattern of brain development predisposes them to succeed or struggle in a given education program. Education personalized to an individual's neurobiology is a long-term vision and our immediate goal is to inspire a <a href="https://doi.org/10.1111/mbe.70017" target="_blank" rel="noopener" class="prose-link">virtuous cycle between education and neuroscience</a>. Research at the intersection of these two disciplines can propel new discoveries regarding how experience sculpts brain development and, hopefully, offer insights into learning differences that are applicable in the classroom.</p>
       <figure class="cycle" tabindex="0" aria-label="A virtuous cycle between education and neuroscience: reading instruction and intervention on one side, measures of brain structure and function on the other, each feeding the other.">
-        <svg class="cycle-svg" viewBox="0 0 100 100" aria-hidden="true">
-          <defs>
-            <marker id="cyc-tip" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="4.6" markerHeight="4.6" orient="auto-start-reverse">
-              <path d="M0 1.2 L8.4 5 L0 8.8 z" fill="var(--accent)"></path>
-            </marker>
-          </defs>
-          <path class="cycle-arrow" d="M24 62 C 20 34, 34 20, 60 20.5" marker-end="url(#cyc-tip)"></path>
-          <path class="cycle-arrow" d="M76 38 C 80 66, 66 80, 40 79.5" marker-end="url(#cyc-tip)"></path>
+        <svg class="cycle-svg" viewBox="0 0 400 300" aria-hidden="true">
+          <defs><g id="cyc-arrow">
+            <path d="M 25 1324 C 47 1262 73 1201 102 1142 C 423 479 1102 22 1889 22 C 2189 22 2474 88 2729 208" fill="none" stroke="currentColor" stroke-width="53" />
+            <path d="M 2900 298 C 2804 286 2677 286 2587 308 L 2706 198 L 2727 37 C 2761 124 2835 226 2900 298 Z" fill="currentColor" />
+          </g></defs>
+          <use href="#cyc-arrow" transform="translate(95 138) rotate(-6.6) scale(0.05831) translate(-25 -1324)" />
+          <use href="#cyc-arrow" transform="translate(305 162) rotate(173.4) scale(0.05831) translate(-25 -1324)" />
         </svg>
         <div class="cycle-node cycle-brain"><img src="assets/figures/mission/brain-tracts.png" alt="" width="520" height="520" loading="lazy" /></div>
         <div class="cycle-node cycle-class"><img src="assets/figures/mission/classroom.jpg" alt="" width="520" height="520" loading="lazy" /></div>
-        <img class="cycle-roar" src="assets/logos/roar-icon.png" alt="" width="300" height="300" loading="lazy" />
+        <p class="cycle-lbl cycle-lbl-a">Education as a tool to understand how experience shapes brain development.</p>
+        <p class="cycle-lbl cycle-lbl-b">Neuroscience as a tool to understand learning differences</p>
+        <p class="cycle-mid">Virtuous Cycle Between Education and Neuroscience</p>
         <figcaption class="cycle-cap">Our approach</figcaption>
         <div class="cycle-over">
-          <h3>A virtuous cycle between education and neuroscience</h3>
+          <h3>Virtuous Cycle Between Education and Neuroscience</h3>
           <p class="cycle-leg"><i>&uarr;</i><span>Education as a tool to understand how experience shapes brain development.</span></p>
-          <p class="cycle-leg"><i>&darr;</i><span>Neuroscience as a tool to predict learning and personalize education.</span></p>
-          <p class="cycle-leg"><i>&rarr;</i><span>Precision assessment for targeted instruction.</span></p>
+          <p class="cycle-leg"><i>&darr;</i><span>Neuroscience as a tool to understand learning differences</span></p>
         </div>
       </figure>
     </div>
@@ -608,8 +623,8 @@
     <div class="border-t border-[#DAD7CB] py-6 text-center text-xs text-[#6B6560]">© 2026 Yeatman Lab, Stanford University.</div>
   </footer>
 
-  <script src="shared-data.js?v=41"></script>
-  <script src="site.js?v=61"></script>
+  <script src="shared-data.js?v=46"></script>
+  <script src="site.js?v=66"></script>
   <script>initSite('bde', 'https://dyslexia.stanford.edu/');</script>
 </body>
 </html>
