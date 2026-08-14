@@ -156,6 +156,20 @@ do from here:
   field). Each card shows year + title, and reveals the full `summary` on hover/focus,
   because these summaries average ~460 characters and clamping them to two lines cut
   every one mid-clause.
+- **Lab-hosted PDFs** live in `assets/papers/` — 55 of 136 publications (40%), ~138 MB. Only
+  open-access papers are hosted: every one is CC BY, CC BY-NC, or CC BY-NC-ND, checked via
+  the PMC open-access service before download. Do not add a paywalled publisher PDF here.
+  - The two routes that used to work are now closed. PMC's `/articles/PMCxxx/pdf/` endpoint
+    serves a bot interstitial ("Preparing to download..."), and NCBI has retired the bulk
+    `ftp.ncbi.nlm.nih.gov/pub/pmc/oa_pdf/` and `/oa_package/` trees — both roots 404, so the
+    hrefs `oa.fcgi` still hands out are stale. What does work is publisher-direct:
+    `nature.com/articles/<id>.pdf`, `journals.plos.org/.../article/file?id=<doi>&type=printable`,
+    `elifesciences.org/articles/<n>.pdf`, `biorxiv.org/content/<doi>v1.full.pdf`,
+    `joss.theoj.org/papers/<doi>.pdf`. Frontiers, PNAS and ARVO all refuse automated fetches.
+  - Nothing on the site links to `edneuro.stanford.edu/wp-content/...` any more. That domain
+    now serves *this* site via Firebase, so the old WordPress upload paths 404 — nine links
+    were pointing at them and all nine had a local copy already.
+
 - Publication **topic tags** live only in `shared-data.js`; `PUBS_TAG_ORDER` in `site.js`
   controls which ones become pills and in what order. Both must be edited together — a tag
   missing from `PUBS_TAG_ORDER` silently gets no pill, and a name mismatch between the two
