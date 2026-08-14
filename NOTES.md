@@ -93,6 +93,27 @@ do from here:
     alone isn't a sufficient affordance inside a long paragraph. If you'd rather they all
     match, change these three together, not just this one.
 
+- The **virtuous-cycle figure** beside the Lab Mission (`.cycle` in `bde.html`) is slide 2
+  of Jason's "virtuous cycle" deck rebuilt for the web — the same diagram the Yeatman &
+  Yablonski 2025 manuscript figure is built on. Assets came out of the `.pptx`:
+  `assets/figures/mission/brain-tracts.png` (transparent tractography render, cropped to its
+  own alpha bbox then padded to a centred square so it sits concentrically in a circular
+  mask) and `classroom.jpg` (centre crop biased 28% up, because the faces sit above centre).
+  The ROAR mark is the repo's existing `assets/logos/roar-icon.png` — the slide's copy was
+  byte-for-byte the same art, so it wasn't re-added.
+  - **Wordless at rest, by design.** Two photographs and two arrows already say "these feed
+    each other", and the mission paragraph beside it supplies the words. Hover — or *tap*,
+    see below — fades a scrim over the figure and names each direction.
+  - The two curved arrows are inline SVG paths on a `0 0 100 100` viewBox, not the slide's
+    EMF. An EMF won't render in a browser at all, and percentage geometry keeps the arrows
+    locked to the circles at every figure size.
+  - Reveal is `:hover, :focus`, **not `:focus-visible`**. A touch screen has no hover; a tap
+    fires focus. `:focus-visible` would have left the labels unreachable on a phone. The
+    `.pubfig-card` rules nearby still use `:focus-visible` on purpose — different job.
+  - The grid track is a definite `360px`/`400px`, never `auto`. `.cycle`'s children are all
+    absolutely positioned, so its content width is 0; in an `auto` track `width:100%`
+    resolved to the 2px of border and the figure vanished.
+
 - The figure strip has no section of its own: it sits at the top of `#publications`,
   directly under that section's `Yeatman Lab Publications` heading, on both pages. There is no
   `#figures` id anymore, and nothing links to one.

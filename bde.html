@@ -65,6 +65,45 @@
   .prose-link{ color:var(--accent); text-decoration:underline; text-decoration-thickness:1px;
     text-underline-offset:2px; }
   .prose-link:hover{ text-decoration-thickness:2px; color:var(--accent-dark); }
+
+  /* The virtuous-cycle figure beside the mission — the lab's own slide, rebuilt for the web.
+     At rest it is wordless on purpose: two photographs and two arrows already say "these
+     two things feed each other", and the mission paragraph next to it supplies the words.
+     Hover or keyboard focus fades a scrim over it and names each direction. */
+  .cycle{ position:relative; aspect-ratio:1/1; width:100%; max-width:400px;
+    border-radius:1.25rem; background:#FAF9F6; border:1px solid #E4E1D7; overflow:hidden;
+    transition:box-shadow .3s ease, border-color .3s ease; cursor:default; }
+  .cycle:hover, .cycle:focus{ box-shadow:0 10px 30px rgba(0,0,0,.13);
+    border-color:#C9C5B8; outline:none; }
+  .cycle-svg{ position:absolute; inset:0; width:100%; height:100%; }
+  .cycle-node{ position:absolute; border-radius:9999px; overflow:hidden;
+    width:43%; aspect-ratio:1/1; box-shadow:0 3px 12px rgba(0,0,0,.16);
+    transition:transform .45s cubic-bezier(.22,.68,0,1); }
+  .cycle-node img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .cycle-brain{ top:5%; right:5%; background:rgba(var(--accent-rgb),.07); }
+  .cycle-brain img{ object-fit:contain; padding:5%; box-sizing:border-box; }
+  .cycle-class{ bottom:5%; left:5%; }
+  .cycle:hover .cycle-brain, .cycle:focus .cycle-brain{ transform:scale(1.05) translate(-2%, 2%); }
+  .cycle:hover .cycle-class, .cycle:focus .cycle-class{ transform:scale(1.05) translate(2%, -2%); }
+  .cycle-roar{ position:absolute; width:15%; bottom:6%; right:7%; border-radius:9999px;
+    box-shadow:0 2px 8px rgba(0,0,0,.2); }
+  .cycle-arrow{ fill:none; stroke:var(--accent); stroke-width:2.6; stroke-linecap:round;
+    opacity:.75; transition:opacity .3s ease, stroke-width .3s ease; }
+  .cycle:hover .cycle-arrow, .cycle:focus .cycle-arrow{ opacity:1; stroke-width:3.2; }
+  .cycle-cap{ position:absolute; left:0; right:0; bottom:0; padding:9px 12px;
+    font-size:10px; font-weight:800; letter-spacing:.07em; text-transform:uppercase;
+    color:#8C8578; text-align:center; background:linear-gradient(transparent,#FAF9F6 55%);
+    transition:opacity .25s ease; }
+  .cycle:hover .cycle-cap, .cycle:focus .cycle-cap{ opacity:0; }
+  .cycle-over{ position:absolute; inset:0; padding:22px 20px; background:rgba(250,249,246,.955);
+    display:flex; flex-direction:column; justify-content:center; gap:12px; text-align:left;
+    opacity:0; pointer-events:none; transition:opacity .3s ease; }
+  .cycle:hover .cycle-over, .cycle:focus .cycle-over{ opacity:1; pointer-events:auto; }
+  .cycle-over h3{ font-size:16px; font-weight:900; line-height:1.3; color:var(--accent); }
+  .cycle-leg{ display:flex; gap:10px; align-items:flex-start; font-size:13.5px; line-height:1.5;
+    color:#2E2D29; }
+  .cycle-leg i{ flex:none; margin-top:2px; font-style:normal; font-weight:900; color:var(--accent); }
+  @media (max-width:1023px){ .cycle{ max-width:340px; } }
   .cite-badge{ font-size:11px; font-weight:700; color:#6B6560; background:#F5F4F0; border-radius:9999px; padding:2px 10px; white-space:nowrap; }
   details > summary::-webkit-details-marker{ display:none; }
   details summary{ list-style:none; }
@@ -286,7 +325,30 @@
   <!-- Research focus: real, current, funded projects -->
   <section id="research" class="max-w-7xl mx-auto px-6 lg:px-10 pt-14 pb-16">
     <h2 class="font-black text-3xl">Lab Mission</h2>
-    <p class="section-lead mt-4">The overarching goal of our research is to understand the interplay between brain development, education, and learning outcomes — specifically in reading. By combining multimodal neuroimaging with tightly controlled educational interventions, we study how a child's unique pattern of brain development predisposes them to succeed or struggle in a given education program. Education personalized to an individual's neurobiology is a long-term vision and our immediate goal is to inspire a <a href="https://doi.org/10.1111/mbe.70017" target="_blank" rel="noopener" class="prose-link">virtuous cycle between education and neuroscience</a>. Research at the intersection of these two disciplines can propel new discoveries regarding how experience sculpts brain development and, hopefully, offer insights into learning differences that are applicable in the classroom.</p>
+    <div class="grid lg:grid-cols-[minmax(0,1fr)_360px] xl:grid-cols-[minmax(0,1fr)_400px] gap-10 lg:gap-14 items-start mt-4">
+      <p class="section-lead">The overarching goal of our research is to understand the interplay between brain development, education, and learning outcomes — specifically in reading. By combining multimodal neuroimaging with tightly controlled educational interventions, we study how a child's unique pattern of brain development predisposes them to succeed or struggle in a given education program. Education personalized to an individual's neurobiology is a long-term vision and our immediate goal is to inspire a <a href="https://doi.org/10.1111/mbe.70017" target="_blank" rel="noopener" class="prose-link">virtuous cycle between education and neuroscience</a>. Research at the intersection of these two disciplines can propel new discoveries regarding how experience sculpts brain development and, hopefully, offer insights into learning differences that are applicable in the classroom.</p>
+      <figure class="cycle" tabindex="0" aria-label="A virtuous cycle between education and neuroscience: reading instruction and intervention on one side, measures of brain structure and function on the other, each feeding the other.">
+        <svg class="cycle-svg" viewBox="0 0 100 100" aria-hidden="true">
+          <defs>
+            <marker id="cyc-tip" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="4.6" markerHeight="4.6" orient="auto-start-reverse">
+              <path d="M0 1.2 L8.4 5 L0 8.8 z" fill="var(--accent)"></path>
+            </marker>
+          </defs>
+          <path class="cycle-arrow" d="M24 62 C 20 34, 34 20, 60 20.5" marker-end="url(#cyc-tip)"></path>
+          <path class="cycle-arrow" d="M76 38 C 80 66, 66 80, 40 79.5" marker-end="url(#cyc-tip)"></path>
+        </svg>
+        <div class="cycle-node cycle-brain"><img src="assets/figures/mission/brain-tracts.png" alt="" width="520" height="520" loading="lazy" /></div>
+        <div class="cycle-node cycle-class"><img src="assets/figures/mission/classroom.jpg" alt="" width="520" height="520" loading="lazy" /></div>
+        <img class="cycle-roar" src="assets/logos/roar-icon.png" alt="" width="300" height="300" loading="lazy" />
+        <figcaption class="cycle-cap">Our approach</figcaption>
+        <div class="cycle-over">
+          <h3>A virtuous cycle between education and neuroscience</h3>
+          <p class="cycle-leg"><i>&uarr;</i><span>Education as a tool to understand how experience shapes brain development.</span></p>
+          <p class="cycle-leg"><i>&darr;</i><span>Neuroscience as a tool to predict learning and personalize education.</span></p>
+          <p class="cycle-leg"><i>&rarr;</i><span>Precision assessment for targeted instruction.</span></p>
+        </div>
+      </figure>
+    </div>
 
     <div class="grid md:grid-cols-2 gap-6 mt-8">
       <div class="rounded-3xl tint-8 p-8">
@@ -546,8 +608,8 @@
     <div class="border-t border-[#DAD7CB] py-6 text-center text-xs text-[#6B6560]">© 2026 Yeatman Lab, Stanford University.</div>
   </footer>
 
-  <script src="shared-data.js?v=37"></script>
-  <script src="site.js?v=57"></script>
+  <script src="shared-data.js?v=41"></script>
+  <script src="site.js?v=61"></script>
   <script>initSite('bde', 'https://dyslexia.stanford.edu/');</script>
 </body>
 </html>
