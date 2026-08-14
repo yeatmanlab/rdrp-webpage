@@ -107,10 +107,14 @@ do from here:
     placed by mapping its local chord `(25,1324)->(2870,170)` onto each leg of the cycle:
     `translate(tip) rotate(chordAngle - (-22.1)) scale(chordLen/3070) translate(-25 -1324)`.
     Re-deriving those two transforms is the price of changing the layout.
-  - **4:3, and the viewBox is `0 0 400 300` to match.** A square box couldn't hold the three
-    labels, and a viewBox whose aspect differs from the box's would stretch the arrows.
-    Circles are sized off the figure's **height** for the same reason — a % of width balloons
-    them in a wide box.
+  - **Everything lives in the one 400x300 viewBox** — photos as `<image>`+`clipPath`, labels as
+    `<foreignObject>`. That's what lets the box be any height: `preserveAspectRatio` scales the
+    whole diagram uniformly. An earlier version mixed CSS-positioned circles with an SVG arrow
+    layer, which pins the figure to a fixed aspect ratio — change the height and the arrow tips
+    drift off the circles.
+  - From `lg` up the figure takes its height from the mission paragraph (`height:100%` in a
+    stretch row), so the two columns end level. Below `lg` it's stacked and nothing sets the row
+    height, so it falls back to an explicit `aspect-ratio:4/3`.
   - Label geometry was measured, not guessed: circle-to-rect clearance is computed from the
     circle's centre to the nearest rect point, because bounding boxes overlap on a circle
     long before the ink does. The centre pill overlapped both photos by 19px until the nodes
@@ -120,6 +124,14 @@ do from here:
     width for lines — which is what paid for 14px type instead of 11px.
   - Labels are **desktop-only**. Below `lg` they're hidden and hover/tap reveals the same
     words as a scrim, because there is no room for them at phone width.
+  - The centre label is an outlined circle with no fill, and it's a **link** — along with the
+    mission prose and the mobile scrim heading, it carries `data-pub-doi` and jumps to that
+    paper's row in `#pubs-list` rather than leaving the page. See `setupPubJumpLinks` in
+    `site.js`: the row is unreachable at rest (its year is collapsed, and a collapsed year
+    renders nothing), so the handler clears any topic filter, opens the year, then scrolls and
+    flashes the row. It measures after forcing a reflow rather than inside
+    `requestAnimationFrame`, because rAF is paused in a background tab and the scroll would be
+    dropped. The `href` stays `#publications` so it degrades without JS.
   - Reveal is `:hover, :focus`, **not `:focus-visible`**. A touch screen has no hover; a tap
     fires focus. `:focus-visible` would leave the labels unreachable on a phone. The
     `.pubfig-card` rules nearby keep `:focus-visible` on purpose — different job.

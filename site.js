@@ -291,6 +291,9 @@ function renderPublications() {
       const li = document.createElement('li');
       li.className = 'pub-item text-sm text-[#4D4F53] leading-relaxed relative rounded-lg -mx-2 px-2 py-1.5 transition-colors hover:bg-white focus-within:bg-white hover:shadow-sm focus-within:shadow-sm';
       li.dataset.tags = (p.tags || []).join('|');
+      // Lets prose elsewhere on the page link to this exact row — see setupPubJumpLinks.
+      const doi = (p.url || '').match(/doi\.org\/(.+)$/);
+      if (doi) li.dataset.doi = doi[1];
       let links = '';
       if (p.url) {
         const label = /\.pdf($|\?)/.test(p.url) ? 'PDF' : 'Article';
@@ -381,6 +384,37 @@ function buildPubYearStrip(container, years, byYear) {
 
   syncPubYearChips();
   window.addEventListener('scroll', scheduleYearSpy, { passive: true });
+}
+
+// Links carrying data-pub-doi scroll to that paper's row in #pubs-list instead of leaving the
+// page. The row is usually unreachable at rest — its year is collapsed, and a collapsed year
+// renders nothing — so this clears any topic filter, opens the right year, then scrolls and
+// flashes the row so the eye can find it among the others.
+function setupPubJumpLinks() {
+  const list = document.getElementById('pubs-list');
+  if (!list) return;
+  document.querySelectorAll('[data-pub-doi]').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      const row = list.querySelector('.pub-item[data-doi="' + link.dataset.pubDoi + '"]');
+      if (!row) return;                       // no row: fall through to the href
+      e.preventDefault();
+      const allPill = document.querySelector('#pubs-filters .filter-pill[data-tag="all"]');
+      if (allPill && !allPill.classList.contains('active')) allPill.click();
+      const details = row.closest('details');
+      if (details && !details.open) {
+        details.open = true;
+        if (typeof markActiveYearChip === 'function') markActiveYearChip(details.dataset.year);
+      }
+      row.classList.add('pub-flash');
+      setTimeout(function () { row.classList.remove('pub-flash'); }, 2400);
+      // Setting details.open changes layout synchronously, so force a reflow and measure now
+      // rather than deferring to requestAnimationFrame — rAF is paused in a background tab,
+      // which would drop the scroll entirely.
+      void row.offsetHeight;
+      window.scrollTo({ top: row.getBoundingClientRect().top + window.scrollY - stickyOffset() - 90,
+                        behavior: 'smooth' });
+    });
+  });
 }
 
 function stickyOffset() {
@@ -1008,4 +1042,5 @@ function initSite(currentView, otherPageUrl) {
   setupCoin(currentView, otherPageUrl);
   setupSwipeDemo();
   setupMobileNav();
+  setupPubJumpLinks();
 }

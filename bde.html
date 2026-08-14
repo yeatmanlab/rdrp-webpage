@@ -67,44 +67,41 @@
   .prose-link:hover{ text-decoration-thickness:2px; color:var(--accent-dark); }
 
   /* The virtuous-cycle figure beside the mission — slide 2 of the lab's deck, rebuilt for
-     the web. The two arrows are the slide's own vector art: the shaft bezier and the swept
-     head were parsed straight out of the EMF the .pptx ships (2906x1342 local space, pen
-     width 53), so the sweep matches the original instead of approximating it with a stroked
-     quarter-circle and a triangle marker.
-     4:3, not square — the slide is landscape and the three labels need the width. The SVG
-     viewBox is 400x300 to match, so the arrows can't stretch; the circles are sized off the
-     figure's HEIGHT for the same reason (a % of width would balloon them in a wide box).
-     Labels sit over the arrows as they do on the slide. Below lg there's no room, so
-     they're hidden and hover/tap reveals the same words as a scrim. */
-  .cycle{ position:relative; aspect-ratio:4/3; width:100%;
+     the web. Everything (photos, arrows, labels) lives in ONE 400x300 SVG coordinate space.
+     That's deliberate: it lets the box be any height, because `preserveAspectRatio` scales
+     the whole diagram uniformly. Mixing CSS-positioned circles with an SVG arrow layer, as
+     an earlier version did, pins the box to a fixed aspect ratio — change the height and the
+     arrow tips drift off the circles.
+     From lg up the figure takes its height from the mission paragraph beside it
+     (`height:100%` in a stretch row), so the two columns end level. Below lg it's stacked and
+     nothing sets the row height, so it falls back to an explicit 4:3. */
+  .cycle{ position:relative; width:100%; aspect-ratio:4/3;
     border-radius:1.25rem; background:#FAF9F6; border:1px solid #E4E1D7; overflow:hidden;
     transition:box-shadow .3s ease, border-color .3s ease; }
+  @media (min-width:1024px){ .cycle{ aspect-ratio:auto; height:100%; min-height:300px; } }
   .cycle:hover, .cycle:focus{ box-shadow:0 10px 30px rgba(0,0,0,.13); border-color:#C9C5B8; outline:none; }
   .cycle-svg{ position:absolute; inset:0; width:100%; height:100%; color:var(--accent); }
-  .cycle-node{ position:absolute; border-radius:9999px; overflow:hidden;
-    height:46%; aspect-ratio:1/1; box-shadow:0 3px 14px rgba(0,0,0,.18);
-    transition:transform .45s cubic-bezier(.22,.68,0,1); }
-  .cycle-node img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .cycle-brain{ top:3.5%; right:2.5%; background:rgba(var(--accent-rgb),.07); }
-  .cycle-brain img{ object-fit:contain; padding:4%; box-sizing:border-box; }
-  .cycle-class{ bottom:3.5%; left:2.5%; }
-  .cycle:hover .cycle-brain, .cycle:focus .cycle-brain{ transform:scale(1.04); }
-  .cycle:hover .cycle-class, .cycle:focus .cycle-class{ transform:scale(1.04); }
+  .cyc-photo{ transition:transform .45s cubic-bezier(.22,.68,0,1);
+    transform-box:fill-box; transform-origin:center; }
+  .cycle:hover .cyc-photo, .cycle:focus .cyc-photo{ transform:scale(1.04); }
+  .cyc-arrow-shaft{ fill:none; stroke:currentColor; stroke-width:53; }
+  .cyc-arrow-head{ fill:currentColor; }
 
-  .cycle-lbl, .cycle-mid{ display:none; }
-  @media (min-width:1024px){
-    .cycle-lbl{ display:block; position:absolute; width:30%; padding:9px 11px;
-      background:rgba(255,255,255,.92); border:1px solid #E4E1D7; border-radius:.6rem;
-      font-size:14px; line-height:1.35; color:#2E2D29; }
-    .cycle-lbl-a{ left:3%; top:12%; }
-    .cycle-lbl-b{ right:3%; bottom:10%; }
-    .cycle-mid{ display:block; position:absolute; left:36.5%; width:27%; top:50%;
-      transform:translateY(-50%); padding:9px 11px; border-radius:.6rem;
-      background:var(--accent); color:#fff; text-align:center;
-      box-shadow:0 0 0 4px #FAF9F6;
-      font-size:13px; font-weight:800; line-height:1.3; }
-  }
+  /* Labels ride inside the SVG as foreignObject so they scale with the diagram and stay
+     locked to the arrows. Hidden below lg — no room; the scrim covers that case. */
+  .cyc-fo{ display:none; }
+  @media (min-width:1024px){ .cyc-fo{ display:block; } }
+  .cyc-lbl{ font-family:'Source Sans 3',sans-serif; font-size:12px; line-height:1.35;
+    color:#2E2D29; background:rgba(255,255,255,.92); border:1px solid #E4E1D7;
+    border-radius:6px; padding:7px 8px; box-sizing:border-box; }
+  .cyc-mid{ text-decoration:none; cursor:pointer; transition:background-color .2s, border-color .2s;
+    font-family:'Source Sans 3',sans-serif; font-size:11px; font-weight:800;
+    line-height:1.3; color:var(--accent); border:1px solid #C9C5B8; border-radius:9999px;
+    width:100%; height:100%; box-sizing:border-box; display:flex; align-items:center;
+    justify-content:center; text-align:center; padding:0 12px; }
+  .cyc-mid:hover{ background:rgba(var(--accent-rgb),.07); border-color:var(--accent); }
 
+  /* Below lg: wordless, with hover/tap revealing the same content. */
   .cycle-cap{ position:absolute; left:0; right:0; bottom:0; padding:9px 12px;
     font-size:10px; font-weight:800; letter-spacing:.07em; text-transform:uppercase;
     color:#8C8578; text-align:center; background:linear-gradient(transparent,#FAF9F6 55%);
@@ -119,6 +116,11 @@
     color:#2E2D29; }
   .cycle-leg i{ flex:none; margin-top:1px; font-style:normal; font-weight:900; color:var(--accent); }
   @media (min-width:1024px){ .cycle-cap, .cycle-over{ display:none; } }
+  /* Target of a data-pub-doi jump — a row among 136 needs saying so for a moment. */
+  .pub-flash{ animation:pubFlash 2.4s ease-out; }
+  @keyframes pubFlash{ 0%,55%{ background:rgba(var(--accent-rgb),.16);
+      box-shadow:0 0 0 2px rgba(var(--accent-rgb),.45); } 100%{ background:transparent;
+      box-shadow:0 0 0 2px rgba(var(--accent-rgb),0); } }
   .cite-badge{ font-size:11px; font-weight:700; color:#6B6560; background:#F5F4F0; border-radius:9999px; padding:2px 10px; white-space:nowrap; }
   details > summary::-webkit-details-marker{ display:none; }
   details summary{ list-style:none; }
@@ -340,25 +342,46 @@
   <!-- Research focus: real, current, funded projects -->
   <section id="research" class="max-w-7xl mx-auto px-6 lg:px-10 pt-14 pb-16">
     <h2 class="font-black text-3xl">Lab Mission</h2>
-    <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-start mt-4">
-      <p class="section-lead">The overarching goal of our research is to understand the interplay between brain development, education, and learning outcomes — specifically in reading. By combining multimodal neuroimaging with tightly controlled educational interventions, we study how a child's unique pattern of brain development predisposes them to succeed or struggle in a given education program. Education personalized to an individual's neurobiology is a long-term vision and our immediate goal is to inspire a <a href="https://doi.org/10.1111/mbe.70017" target="_blank" rel="noopener" class="prose-link">virtuous cycle between education and neuroscience</a>. Research at the intersection of these two disciplines can propel new discoveries regarding how experience sculpts brain development and, hopefully, offer insights into learning differences that are applicable in the classroom.</p>
-      <figure class="cycle" tabindex="0" aria-label="A virtuous cycle between education and neuroscience: reading instruction and intervention on one side, measures of brain structure and function on the other, each feeding the other.">
-        <svg class="cycle-svg" viewBox="0 0 400 300" aria-hidden="true">
-          <defs><g id="cyc-arrow">
-            <path d="M 25 1324 C 47 1262 73 1201 102 1142 C 423 479 1102 22 1889 22 C 2189 22 2474 88 2729 208" fill="none" stroke="currentColor" stroke-width="53" />
-            <path d="M 2900 298 C 2804 286 2677 286 2587 308 L 2706 198 L 2727 37 C 2761 124 2835 226 2900 298 Z" fill="currentColor" />
-          </g></defs>
-          <use href="#cyc-arrow" transform="translate(95 138) rotate(-6.6) scale(0.05831) translate(-25 -1324)" />
-          <use href="#cyc-arrow" transform="translate(305 162) rotate(173.4) scale(0.05831) translate(-25 -1324)" />
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-stretch mt-4">
+      <p class="section-lead">The overarching goal of our research is to understand the interplay between brain development, education, and learning outcomes — specifically in reading. By combining multimodal neuroimaging with tightly controlled educational interventions, we study how a child's unique pattern of brain development predisposes them to succeed or struggle in a given education program. Education personalized to an individual's neurobiology is a long-term vision and our immediate goal is to inspire a <a href="#publications" data-pub-doi="10.1111/mbe.70017" class="prose-link">virtuous cycle between education and neuroscience</a>. Research at the intersection of these two disciplines can propel new discoveries regarding how experience sculpts brain development and, hopefully, offer insights into learning differences that are applicable in the classroom.</p>
+      <figure class="cycle" tabindex="0">
+        <svg class="cycle-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" role="img"
+             aria-label="A virtuous cycle between education and neuroscience. Reading instruction and intervention feeds measures of brain structure and function, which in turn feeds back into education.">
+          <defs>
+            <clipPath id="cyc-clip-class"><circle cx="85" cy="215" r="69" /></clipPath>
+            <filter id="cyc-shadow" x="-25%" y="-25%" width="150%" height="150%">
+              <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000" flood-opacity=".22" />
+            </filter>
+            <g id="cyc-arrow">
+              <path class="cyc-arrow-shaft" d="M 25 1324 C 47 1262 73 1201 102 1142 C 423 479 1102 22 1889 22 C 2189 22 2474 88 2729 208" />
+              <path class="cyc-arrow-head" d="M 2900 298 C 2804 286 2677 286 2587 308 L 2706 198 L 2727 37 C 2761 124 2835 226 2900 298 Z" />
+            </g>
+          </defs>
+
+          <g class="cyc-photo" filter="url(#cyc-shadow)">
+            <circle cx="315" cy="85" r="69" fill="rgba(0,124,146,.07)" />
+            <image href="assets/figures/mission/brain-tracts.png" x="252" y="22" width="126" height="126" preserveAspectRatio="xMidYMid meet" />
+          </g>
+          <g class="cyc-photo" filter="url(#cyc-shadow)">
+            <image href="assets/figures/mission/classroom.jpg" x="16" y="146" width="138" height="138" preserveAspectRatio="xMidYMid slice" clip-path="url(#cyc-clip-class)" />
+          </g>
+
+          <use href="#cyc-arrow" transform="translate(95 138) rotate(-4.5) scale(0.05973) translate(-25 -1324)" />
+          <use href="#cyc-arrow" transform="translate(305 162) rotate(175.5) scale(0.05973) translate(-25 -1324)" />
+
+          <foreignObject class="cyc-fo" x="10" y="26" width="120" height="88">
+            <p class="cyc-lbl" xmlns="http://www.w3.org/1999/xhtml">Education as a tool to understand how experience shapes brain development.</p>
+          </foreignObject>
+          <foreignObject class="cyc-fo" x="270" y="196" width="120" height="72">
+            <p class="cyc-lbl" xmlns="http://www.w3.org/1999/xhtml">Neuroscience as a tool to understand learning differences</p>
+          </foreignObject>
+          <foreignObject class="cyc-fo" x="144" y="94" width="112" height="112">
+            <a class="cyc-mid" xmlns="http://www.w3.org/1999/xhtml" href="#publications" data-pub-doi="10.1111/mbe.70017">Virtuous Cycle Between Education and Neuroscience</a>
+          </foreignObject>
         </svg>
-        <div class="cycle-node cycle-brain"><img src="assets/figures/mission/brain-tracts.png" alt="" width="520" height="520" loading="lazy" /></div>
-        <div class="cycle-node cycle-class"><img src="assets/figures/mission/classroom.jpg" alt="" width="520" height="520" loading="lazy" /></div>
-        <p class="cycle-lbl cycle-lbl-a">Education as a tool to understand how experience shapes brain development.</p>
-        <p class="cycle-lbl cycle-lbl-b">Neuroscience as a tool to understand learning differences</p>
-        <p class="cycle-mid">Virtuous Cycle Between Education and Neuroscience</p>
         <figcaption class="cycle-cap">Our approach</figcaption>
         <div class="cycle-over">
-          <h3>Virtuous Cycle Between Education and Neuroscience</h3>
+          <h3><a href="#publications" data-pub-doi="10.1111/mbe.70017" class="prose-link">Virtuous Cycle Between Education and Neuroscience</a></h3>
           <p class="cycle-leg"><i>&uarr;</i><span>Education as a tool to understand how experience shapes brain development.</span></p>
           <p class="cycle-leg"><i>&darr;</i><span>Neuroscience as a tool to understand learning differences</span></p>
         </div>
@@ -623,8 +646,8 @@
     <div class="border-t border-[#DAD7CB] py-6 text-center text-xs text-[#6B6560]">© 2026 Yeatman Lab, Stanford University.</div>
   </footer>
 
-  <script src="shared-data.js?v=46"></script>
-  <script src="site.js?v=66"></script>
+  <script src="shared-data.js?v=49"></script>
+  <script src="site.js?v=69"></script>
   <script>initSite('bde', 'https://dyslexia.stanford.edu/');</script>
 </body>
 </html>
