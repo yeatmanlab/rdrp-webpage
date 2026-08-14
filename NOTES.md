@@ -76,19 +76,22 @@ do from here:
     nav lists differ too. Don't "unify" them without also unifying the section order.
   `#media` (In the Media) is its own section on both pages, not nested under
   `#publications` — `renderMedia()` just targets `#media-list` wherever it lives.
-- `#research` on `bde.html` has **no heading** — it opens on a lead paragraph instead,
-  because a "Research Focus" title above a research statement was saying the same thing
-  twice. The `.section-lead` rule in that page's `<style>` carries it: `clamp()` sizing so
-  it scales without breakpoints, `line-height:1.55`, and `max-width:62ch` to hold the
-  measure near 60 characters a line at any size. A short accent rule sits above it as the
-  visual anchor the heading used to provide. Deliberately not boxed — the four project
-  cards below are already `tint-8` boxes, and a fifth box would have made the statement
-  read as one more card instead of the section's opening voice.
-  - The `leading-*` utility can't do this job: Tailwind's `text-2xl` ships its own
-    `line-height`, and on the Play CDN it won, pinning 24px type to 32px leading. Hence a
-    real CSS rule rather than utilities.
-  - The nav label is now the only thing naming that section, so don't rename `Research`
-    in the nav without reconsidering this.
+- `#research` on `bde.html` is the **Lab Mission** statement — an `h2` plus one ~765-character
+  paragraph, above the four project cards. The `.section-lead` rule in that page's `<style>`
+  carries the paragraph: `clamp()` sizing (16.5px → 19px) so it scales without breakpoints,
+  `line-height:1.6`, and `max-width:67ch`.
+  - Measure it, don't assume it. Source Sans 3's `ch` is narrow — 67ch renders ~633px and
+    71 characters a line, inside the comfortable 45-75 range. 72ch overshot at 77, and 62ch
+    squeezed it to an 11-line 585px ribbon.
+  - Not a Tailwind utility stack: `text-*` ships its own `line-height` and beats `leading-*`
+    on the Play CDN, which pinned 24px type to 32px leading on the first attempt.
+  - "virtuous cycle between education and neuroscience" links to Yeatman & Yablonski 2025
+    (`https://doi.org/10.1111/mbe.70017`), the same DOI that paper's `PUBLICATIONS` entry
+    uses, so the prose link and the publication row can't drift apart.
+  - That link is underlined by default, unlike the site's other inline prose links
+    (`accent-text hover:underline` at the Braindr and tractometry-cite paragraphs). Colour
+    alone isn't a sufficient affordance inside a long paragraph. If you'd rather they all
+    match, change these three together, not just this one.
 
 - The figure strip has no section of its own: it sits at the top of `#publications`,
   directly under that section's `Yeatman Lab Publications` heading, on both pages. There is no

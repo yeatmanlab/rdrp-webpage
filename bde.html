@@ -30,11 +30,15 @@
   .btn-primary:hover{ background-color:var(--accent-dark); }
   ::selection{ background:rgba(var(--accent-rgb),.22); }
 
-  /* Opening statement of the page — it carries the weight the removed "Research Focus"
-     heading used to. Sized in clamp() so it scales without breakpoints; 62ch keeps the
-     measure near 60 characters a line at any of those sizes. */
-  .section-lead{ font-size:clamp(17px, 0.85vw + 12px, 25px); line-height:1.55;
-    color:#2E2D29; max-width:62ch; }
+  /* The lab mission statement. Sits one step above body copy so it reads as the page's
+     opening, but not so large that it competes with the "Lab Mission" heading over ~740
+     characters. clamp() scales it without breakpoints; 67ch holds the line to ~72
+     characters, inside the comfortable 45-75 range — measured, not assumed: Source Sans
+     3's `ch` is narrow, so 67ch renders ~630px, and 72ch overshot at 77 characters.
+     1.6 leading keeps a 10-line paragraph easy to track. Not a Tailwind utility stack because text-* ships its own line-height
+     and beats leading-* on the Play CDN. */
+  .section-lead{ font-size:clamp(16.5px, 0.4vw + 14px, 19px); line-height:1.6;
+    color:#2E2D29; max-width:67ch; }
 
   .coin-wrap{ perspective:1200px; }
   .coin{ width:96px; height:96px; position:relative; cursor:pointer; -webkit-tap-highlight-color:transparent; }
@@ -275,8 +279,8 @@
 
   <!-- Research focus: real, current, funded projects -->
   <section id="research" class="max-w-7xl mx-auto px-6 lg:px-10 pt-14 pb-16">
-    <div class="w-12 h-1 rounded-full accent-bg mb-6"></div>
-    <p class="section-lead">The overarching goal of our research is to understand the interplay between brain development, education, and learning outcomes — specifically in reading. By combining multimodal neuroimaging with tightly controlled educational interventions, we study how a child's unique pattern of brain development predisposes them to succeed or struggle in a given education program, working toward interventions personalized to an individual's neurobiology.</p>
+    <h2 class="font-black text-3xl">Lab Mission</h2>
+    <p class="section-lead mt-4">The overarching goal of our research is to understand the interplay between brain development, education, and learning outcomes — specifically in reading. By combining multimodal neuroimaging with tightly controlled educational interventions, we study how a child's unique pattern of brain development predisposes them to succeed or struggle in a given education program. Education personalized to an individual's neurobiology is a long term vision and our immediate goal is to inspire a <a href="https://doi.org/10.1111/mbe.70017" target="_blank" rel="noopener" class="accent-text underline decoration-1 underline-offset-2 hover:decoration-2">virtuous cycle between education and neuroscience</a>. Research at the intersection of these two disciplines can propel new discoveries regarding how experience sculpts brain development and, hopefully, offer insights into learning differences that are applicable in the classroom.</p>
 
     <div class="grid md:grid-cols-2 gap-6 mt-8">
       <div class="rounded-3xl tint-8 p-8">
@@ -536,8 +540,8 @@
     <div class="border-t border-[#DAD7CB] py-6 text-center text-xs text-[#6B6560]">© 2026 Yeatman Lab, Stanford University.</div>
   </footer>
 
-  <script src="shared-data.js?v=33"></script>
-  <script src="site.js?v=53"></script>
+  <script src="shared-data.js?v=36"></script>
+  <script src="site.js?v=56"></script>
   <script>initSite('bde', 'https://dyslexia.stanford.edu/');</script>
 </body>
 </html>
