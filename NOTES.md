@@ -69,15 +69,29 @@ do from here:
     arrivals are teachers and parents looking for the screener; putting 136 papers ahead
     of it would bury the practical content. Publications sits above People (screen 3.4,
     was 7.9). Parents lives on its own page and so is a nav item without a section.
-  - `bde.html`: hero → Research Focus (`#research`) → **Publications** → People →
+  - `bde.html`: hero → research statement (`#research`) → **Publications** → People →
     Software → ROAR → Media → Involved. A research audience, so Publications leads
     directly off the research statement (screen 1.8).
   - The header nav and the mobile panel are kept in page order on each page, so the two
     nav lists differ too. Don't "unify" them without also unifying the section order.
   `#media` (In the Media) is its own section on both pages, not nested under
   `#publications` — `renderMedia()` just targets `#media-list` wherever it lives.
+- `#research` on `bde.html` has **no heading** — it opens on a lead paragraph instead,
+  because a "Research Focus" title above a research statement was saying the same thing
+  twice. The `.section-lead` rule in that page's `<style>` carries it: `clamp()` sizing so
+  it scales without breakpoints, `line-height:1.55`, and `max-width:62ch` to hold the
+  measure near 60 characters a line at any size. A short accent rule sits above it as the
+  visual anchor the heading used to provide. Deliberately not boxed — the four project
+  cards below are already `tint-8` boxes, and a fifth box would have made the statement
+  read as one more card instead of the section's opening voice.
+  - The `leading-*` utility can't do this job: Tailwind's `text-2xl` ships its own
+    `line-height`, and on the Play CDN it won, pinning 24px type to 32px leading. Hence a
+    real CSS rule rather than utilities.
+  - The nav label is now the only thing naming that section, so don't rename `Research`
+    in the nav without reconsidering this.
+
 - The figure strip has no section of its own: it sits at the top of `#publications`,
-  directly under that section's `Publications` heading, on both pages. There is no
+  directly under that section's `Yeatman Lab Publications` heading, on both pages. There is no
   `#figures` id anymore, and nothing links to one.
 - `renderPubFigureStrip(programTag)` builds that strip from every `PUBLICATIONS` entry
   that has a `figure` and carries the page's program tag — 49 cards on rdrp, 65 on bde,

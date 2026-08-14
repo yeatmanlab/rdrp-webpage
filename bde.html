@@ -30,6 +30,12 @@
   .btn-primary:hover{ background-color:var(--accent-dark); }
   ::selection{ background:rgba(var(--accent-rgb),.22); }
 
+  /* Opening statement of the page — it carries the weight the removed "Research Focus"
+     heading used to. Sized in clamp() so it scales without breakpoints; 62ch keeps the
+     measure near 60 characters a line at any of those sizes. */
+  .section-lead{ font-size:clamp(17px, 0.85vw + 12px, 25px); line-height:1.55;
+    color:#2E2D29; max-width:62ch; }
+
   .coin-wrap{ perspective:1200px; }
   .coin{ width:96px; height:96px; position:relative; cursor:pointer; -webkit-tap-highlight-color:transparent; }
   @media (min-width:1280px){ .coin{ width:132px; height:132px; } }
@@ -268,9 +274,9 @@
   </section>
 
   <!-- Research focus: real, current, funded projects -->
-  <section id="research" class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
-    <h2 class="font-black text-3xl">Research Focus</h2>
-    <p class="text-[#4D4F53] mt-2 max-w-3xl">The overarching goal of our research is to understand the interplay between brain development, education, and learning outcomes — specifically in reading. By combining multimodal neuroimaging with tightly controlled educational interventions, we study how a child's unique pattern of brain development predisposes them to succeed or struggle in a given education program, working toward interventions personalized to an individual's neurobiology.</p>
+  <section id="research" class="max-w-7xl mx-auto px-6 lg:px-10 pt-14 pb-16">
+    <div class="w-12 h-1 rounded-full accent-bg mb-6"></div>
+    <p class="section-lead">The overarching goal of our research is to understand the interplay between brain development, education, and learning outcomes — specifically in reading. By combining multimodal neuroimaging with tightly controlled educational interventions, we study how a child's unique pattern of brain development predisposes them to succeed or struggle in a given education program, working toward interventions personalized to an individual's neurobiology.</p>
 
     <div class="grid md:grid-cols-2 gap-6 mt-8">
       <div class="rounded-3xl tint-8 p-8">
@@ -321,7 +327,7 @@
   <!-- Publications (shared) -->
   <section id="publications" class="border-t border-[#DAD7CB] bg-[#FAF9F6]">
     <div class="max-w-5xl mx-auto px-6 lg:px-10 py-16">
-      <h2 class="font-black text-3xl">Publications</h2>
+      <h2 class="font-black text-3xl">Yeatman Lab Publications</h2>
       <div class="relative mt-8">
         <div id="pubfig-strip" class="pubfig-strip"></div>
         <button id="pubfig-prev" class="pubfig-arrow pubfig-arrow-prev" aria-label="Scroll figures left">&lsaquo;</button>
@@ -530,8 +536,8 @@
     <div class="border-t border-[#DAD7CB] py-6 text-center text-xs text-[#6B6560]">© 2026 Yeatman Lab, Stanford University.</div>
   </footer>
 
-  <script src="shared-data.js?v=31"></script>
-  <script src="site.js?v=51"></script>
+  <script src="shared-data.js?v=33"></script>
+  <script src="site.js?v=53"></script>
   <script>initSite('bde', 'https://dyslexia.stanford.edu/');</script>
 </body>
 </html>
