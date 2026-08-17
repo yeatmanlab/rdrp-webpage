@@ -241,7 +241,7 @@ function renderPublications() {
     const totalCites = PUBLICATIONS.reduce(function (sum, p) { return sum + (p.citedBy || 0); }, 0);
     statsEl.innerHTML =
       '<div><span class="font-serif text-2xl font-bold">' + PUBLICATIONS.length + '</span> <span class="text-sm text-[#6B6560]">publications</span></div>' +
-      '<div><span class="font-serif text-2xl font-bold">' + totalCites.toLocaleString() + '</span> <span class="text-sm text-[#6B6560]">citations (Google Scholar)</span></div>' +
+      '<div><span class="font-serif text-2xl font-bold">' + totalCites.toLocaleString() + '</span> <span class="text-sm text-[#6B6560]">citations</span></div>' +
       '<div><span class="font-serif text-2xl font-bold">' + years[years.length - 1] + '–' + years[0] + '</span> <span class="text-sm text-[#6B6560]">span</span></div>';
   }
 
