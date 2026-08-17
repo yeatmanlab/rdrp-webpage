@@ -316,6 +316,31 @@ When screenshot-diffing either main page, note that the figure carousel calls
 `shuffled()` (site.js) on every load, so a ~266px band will always differ. That is
 the carousel picking a different start slide, not a regression.
 
+## Headshot sizing — bigger than it looks
+
+Team headshots are NOT thumbnails. `#team-grid` is `sm:grid-cols-2 lg:grid-cols-4`, so
+the rendered square is:
+
+| viewport | columns | photo | needs @2x |
+|---|---|---|---|
+| 390px | 1 | 326px | 704px |
+| 768px | 2 | 332px | 717px |
+| 1280px | 4 | 266px | 575px |
+
+The **phone** is the largest case, because the grid collapses to one column. Hover also
+scales 1.08. So the source floor is ~700px on the short side — `object-cover` +
+`aspect-square` crop to a square, so the short side is what fills the box.
+
+Originals live in `assets/people/original/` (excluded from Firebase deploys via
+`firebase.json` ignore). Current files are capped at 700px short side and encoded at
+JPEG q86 progressive: 1775 KB -> 1034 KB, verified as no visible change in an A/B at
+326px display size, including the 66% cuts.
+
+Note for future photo collection: **30 of 36 headshots are still under 532px on the
+short side**, i.e. already soft on a 2x desktop card. The constraint here is source
+material, not compression — ask for larger files when people send new photos rather
+than upscaling these.
+
 ## Known gaps / deferred (ask before assuming these are wanted)
 
 - Full individual People bios beyond Jason's page — nav/team currently only deep-links

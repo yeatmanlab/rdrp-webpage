@@ -10,7 +10,8 @@
         "prototypes/**",
         "index.html",
         "NOTES.md",
-        "README.md"
+        "README.md",
+        "assets/people/original/**"
       ],
       "cleanUrls": true,
       "trailingSlash": false,
@@ -31,7 +32,8 @@
         "prototypes/**",
         "index.html",
         "NOTES.md",
-        "README.md"
+        "README.md",
+        "assets/people/original/**"
       ],
       "cleanUrls": true,
       "trailingSlash": false,
