@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Hosted PDFs are copies of published papers; leave them out of the index and
+# let the publishers' canonical versions rank instead.
+Disallow: /assets/papers/
+
+Sitemap: https://dyslexia.stanford.edu/sitemap.xml
