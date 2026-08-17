@@ -316,6 +316,45 @@ When screenshot-diffing either main page, note that the figure carousel calls
 `shuffled()` (site.js) on every load, so a ~266px band will always differ. That is
 the carousel picking a different start slide, not a regression.
 
+## Accessibility
+
+**Skip link.** `.skip-link` is the first child of `<body>` on all four pages, translated
+off-screen until `:focus`. Target is `<main id="main" tabindex="-1">`. yeatman.html had
+no `<main>` and got one wrapping everything between `</header>` and the page footer —
+note that page has *two* `<footer>` elements, the first being the blockquote's
+attribution, so match the last one when touching that structure.
+
+**Collapsed team panels must not be tabbable.** `.team-expand` was hidden with
+`opacity:0` alone, which leaves its links in the tab order: a keyboard user hit 114
+invisible focus targets per page before reaching the footer. It now also sets
+`visibility:hidden`, and `.team-card` already carries `tabIndex = 0` (site.js:59, 97) so
+the card itself is the focus target that reveals the panel.
+
+The transition timing is load-bearing:
+
+```
+base:   transition: opacity .3s ease, transform .3s ease, visibility 0s linear .3s;
+reveal: transition: opacity .3s ease, transform .3s ease, visibility 0s;
+```
+
+Reveal flips visibility instantly; hiding delays it by the fade duration so the panel
+doesn't vanish abruptly. Putting a *duration* on visibility (`visibility .3s`) instead
+silently breaks the reveal — measured: the panel stayed `hidden` after `.focus()`.
+
+Verified: 373 → 259 tabbable elements collapsed, rising to 265 with one card focused
+(exactly that card's 6 links), panel `hidden → visible` on focus.
+
+**Contrast (WCAG AA, 4.5:1 for normal text).** All pairs pass except one known
+exception:
+
+- `#7F7776` was 4.37:1 on white / 4.15:1 on cream. Replaced with the palette's existing
+  `#6B6560` (5.74 / 5.46), which also removes a redundant near-duplicate gray. It was
+  only used 7 times, all in yeatman.html.
+- **Still failing:** teal accent `#007C92` on teal `tint-8` is **4.40:1**. That is the
+  `.link-chip` on bde's project cards — 11px/700, which does not qualify as large text,
+  so it misses AA by 0.1. Fixing it means darkening the brand teal (≈`#00697A`), which
+  is a brand decision, not a code one. Maroon has no equivalent problem (8.12:1).
+
 ## Tailwind is compiled and committed, not loaded from the CDN
 
 `assets/tailwind.css` (~20 KB) replaces the Play CDN's 407 KB / 126 KB-compressed

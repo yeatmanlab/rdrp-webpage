@@ -53,6 +53,11 @@
   .tint-8{ background-color:rgba(var(--accent-rgb),.08); }
   .link-chip{ font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:var(--accent); border:1px solid rgba(var(--accent-rgb),.35); border-radius:9999px; padding:4px 12px; }
   .link-chip:hover{ background-color:rgba(var(--accent-rgb),.08); }
+  /* Keyboard skip link: off-screen until focused, then pinned top-left. */
+  .skip-link{ position:fixed; top:0; left:0; z-index:100; background:var(--accent); color:#fff;
+    padding:10px 18px; font-weight:700; font-size:14px; border-radius:0 0 10px 0;
+    transform:translateY(-130%); transition:transform .15s ease; }
+  .skip-link:focus{ transform:translateY(0); outline:3px solid #fff; outline-offset:-5px; }
 </style>
 <!-- Compiled Tailwind. Must load AFTER the <style> above: the Play CDN it
      replaced injected its sheet there, so utilities win ties against the
@@ -60,6 +65,8 @@
 <link rel="stylesheet" href="assets/tailwind.css?v=1" />
 </head>
 <body class="text-[#2E2D29] bg-white antialiased">
+  <a href="#main" class="skip-link">Skip to main content</a>
+
 
   <!-- Header -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-[#DAD7CB]">
@@ -71,6 +78,8 @@
       </nav>
     </div>
   </header>
+
+  <main id="main" tabindex="-1">
 
   <!-- Hero -->
   <section class="max-w-5xl mx-auto px-6 lg:px-10 py-14 grid sm:grid-cols-[auto_1fr] gap-8 items-center">
@@ -117,7 +126,8 @@
       <h2 class="font-serif font-bold text-2xl">Teaching &amp; Mentorship Philosophy</h2>
       <blockquote class="mt-6 border-l-4 border-[var(--accent)] pl-5 italic text-[#4D4F53]">
         "Great science starts with curiosity…. That drives the creativity, and the perseverance, and hopefully the rigor as well…. I think science is beautiful. What is more beautiful than discovering something that has never been known before?"
-        <footer class="mt-2 text-sm not-italic text-[#7F7776]">— Ben Barres, <cite>"On Beauty and Curiosity in Science,"</cite> 2017</footer>
+
+  <footer class="mt-2 text-sm not-italic text-[#6B6560]">— Ben Barres, <cite>"On Beauty and Curiosity in Science,"</cite> 2017</footer>
       </blockquote>
     </div>
   </section>
@@ -128,31 +138,31 @@
     <div class="mt-6">
       <details class="border-b border-[#EDE9E0] py-4" open>
         <summary class="cursor-pointer font-bold">Measuring Learning in the Brain
-          <span class="block sm:inline text-xs font-normal text-[#7F7776] sm:ml-2">EDUC 464 / NEPR 464 / PSYCH 279 / SYMSYS 195M</span>
+          <span class="block sm:inline text-xs font-normal text-[#6B6560] sm:ml-2">EDUC 464 / NEPR 464 / PSYCH 279 / SYMSYS 195M</span>
         </summary>
         <p class="text-sm text-[#4D4F53] mt-3 leading-relaxed max-w-3xl">Surveys the brain-plasticity mechanisms underlying how people learn — from facts and vocabulary to skills like reading, math, and music — and the neuroimaging methods used to study them. Working in small groups, students design an original experiment, then collect and analyze their own MRI data as research participants at the Stanford MRI center to measure the neural basis of learning firsthand. Prior coursework in neuroscience and some programming experience (MATLAB or Python) are required.</p>
       </details>
       <details class="border-b border-[#EDE9E0] py-4">
         <summary class="cursor-pointer font-bold">Literacy Research From Lab to School
-          <span class="block sm:inline text-xs font-normal text-[#7F7776] sm:ml-2">EDUC 444A</span>
+          <span class="block sm:inline text-xs font-normal text-[#6B6560] sm:ml-2">EDUC 444A</span>
         </summary>
         <p class="text-sm text-[#4D4F53] mt-3 leading-relaxed max-w-3xl">Examines how children learn to read and write, and why many struggle, by bringing together neuroscience and classroom-based research perspectives. Students compare how these different research traditions each inform an understanding of literacy development, and consider what each has to offer educators supporting learners with a range of strengths and needs.</p>
       </details>
       <details class="border-b border-[#EDE9E0] py-4">
         <summary class="cursor-pointer font-bold">Educational Neuroscience
-          <span class="block sm:inline text-xs font-normal text-[#7F7776] sm:ml-2">EDUC 266</span>
+          <span class="block sm:inline text-xs font-normal text-[#6B6560] sm:ml-2">EDUC 266</span>
         </summary>
         <p class="text-sm text-[#4D4F53] mt-3 leading-relaxed max-w-3xl">Introduces the intersection of education research and the neuroscience of brain development, examining what neuroscience can and cannot currently contribute to understanding specific academic skills such as reading and mathematics, alongside broader processes like attention, motivation, and social cognition. Final projects apply these themes toward the design of interventions intended to support these functions.</p>
       </details>
       <details class="border-b border-[#EDE9E0] py-4">
         <summary class="cursor-pointer font-bold">Literacy Development and Instruction
-          <span class="block sm:inline text-xs font-normal text-[#7F7776] sm:ml-2">EDUC 258</span>
+          <span class="block sm:inline text-xs font-normal text-[#6B6560] sm:ml-2">EDUC 258</span>
         </summary>
         <p class="text-sm text-[#4D4F53] mt-3 leading-relaxed max-w-3xl">Treats literacy acquisition as both a developmental and an educational process, examining the difficulties children may encounter while learning to read and considering how to disentangle the contributions of home, community, and school instruction to that development.</p>
       </details>
       <details class="border-b border-[#EDE9E0] py-4">
         <summary class="cursor-pointer font-bold">Directed Reading in Education
-          <span class="block sm:inline text-xs font-normal text-[#7F7776] sm:ml-2">EDUC 180</span>
+          <span class="block sm:inline text-xs font-normal text-[#6B6560] sm:ml-2">EDUC 180</span>
         </summary>
         <p class="text-sm text-[#4D4F53] mt-3 leading-relaxed max-w-3xl">Independent study arranged individually with the instructor, for undergraduate and master's students pursuing focused reading or research on a topic in education not covered by regular coursework.</p>
       </details>
@@ -160,8 +170,10 @@
   </section>
 
   <!-- Footer -->
+  </main>
+
   <footer class="border-t border-[#DAD7CB]">
-    <div class="max-w-5xl mx-auto px-6 lg:px-10 py-10 flex flex-wrap items-center justify-between gap-4 text-sm text-[#7F7776]">
+    <div class="max-w-5xl mx-auto px-6 lg:px-10 py-10 flex flex-wrap items-center justify-between gap-4 text-sm text-[#6B6560]">
       <span>© 2026 Yeatman Lab, Stanford University.</span>
       <div class="flex gap-4">
         <a href="rdrp.html" class="hover:text-[#2E2D29]">Reading &amp; Dyslexia Research Program</a>
