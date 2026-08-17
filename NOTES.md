@@ -316,6 +316,52 @@ When screenshot-diffing either main page, note that the figure carousel calls
 `shuffled()` (site.js) on every load, so a ~266px band will always differ. That is
 the carousel picking a different start slide, not a regression.
 
+## Tailwind is compiled and committed, not loaded from the CDN
+
+`assets/tailwind.css` (~20 KB) replaces the Play CDN's 407 KB / 126 KB-compressed
+JavaScript that used to compile CSS in the browser on every page load. It is committed
+rather than built at deploy time, deliberately: the deploy check compares local bytes
+against all three hosts, which only works if what is committed is what is served.
+
+**Regenerate after adding or removing any Tailwind class:**
+
+```bash
+python3 tools/build-tailwind-css.py
+```
+
+That script drives the same pinned 3.4.17 Play CDN build and captures what it emits, so
+the compiled file is the CSS the browser was already applying — no specificity or
+emission-order drift. `tools/check-tailwind-css.py` (also run by CI, no browser needed)
+fails if any used class is missing from the CSS.
+
+Three things here are load-bearing:
+
+1. **The `<link>` must sit at the END of `<head>`, after the inline `<style>`.** The CDN
+   injected its sheet *after* the inline style, so Tailwind utilities win ties against
+   the page's own CSS. Measured: `.probe-lead{font-size:19px;line-height:1.6}` loses to
+   `text-2xl`, computing to 24px/32px. That is the same effect that forced
+   `.section-lead` to exist as a real rule. Put the `<link>` next to where the script
+   tag used to be and every such tie silently flips.
+
+2. **The class scanner must read the whole raw file, not just `class="..."`.** site.js
+   sets classes three ways, and `-mx-2` appears only in an `el.className = '...'`
+   assignment (~line 292). A scanner limited to `class="..."` missed it, and the failure
+   was silent: the publication list shifted 8px and the media grid collapsed from
+   3 columns to 1, growing the page by 5906px. Tailwind's real extractor tokenizes
+   everything and discards non-utilities; ours now does the same.
+
+3. **Verify with element geometry, not pixels.** The figure carousel shuffles on every
+   load, so pixel diffs always show a ~266px band — enough noise to hide a real
+   regression. Measuring `getBoundingClientRect()` plus computed styles for a set of
+   selectors across both variants caught the collapse immediately and confirmed the fix
+   (all four pages: identical docHeight, identical geometry on every element).
+
+Equivalent build if you have the standalone CLI instead of Chrome:
+
+```bash
+tailwindcss-3.4.17 -c tailwind.config.js -i tools/tailwind-src.css -o assets/tailwind.css --minify
+```
+
 ## Headshot sizing — bigger than it looks
 
 Team headshots are NOT thumbnails. `#team-grid` is `sm:grid-cols-2 lg:grid-cols-4`, so

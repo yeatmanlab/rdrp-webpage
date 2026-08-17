@@ -1,0 +1,32 @@
+name: Check compiled Tailwind CSS is current
+
+# assets/tailwind.css is committed rather than built at deploy time, so the repo stays
+# directly deployable and the byte-for-byte live-site verification keeps working. The
+# tradeoff is that adding a Tailwind class without re-running the generator leaves it
+# silently unstyled. This job is the guard: it needs no browser, so it runs anywhere.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '*.html'
+      - 'site.js'
+      - 'assets/tailwind.css'
+      - 'tools/check-tailwind-css.py'
+  pull_request:
+    paths:
+      - '*.html'
+      - 'site.js'
+      - 'assets/tailwind.css'
+      - 'tools/check-tailwind-css.py'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Every used class must be defined in assets/tailwind.css
+        run: python3 tools/check-tailwind-css.py

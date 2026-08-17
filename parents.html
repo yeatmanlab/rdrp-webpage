@@ -40,12 +40,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&family=Source+Sans+3:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-<script src="https://cdn.tailwindcss.com/3.4.17"></script>
-<script>
-  tailwind.config = { theme: { extend: { fontFamily: {
-    serif: ['"Source Serif 4"', 'serif'], sans: ['"Source Sans 3"', 'sans-serif'],
-  } } } };
-</script>
 <style>
   :root { --accent:#8C1515; --accent-rgb:140,21,21; --accent-dark:#6d1010; }
   html { scroll-behavior: smooth; scroll-padding-top: 68px; }
@@ -60,6 +54,10 @@
   ::selection{ background:rgba(var(--accent-rgb),.22); }
   .res-group-label{ font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:#8C8578; }
 </style>
+<!-- Compiled Tailwind. Must load AFTER the <style> above: the Play CDN it
+     replaced injected its sheet there, so utilities win ties against the
+     rules above. Regenerate with tools/build-tailwind-css.py -->
+<link rel="stylesheet" href="assets/tailwind.css?v=1" />
 </head>
 <body class="text-[#2E2D29] bg-white antialiased">
 
