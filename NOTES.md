@@ -288,6 +288,34 @@ do from here:
   Jason himself, used for framing/themes rather than current specifics. Cross-checked
   current grants against the CV where they overlap.
 
+## Images: `width`/`height` attributes need `w-auto` when CSS sets only a height
+
+Every `<img>` carries its true intrinsic `width`/`height` so the browser can reserve
+space before the file loads (no layout shift). With Tailwind there is a trap:
+
+Preflight ships `img, video { max-width:100%; height:auto }`. That `height:auto` beats
+the **height** attribute's presentational hint (specificity 0,0,1 vs 0,0,0), so the
+height attribute never distorts anything. Nothing overrides the **width** hint, though.
+So on an image whose only sizing utility is a height — `h-6`, `h-7 sm:h-9`, `h-12` —
+adding `width="1896"` resolves to `width:1896px`, clamped by `max-width:100%` to the
+container. Measured on the header lockup: 193x36 became **1232x36**, blowing the logo
+across the nav links.
+
+Fix is one class. Any image with a height utility and no width utility gets `w-auto`,
+which is author-level `width:auto` and outranks the hint; width then comes from the
+attribute-derived aspect ratio. 21 images needed it (header lockups, footer lockups,
+affiliation logos). Images sized with `w-full`, `w-32 h-32`, or `aspect-square` were
+never affected because author CSS already set a width.
+
+`loading="lazy"` is on everything except 8 above-the-fold images — the three header
+lockups, the two hero coin faces per page, and Jason's portrait — since lazy-loading
+the LCP element delays it. Lazy does work inside the horizontal ROAR@Home scroller;
+verified by a pixel-identical 390px screenshot diff.
+
+When screenshot-diffing either main page, note that the figure carousel calls
+`shuffled()` (site.js) on every load, so a ~266px band will always differ. That is
+the carousel picking a different start slide, not a regression.
+
 ## Known gaps / deferred (ask before assuming these are wanted)
 
 - Full individual People bios beyond Jason's page — nav/team currently only deep-links
