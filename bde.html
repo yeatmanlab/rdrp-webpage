@@ -296,6 +296,10 @@
     padding:10px 18px; font-weight:700; font-size:14px; border-radius:0 0 10px 0;
     transform:translateY(-130%); transition:transform .15s ease; }
   .skip-link:focus{ transform:translateY(0); outline:3px solid #fff; outline-offset:-5px; }
+  /* Chips inside a tinted card: the base accent is only 4.40:1 there (below AA for
+     11px text). The existing dark variant gives 7.18:1. Matches nothing on rdrp,
+     where no link-chip sits on tint-8 — kept on both pages so the CSS stays in sync. */
+  .tint-8 .link-chip{ color:var(--accent-dark); }
 </style>
 <!-- Compiled Tailwind. Must load AFTER the <style> above: the Play CDN it
      replaced injected its sheet there, so utilities win ties against the
@@ -696,7 +700,7 @@
     <div class="border-t border-[#DAD7CB] py-6 text-center text-xs text-[#6B6560]">© 2026 Yeatman Lab, Stanford University.</div>
   </footer>
 
-  <script src="shared-data.js?v=62"></script>
+  <script src="shared-data.js?v=63"></script>
   <script src="site.js?v=83"></script>
   <script>initSite('bde', 'https://dyslexia.stanford.edu/');</script>
 </body>
