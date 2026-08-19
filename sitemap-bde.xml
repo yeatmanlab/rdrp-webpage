@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Served as /sitemap.xml on edneuro.stanford.edu via a firebase.json rewrite.
+  Only one entry: the other pages canonicalize to dyslexia.stanford.edu and are listed
+  in sitemap-rdrp.xml. Both domains serve the whole repo, so every page is reachable
+  from either host; the canonical tags decide which one search engines should prefer.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://edneuro.stanford.edu/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>

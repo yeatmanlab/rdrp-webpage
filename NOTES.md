@@ -316,6 +316,34 @@ When screenshot-diffing either main page, note that the figure carousel calls
 `shuffled()` (site.js) on every load, so a ~266px band will always differ. That is
 the carousel picking a different start slide, not a regression.
 
+## Sitemaps and robots.txt are per-host, via Firebase rewrites
+
+A sitemap may only list URLs on the host that serves it, and the same restriction
+applies to a `Sitemap:` line in robots.txt. Both Stanford domains serve the whole repo
+from one deploy, so a single shared file could not satisfy both — one host would always
+point at the other's URLs, which Google skips unless both domains are verified in one
+Search Console account.
+
+Each host therefore gets its own pair, served at the canonical paths by rewrite:
+
+| request | dyslexia.stanford.edu | edneuro.stanford.edu |
+|---|---|---|
+| `/sitemap.xml` | `sitemap-rdrp.xml` (3 urls) | `sitemap-bde.xml` (1 url) |
+| `/robots.txt` | `robots-rdrp.txt` | `robots-bde.txt` |
+
+Two things make this work, and both are easy to undo by accident:
+
+1. **There must be no static `sitemap.xml` or `robots.txt` in the repo.** Firebase
+   rewrites only fire when no file matches the path, so re-adding either one would
+   silently shadow both rewrites and restore the cross-host problem.
+2. **Each target `ignore`s the other's variants**, so
+   `dyslexia.stanford.edu/sitemap-bde.xml` does not exist.
+
+The union of the two sitemaps equals the four `<link rel="canonical">` values — keep
+them in step when adding a page. GitHub Pages now serves neither `/robots.txt` nor
+`/sitemap.xml`, which costs nothing: there they sat under `/rdrp-webpage/...`, and
+crawlers only honour robots.txt at a domain root.
+
 ## Accessibility
 
 **Skip link.** `.skip-link` is the first child of `<body>` on all four pages, translated

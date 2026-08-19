@@ -1,3 +1,6 @@
+# Served as /robots.txt on dyslexia.stanford.edu via a firebase.json rewrite, so the
+# Sitemap line below points at this host's own sitemap rather than the other domain's.
+
 User-agent: *
 Allow: /
 

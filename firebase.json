@@ -11,7 +11,9 @@
         "index.html",
         "NOTES.md",
         "README.md",
-        "assets/people/original/**"
+        "assets/people/original/**",
+        "sitemap-bde.xml",
+        "robots-bde.txt"
       ],
       "cleanUrls": true,
       "trailingSlash": false,
@@ -19,6 +21,14 @@
         {
           "source": "/",
           "destination": "/rdrp.html"
+        },
+        {
+          "source": "/sitemap.xml",
+          "destination": "/sitemap-rdrp.xml"
+        },
+        {
+          "source": "/robots.txt",
+          "destination": "/robots-rdrp.txt"
         }
       ]
     },
@@ -33,7 +43,9 @@
         "index.html",
         "NOTES.md",
         "README.md",
-        "assets/people/original/**"
+        "assets/people/original/**",
+        "sitemap-rdrp.xml",
+        "robots-rdrp.txt"
       ],
       "cleanUrls": true,
       "trailingSlash": false,
@@ -41,6 +53,14 @@
         {
           "source": "/",
           "destination": "/bde.html"
+        },
+        {
+          "source": "/sitemap.xml",
+          "destination": "/sitemap-bde.xml"
+        },
+        {
+          "source": "/robots.txt",
+          "destination": "/robots-bde.txt"
         }
       ]
     }

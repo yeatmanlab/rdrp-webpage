@@ -1,0 +1,11 @@
+# Served as /robots.txt on edneuro.stanford.edu via a firebase.json rewrite, so the
+# Sitemap line below points at this host's own sitemap rather than the other domain's.
+
+User-agent: *
+Allow: /
+
+# Hosted PDFs are copies of published papers; leave them out of the index and
+# let the publishers' canonical versions rank instead.
+Disallow: /assets/papers/
+
+Sitemap: https://edneuro.stanford.edu/sitemap.xml
