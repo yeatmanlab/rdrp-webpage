@@ -302,7 +302,16 @@ function renderPublications() {
       if (p.scholarUrl) links += '<a href="' + p.scholarUrl + '" target="_blank" rel="noopener" class="link-chip">Google Scholar</a>';
       if (p.pubmedUrl) links += '<a href="' + p.pubmedUrl + '" target="_blank" rel="noopener" class="link-chip">PubMed</a>';
       if (p.pdf) links += '<a href="' + p.pdf + '" target="_blank" rel="noopener" class="link-chip">PDF</a>';
-      const badge = p.citedBy ? '<span class="cite-badge">' + p.citedBy + ' citation' + (p.citedBy === 1 ? '' : 's') + '</span>' : '';
+      const citeLabel = p.citedBy + ' citation' + (p.citedBy === 1 ? '' : 's');
+        // Links to Scholar's cited-by list for this paper. citedByUrl comes straight from
+        // the profile's own count link, so it lands on the citing papers rather than the
+        // paper's own page. Scholar renders no such link at zero citations, so entries
+        // without one fall back to a plain span.
+        const badge = !p.citedBy ? ''
+          : p.citedByUrl
+            ? '<a href="' + p.citedByUrl + '" target="_blank" rel="noopener" class="cite-badge" '
+              + 'title="See the papers citing this on Google Scholar">' + citeLabel + '</a>'
+            : '<span class="cite-badge">' + citeLabel + '</span>';
       const primaryLink = p.url || p.scholarUrl || p.pubmedUrl || p.pdf;
       const citationHtml = primaryLink
         ? '<a href="' + primaryLink + '" target="_blank" rel="noopener" class="hover:underline">' + escapeHtml(p.text) + '</a>'
