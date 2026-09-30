@@ -6,6 +6,7 @@
       "ignore": [
         "firebase.json",
         "**/.*",
+        "**/.*/**",
         "**/node_modules/**",
         "prototypes/**",
         "index.html",
@@ -38,6 +39,7 @@
       "ignore": [
         "firebase.json",
         "**/.*",
+        "**/.*/**",
         "**/node_modules/**",
         "prototypes/**",
         "index.html",

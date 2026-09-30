@@ -5,11 +5,18 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # The deploy publishes the checkout directory, so the token must not be
+          # left in .git/config (it was, and .git/ was publicly served).
+          persist-credentials: false
 
       - name: Deploy to Firebase Hosting (rdrp + bde)
         uses: FirebaseExtended/action-hosting-deploy@v0
