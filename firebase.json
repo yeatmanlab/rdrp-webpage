@@ -14,7 +14,15 @@
         "README.md",
         "assets/people/original/**",
         "sitemap-bde.xml",
-        "robots-bde.txt"
+        "robots-bde.txt",
+        "data-sources/**",
+        "tools/**",
+        "**/*.pem",
+        "**/*.key",
+        "**/*service-account*.json",
+        "**/*credentials*.json",
+        "**/gha-creds-*.json",
+        "**/.env*"
       ],
       "cleanUrls": true,
       "trailingSlash": false,
@@ -47,7 +55,15 @@
         "README.md",
         "assets/people/original/**",
         "sitemap-rdrp.xml",
-        "robots-rdrp.txt"
+        "robots-rdrp.txt",
+        "data-sources/**",
+        "tools/**",
+        "**/*.pem",
+        "**/*.key",
+        "**/*service-account*.json",
+        "**/*credentials*.json",
+        "**/gha-creds-*.json",
+        "**/.env*"
       ],
       "cleanUrls": true,
       "trailingSlash": false,

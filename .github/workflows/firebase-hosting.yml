@@ -18,6 +18,12 @@ jobs:
           # left in .git/config (it was, and .git/ was publicly served).
           persist-credentials: false
 
+      # Firebase publishes the whole checkout minus firebase.json's ignore list — a
+      # denylist, which fails open. Refuse to deploy if anything sensitive survives it
+      # (this is how .git/config, with this job's token, went public before 6c920ae).
+      - name: Refuse to deploy anything sensitive
+        run: python3 tools/check-deploy-set.py
+
       - name: Deploy to Firebase Hosting (rdrp + bde)
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
@@ -25,3 +31,19 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GSE_YEATMAN_LAB_WEBSITE }}
           projectId: gse-yeatman-lab-website
           channelId: live
+
+      # Backstop: check the live domains directly, so a regression in the ignore rules
+      # fails loudly instead of quietly publishing again.
+      - name: Verify the live sites expose nothing sensitive
+        run: |
+          fail=0
+          for host in dyslexia.stanford.edu edneuro.stanford.edu; do
+            for path in .git/config .git/HEAD .github/workflows/firebase-hosting.yml \
+                        .claude/settings.local.json .env firebase.json \
+                        "data-sources/Lab%20Website%20Info.xlsx" tools/check-secrets.py; do
+              code=$(curl -s -o /dev/null -w '%{http_code}' "https://$host/$path")
+              if [ "$code" = "200" ]; then echo "EXPOSED: https://$host/$path"; fail=1; fi
+            done
+          done
+          [ $fail -eq 0 ] && echo "OK — nothing sensitive is publicly served."
+          exit $fail

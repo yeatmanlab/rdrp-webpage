@@ -1,3 +1,20 @@
 .claude/settings.local.json
 .DS_Store
 .firebase/
+
+# Source spreadsheets for the people/bio data. They hold internal task comments,
+# lab members' Stanford emails and Google Drive links — never commit them. This repo
+# is public and deploys its whole root publicly. (Committed by mistake on 2026-08-07.)
+data-sources/
+
+# Credentials: never commit, and never leave them in the repo root, which a local
+# `firebase deploy` would publish ("public": ".").
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*service-account*.json
+*service_account*.json
+*credentials*.json
+gha-creds-*.json

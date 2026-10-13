@@ -316,6 +316,57 @@ When screenshot-diffing either main page, note that the figure carousel calls
 `shuffled()` (site.js) on every load, so a ~266px band will always differ. That is
 the carousel picking a different start slide, not a regression.
 
+## Security: this repo is public AND its root is deployed publicly
+
+Two separate things are public, and both matter:
+
+1. **The GitHub repo** (`yeatmanlab/rdrp-webpage`, visibility: public) — every committed
+   file, in every past commit, is readable by anyone, forever, including deleted files.
+2. **The deployed directory.** `firebase.json` has `"public": "."`, so Firebase publishes the
+   *entire checkout* minus its `ignore` list. GitHub Pages serves every tracked file too.
+
+`"public": "."` is a **denylist**, and a denylist fails open — anything nobody thought to
+exclude goes live. Two incidents came out of that:
+
+- **`.git/` was publicly served until 2026-09-30 (fixed in 6c920ae by Wilson Wang).** The
+  original `"**/.*"` ignore only matches paths whose *last* segment starts with a dot, so
+  `.git/config` (last segment `config`) slipped through. `actions/checkout` writes the job's
+  `GITHUB_TOKEN` into `.git/config` as an auth extraheader, so every deploy published a live
+  token — and with no `permissions:` block it carried the repo's default scope. Fix: add
+  `"**/.*/**"`, `persist-credentials: false` on checkout, `permissions: contents: read`.
+  The token was never *committed*: a full-history scan of every blob on every ref finds no
+  credential of any kind. (It was per-job and expired at job end, which bounded the risk.)
+- **`data-sources/*.xlsx` was committed and published from 2026-08-07 to 2026-10-13.** Source
+  spreadsheets for the bios, swept in by a broad `git add`. They held internal task-assignment
+  comments, 7 lab members' Stanford emails, and 29 Google Drive links (28 files + the
+  headshots folder). Untracked and gitignored now; still present in history — see below.
+
+The Firebase service-account key was **not** exposed: `action-hosting-deploy` writes it with
+`tmp.fileSync()` into the runner's OS temp dir, outside the published directory.
+
+### The guards (each catches a different failure)
+
+| layer | what | catches |
+|---|---|---|
+| staging | stage explicit paths; never `git add -A` / `git add .` | input files swept into a commit |
+| `.gitignore` | `data-sources/`, `.env*`, `*.pem`, `*.key`, `*service-account*.json`, `*credentials*.json`, `gha-creds-*.json` | the common credential/input files |
+| pre-commit hook | `tools/hooks/pre-commit` → `check-secrets.py --staged` | a token in what you're committing |
+| CI | `check-secrets.yml`: tracked files + every blob in history | anything that got past the hook |
+| pre-deploy | `tools/check-deploy-set.py` re-applies firebase.json's globs to the real checkout | a sensitive file surviving the ignore list |
+| post-deploy | curl probe of both live domains | a regression actually reaching production |
+| least privilege | every workflow: `contents: read`, `persist-credentials: false` | a leaked token being worth much |
+
+**Enable the hook once per clone:** `git config core.hooksPath tools/hooks`
+
+`check-deploy-set.py` was validated against the real incident: against the pre-6c920ae
+`firebase.json` it flags `.git/config` and 76 other files and exits 1; against the current
+one it passes. It also flags `.claude/settings.local.json` under the old rules — gitignored,
+so CI never had it, but a *local* `firebase deploy` would have published it.
+
+**If a credential is ever exposed: revoke it first.** Deleting the file, or even rewriting
+history, does not un-publish something already served or cloned. GitHub secret scanning and
+push protection (free for public repos) should be enabled in repo Settings → Code security.
+
 ## Sitemaps and robots.txt are per-host, via Firebase rewrites
 
 A sitemap may only list URLs on the host that serves it, and the same restriction
