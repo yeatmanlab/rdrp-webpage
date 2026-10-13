@@ -156,9 +156,19 @@ do from here:
   field). Each card shows year + title, and reveals the full `summary` on hover/focus,
   because these summaries average ~460 characters and clamping them to two lines cut
   every one mid-clause.
-- **Lab-hosted PDFs** live in `assets/papers/` — 55 of 136 publications (40%), ~138 MB. Only
-  open-access papers are hosted: every one is CC BY, CC BY-NC, or CC BY-NC-ND, checked via
-  the PMC open-access service before download. Do not add a paywalled publisher PDF here.
+- **Lab-hosted PDFs** live in `assets/papers/` — 64 of 136 publications as of 2026-10-13.
+  **Jason wants a PDF for every paper, including ones that are not open access** (his call,
+  2026-10-13; this replaces an earlier open-access-only rule). Paywalled ones come from him:
+  he drops PDFs in a folder with any filenames, and each is matched to its entry by reading
+  its first page. `data-sources/missing-pdfs-checklist.md` (gitignored) lists what's missing,
+  grouped by how to get it.
+  - Before hosting any PDF, validate it: starts with `%PDF-`, at least 2 pages, ≥70% of the
+    title's words on the first two pages, and the first author's surname present. That last
+    check has caught a site typo ("Durrand" for Durand), not just bad files.
+  - Host published or accepted versions only. The "PDF" chip implies the published paper, so
+    a pre-review *submitted* version of a journal article is held back rather than shown.
+  - OpenAlex `locations[].pdf_url` finds legal free copies; publishers often 403 a script
+    even for open-access papers, which are then a quick browser download.
   - The two routes that used to work are now closed. PMC's `/articles/PMCxxx/pdf/` endpoint
     serves a bot interstitial ("Preparing to download..."), and NCBI has retired the bulk
     `ftp.ncbi.nlm.nih.gov/pub/pmc/oa_pdf/` and `/oa_package/` trees — both roots 404, so the
